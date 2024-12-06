@@ -1,0 +1,17 @@
+[header]
+max_width = 2
+max_height = 3
+title = "Fial-Revelli Mod. 1914"
+
+[[body.paragraphs]]
+# audio relativo alla path di base audio data allo script 
+audio = "test.wav"
+corpus = """
+La <b>Fiat-Revelli Mod. 1914</b> è stata una mitragliatric emedia, \
+adottata dal Regio Esercito Italiano nella prima guerra mondiale."""
+
+[[body.paragraphs]]
+title = "Storia"
+corpus = """
+Il progetto dell'arma risale al 1910."""
+
