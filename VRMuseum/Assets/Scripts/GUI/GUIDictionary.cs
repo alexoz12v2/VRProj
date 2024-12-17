@@ -18,7 +18,7 @@ namespace vrm {
         private Dictionary<string, CanvasData> _dict = new();
 
         [SerializeField]
-        private string _path = "";
+        private string _path = "*";
         private static bool _instanced = false;
 
         [ContextMenu("Select File Path")]
@@ -27,9 +27,6 @@ namespace vrm {
             // Use OpenFilePanel to let the user select a file (for file selection)
             _path = EditorUtility.OpenFolderPanel("Select a folder", "", "");
 
-            // Alternatively, you can use OpenFolderPanel for selecting a folder
-            // _path = EditorUtility.OpenFolderPanel("Select a folder", "", "");
-            
             // Optionally check if a valid file was selected
             if (string.IsNullOrEmpty(_path))
             {
