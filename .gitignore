@@ -70,3 +70,6 @@ VRMuseum/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 # Temporary auto-generated Android Assets
 VRMuseum/[Aa]ssets/[Ss]treamingAssets/aa.meta
 VRMuseum/[Aa]ssets/[Ss]treamingAssets/aa/*
+
+*.fbx
+*fbx.meta
