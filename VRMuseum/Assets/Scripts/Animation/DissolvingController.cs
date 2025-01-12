@@ -54,6 +54,10 @@ public class DissolvingController : MonoBehaviour
                     yield return new WaitForSeconds(_refreshRate);
                 }
             }
+
+            //destroy the gameobject
+            Destroy(gameObject);
+
         }
     }
 }
