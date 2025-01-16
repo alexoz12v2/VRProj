@@ -24,14 +24,19 @@ public class EventLauncher : MonoBehaviour
 
     private void Update()
     {
+        LunchDissolveEvent();
+    }
+
+    void LunchDissolveEvent()
+    {
+        //I'm using Space key for Testing
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (EventToDissolve != null)
             {
-                Debug.Log("Lunch Dissolvance Event");
+                Debug.Log("Lunch the event");
+                EventToDissolve(this, EventArgs.Empty);
             }
         }
     }
-
-
 }
