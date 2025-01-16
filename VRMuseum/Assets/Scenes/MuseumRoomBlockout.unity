@@ -528,6 +528,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5495902117074765545, guid: 311b390a4f4360e4c92f431142ec8db9, type: 3}
+--- !u!114 &661066363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661066355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a19b14b9b2df304199cdf1c1287db82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skinnedMeshes: []
+  renderers: []
+  _dissolveRate: 0.0125
+  _refreshRate: 0.025
 --- !u!1 &759290242
 GameObject:
   m_ObjectHideFlags: 0
@@ -651,7 +667,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 0.6
+  m_Intensity: 0.06
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -831,7 +847,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1250098240}
   - component: {fileID: 1250098239}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PostProcessing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1592,6 +1608,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8325730718647805020, guid: 6d4b190fabc32304fa3f9ab16b65d167, type: 3}
       insertIndex: -1
       addedObject: {fileID: 661066359}
+    - targetCorrespondingSourceObject: {fileID: 8325730718647805020, guid: 6d4b190fabc32304fa3f9ab16b65d167, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 661066363}
   m_SourcePrefab: {fileID: 100100000, guid: 6d4b190fabc32304fa3f9ab16b65d167, type: 3}
 --- !u!1001 &6575080567656324142
 PrefabInstance:

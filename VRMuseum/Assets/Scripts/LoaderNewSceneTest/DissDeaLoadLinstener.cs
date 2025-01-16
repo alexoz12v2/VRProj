@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
-public class Dissolver : MonoBehaviour
+public class DissDeaLoadLinstener : MonoBehaviour
 {
     public SkinnedMeshRenderer[] skinnedMeshes;
     public Renderer[] renderers;
@@ -23,8 +24,8 @@ public class Dissolver : MonoBehaviour
             for (int i = 0; i< skinnedMeshes.Length; i++)
                 _materials.Add(skinnedMeshes[i].materials);
         }
-        else 
-        { 
+        else
+        {
             renderers = GetComponentsInChildren<Renderer>();
 
             if (renderers.Length != 0)
@@ -39,17 +40,21 @@ public class Dissolver : MonoBehaviour
             {
                 Debug.LogError("Rederer not found");
             }
-        }   
+        }
     }
     void Start()
     {
         //Debug.Log("I'm sub to event");
-        EventLauncher.Instance.EventToDissolve += DissolveCo;
+        //if(EventLauncher.Instance == null)
+        //EventLauncher.Instance.EventToDissolve += DissolveCo;
+        EventSystemLoading.Instance.DissolveAndWait += Dissolve;
     }
-    void DissolveCo(object sender, EventArgs args) 
+    /*
+    async Task DissolveCo(object sender, EventArgs args)
     {
-        StartCoroutine(Dissolve());
-    }
+       await StartCoroutine(Dissolve());
+        
+    }*/
     IEnumerator Dissolve()
     {
         Debug.Log("Run dissolve");
@@ -75,5 +80,4 @@ public class Dissolver : MonoBehaviour
 
         }
     }
-
 }
