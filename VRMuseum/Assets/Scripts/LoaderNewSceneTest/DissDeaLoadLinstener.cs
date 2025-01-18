@@ -41,6 +41,12 @@ public class DissDeaLoadLinstener : MonoBehaviour
                 Debug.LogError("Rederer not found");
             }
         }
+
+        //check if Listener is been loaded by EventSys
+        if ((EventSystemLoading.Instance != null) && EventSystemLoading.Instance.isBeenLoadScene)
+        {
+            StartCoroutine(Materialize());
+        }
     }
     void Start()
     {
@@ -71,12 +77,44 @@ public class DissDeaLoadLinstener : MonoBehaviour
                     {
                         skinnedMaterials[i].SetFloat("_DissolveAmount", counter);
                     }
-                    yield return new WaitForSeconds(_refreshRate);
                 }
+                yield return new WaitForSeconds(_refreshRate);
             }
 
-            //destroy the gameobject
-            Destroy(gameObject);
+            EventSystemLoading.Instance.DissolveAndWait -= Dissolve;
+
+        }
+    }
+
+    IEnumerator Materialize()
+    {
+        Debug.Log("Run materialization");
+        if (_materials.Any())
+        {
+            //set the matirial transparent
+            foreach (var skinnedMaterials in _materials)
+            {
+                for (int i = 0; i < skinnedMaterials.Length; i++)
+                {
+                    skinnedMaterials[i].SetFloat("_DissolveAmount", 1.0f);
+                }
+            }
+            
+            
+            float counter = 1;
+            //make material opaque
+            while (_materials[0][0].GetFloat("_DissolveAmount") > 0)
+            {
+                counter -= _dissolveRate;
+                foreach (var skinnedMaterials in _materials)
+                {
+                    for (int i = 0; i < skinnedMaterials.Length; i++)
+                    {
+                        skinnedMaterials[i].SetFloat("_DissolveAmount", counter);
+                    }
+                }
+                yield return new WaitForSeconds(_refreshRate);
+            }
 
         }
     }
