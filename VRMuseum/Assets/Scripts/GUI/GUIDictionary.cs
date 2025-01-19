@@ -81,32 +81,6 @@ namespace vrm {
             Debug.Log($"{_dict}");
         }
 
-        // OnGUI method for displaying the dictionary in a readable format using IMGUI
-        private void OnGUI()
-        {
-            // Iterate through the dictionary and display each canvas and paragraph
-            foreach (var canvasEntry in _dict)
-            {
-                GUILayout.Space(10);
-                GUILayout.Label($"Canvas Title: {canvasEntry.Value.Title}", EditorStyles.boldLabel);
-                GUILayout.Label($"Max Width: {canvasEntry.Value.MaxWidth}, Max Height: {canvasEntry.Value.MaxHeight}");
-
-                // Display paragraphs
-                foreach (var paragraph in canvasEntry.Value.Paragraphs)
-                {
-                    GUILayout.Space(5);
-                    GUILayout.Label("Paragraph:");
-                    GUILayout.Label($"Corpus: {paragraph.Corpus}");
-
-                    // Check for nullable fields and display them
-                    GUILayout.Label($"Audio: {paragraph.Audio ?? "No Audio"}");
-                    GUILayout.Label($"Title: {paragraph.Title ?? "No Title"}");
-                }
-
-                GUILayout.Space(10);
-            }
-        }
-
         private CanvasData extractCanvas(TomlTable table) 
         {
             table.TryGetNode(TomlKey.Header.Value, out TomlNode headerNode);

@@ -1,7 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
+using UnityEngine.XR;
+using vrm;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,11 +21,31 @@ public class PlayerController : MonoBehaviour
     // Input Actions Asset must contain these maps!
     const string actionMapPlayerControls = "Player Controls";
 
-    private string currentControlScheme;
+    private string _currentControlScheme;
+    private string currentControlScheme { 
+        get { return _currentControlScheme; } 
+        set {
+            _currentControlScheme = value;
+            Debug.Log(" setting Control Scheme: "+_currentControlScheme);
+        } 
+    }
 
     // called from a game manager as part of the game setup
     public void SetupPlayer()
     {
+        if (DeviceCheckAndSpawn.Instance.isXR)
+        {
+            InputSystem.onDeviceChange += (UnityEngine.InputSystem.InputDevice device, InputDeviceChange change) =>
+            {
+                switch (change)
+                {
+                    case InputDeviceChange.Added:
+                        var XRDevices = InputSystem.devices.Where(device => device is XRController || device is XRHMD).ToArray();
+                        playerInput.SwitchCurrentControlScheme("XR", XRDevices);
+                        break;
+                }
+            };
+        }
         // default is assigned in the inspector, in the playerInput Component
         currentControlScheme = playerInput.currentControlScheme;
 

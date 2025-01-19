@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.tvOS;
 
 // https://discussions.unity.com/t/how-to-detect-if-headset-is-available-and-initialize-xr-only-if-true/799147/2
 namespace vrm
@@ -42,6 +46,8 @@ namespace vrm
 
         public void StartXR()
         {
+            if (_xrSubsystemActive)
+                return;
             // try again (maybe SteamVR was opened in a later moment)
             if (!_xrSupported)
             {
@@ -51,6 +57,7 @@ namespace vrm
             }
             UnityEngine.XR.Management.XRGeneralSettings.Instance.Manager.StartSubsystems();
             _xrSubsystemActive = true;
+            // set XR controllers as current input system device
         }
 
         public void StopXR()
@@ -84,18 +91,18 @@ namespace vrm
         public GameObject _fallbackPrefab;      // Fallback Prefab to spawn if no OpenXR device is found
 
         [SerializeField] private bool _forceDesktop = false;
+        private bool _startRun = false;
 
 
         private XRLoaderManager _XRManager = null;
 
-        static private UnityEngine.XR.Management.XRManagerSettings getXRManagerSettings()
-        {
-            var xrSettings = UnityEngine.XR.Management.XRGeneralSettings.Instance;
-            return xrSettings.Manager;
-        }
+        public bool isXR { get { return _XRManager != null && _XRManager.XRSupported && _XRManager.XRSubSystemActive; } }
 
-        private void Start()
+        public void Initialize()
         {
+            if (_startRun)
+                return;
+            _startRun = true;
             //  Set up XR environment to run manually (has to be on start as it depends on the graphics initialization)
             if (!_forceDesktop)
                 _XRManager = new();
@@ -111,6 +118,43 @@ namespace vrm
                 // spawn Desktop controller prefab and set main camera to it, eneable Desktop bindings from Input System
                 Debug.Log("There's no XR device here");
             }
+
+            // Device debuggin
+            InputSystem.onDeviceChange += (InputDevice device, InputDeviceChange change) =>
+            {
+                switch (change)
+                {
+                    case InputDeviceChange.Added:
+                        {
+                            Debug.Log("Added " + device);
+                            var inputDevices = new List<UnityEngine.XR.InputDevice>();
+                            UnityEngine.XR.InputDevices.GetDevices(inputDevices);
+                            if (inputDevices.Count == 0)
+                                Debug.LogError("Fdklfdjsalkfjdsalkfjskdlafjdsaklfjdsa");
+                            foreach (var dev in inputDevices)
+                            {
+                                Debug.Log("Actual XR Devices: " + dev.name);
+                            }
+                            var XRDevices = InputSystem.devices.Where(device => 
+                                device is UnityEngine.InputSystem.XR.XRController 
+                                || device is UnityEngine.InputSystem.XR.XRController);
+                            foreach (var dev in XRDevices)
+                            {
+                                Debug.Log("Input System XR devices: " + dev.name);
+                            }
+                        }
+                        break;
+                    case InputDeviceChange.Removed: Debug.Log("Removed "+device); break;
+                    case InputDeviceChange.Disconnected: Debug.Log("Disconnected "+device); break;
+                    case InputDeviceChange.Reconnected: Debug.Log("Reconnected "+device); break;
+                    case InputDeviceChange.Enabled: Debug.Log("Enabled "+device); break;
+                    case InputDeviceChange.Disabled: Debug.Log("Disabled "+device); break;
+                    case InputDeviceChange.UsageChanged: Debug.Log("UsageChanged "+device); break;
+                    case InputDeviceChange.ConfigurationChanged: Debug.Log("ConfigurationChanged "+device); break;
+                    case InputDeviceChange.SoftReset: Debug.Log("SoftReset "+device); break;
+                    case InputDeviceChange.HardReset: Debug.Log("HardReset "+device); break;
+                }
+            };
         }
 
         override protected void OnDestroyCallback() 
