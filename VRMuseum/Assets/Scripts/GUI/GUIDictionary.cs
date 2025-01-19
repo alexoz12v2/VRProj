@@ -16,6 +16,8 @@ namespace vrm {
         public static event GUIShow OnGUIShow;
 
         private Dictionary<string, CanvasData> _dict = new();
+        private static GUIDictionary _instance = new GUIDictionary();
+        public static GUIDictionary Instance { get { return _instance; } }
 
         [SerializeField]
         private string _path = "*";
@@ -38,6 +40,11 @@ namespace vrm {
             }
         }
 
+        public CanvasData getData(string key)
+        {
+            return _dict[key];
+        }
+
         public void Awake()
         {
             if (_instanced)
@@ -45,6 +52,7 @@ namespace vrm {
                 throw new System.InvalidOperationException("[GUIDictionary::Awake]" +
                     " there can only be one");
             }
+            _instance = this;
 
             if (_path == "*")
             {
