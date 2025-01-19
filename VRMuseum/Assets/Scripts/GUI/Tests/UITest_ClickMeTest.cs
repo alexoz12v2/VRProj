@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -47,20 +48,22 @@ namespace vrm
         void Start()
         {
             _events = GUIEvents.Instance;
-            var actionMap = InputSystem.actions.FindActionMap("Player", true);
-            actionMap.Enable();
-            _attackAction = actionMap.FindAction("Attack", true);
-            _attackAction.Enable();
+            //var actionMap = InputSystem.actions.FindActionMap("Player", true);
+            //actionMap.Enable();
+            //_attackAction = actionMap.FindAction("Attack", true);
+            //_attackAction.Enable();
         }
 
         void Update()
         {
             // difference between this and isPressed is that this will be true only in the first 
             // frame after you pressed the button
-            bool mouseDown = _attackAction.WasPressedThisFrame();
+            bool mouseDown = Mouse.current.leftButton.wasPressedThisFrame;
             if (mouseDown)
             {
                 Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.value);
+                Func<Vector2, string> f = (Vector2 pos) => { return $"{{ {pos.x}, {pos.y} }}"; };
+                Debug.Log($"Mouse Position : { f(Mouse.current.position.value) }");
                 if (Physics.Raycast(ray, out RaycastHit hit))
                 {
                     Vector3 position = hit.transform.position + Vector3.up * _canvas.MaxHeight;
