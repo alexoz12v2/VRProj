@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// TODO: Instead of using directly `RigidBody`, use a `CharacterComtroller` componwnt, which manipulates it for you
 public class PlayerMovementBehaviours : MonoBehaviour
 {
     [Header("Component References")]

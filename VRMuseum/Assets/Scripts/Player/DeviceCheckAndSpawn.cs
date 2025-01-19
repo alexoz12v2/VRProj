@@ -118,43 +118,6 @@ namespace vrm
                 // spawn Desktop controller prefab and set main camera to it, eneable Desktop bindings from Input System
                 Debug.Log("There's no XR device here");
             }
-
-            // Device debuggin
-            InputSystem.onDeviceChange += (InputDevice device, InputDeviceChange change) =>
-            {
-                switch (change)
-                {
-                    case InputDeviceChange.Added:
-                        {
-                            Debug.Log("Added " + device);
-                            var inputDevices = new List<UnityEngine.XR.InputDevice>();
-                            UnityEngine.XR.InputDevices.GetDevices(inputDevices);
-                            if (inputDevices.Count == 0)
-                                Debug.LogError("Fdklfdjsalkfjdsalkfjskdlafjdsaklfjdsa");
-                            foreach (var dev in inputDevices)
-                            {
-                                Debug.Log("Actual XR Devices: " + dev.name);
-                            }
-                            var XRDevices = InputSystem.devices.Where(device => 
-                                device is UnityEngine.InputSystem.XR.XRController 
-                                || device is UnityEngine.InputSystem.XR.XRController);
-                            foreach (var dev in XRDevices)
-                            {
-                                Debug.Log("Input System XR devices: " + dev.name);
-                            }
-                        }
-                        break;
-                    case InputDeviceChange.Removed: Debug.Log("Removed "+device); break;
-                    case InputDeviceChange.Disconnected: Debug.Log("Disconnected "+device); break;
-                    case InputDeviceChange.Reconnected: Debug.Log("Reconnected "+device); break;
-                    case InputDeviceChange.Enabled: Debug.Log("Enabled "+device); break;
-                    case InputDeviceChange.Disabled: Debug.Log("Disabled "+device); break;
-                    case InputDeviceChange.UsageChanged: Debug.Log("UsageChanged "+device); break;
-                    case InputDeviceChange.ConfigurationChanged: Debug.Log("ConfigurationChanged "+device); break;
-                    case InputDeviceChange.SoftReset: Debug.Log("SoftReset "+device); break;
-                    case InputDeviceChange.HardReset: Debug.Log("HardReset "+device); break;
-                }
-            };
         }
 
         override protected void OnDestroyCallback() 

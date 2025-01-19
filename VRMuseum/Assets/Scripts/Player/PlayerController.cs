@@ -31,20 +31,31 @@ public class PlayerController : MonoBehaviour
     }
 
     // called from a game manager as part of the game setup
+    public void OnDeviceChange(UnityEngine.InputSystem.InputDevice device, InputDeviceChange change)
+    {
+        switch (change)
+        { // TODO maybe this is overkill
+            case InputDeviceChange.Removed:
+            //case InputDeviceChange.Disconnected:
+            //case InputDeviceChange.Reconnected:
+            //case InputDeviceChange.Enabled:
+            //case InputDeviceChange.Disabled:
+            //case InputDeviceChange.UsageChanged:
+            //case InputDeviceChange.ConfigurationChanged:
+            //case InputDeviceChange.SoftReset:
+            //case InputDeviceChange.HardReset:
+            case InputDeviceChange.Added:
+                var XRDevices = InputSystem.devices.Where(device => device is XRController || device is XRHMD).ToArray();
+                playerInput.SwitchCurrentControlScheme("XR", XRDevices);
+                break;
+        }
+    }
+
     public void SetupPlayer()
     {
         if (DeviceCheckAndSpawn.Instance.isXR)
         {
-            InputSystem.onDeviceChange += (UnityEngine.InputSystem.InputDevice device, InputDeviceChange change) =>
-            {
-                switch (change)
-                {
-                    case InputDeviceChange.Added:
-                        var XRDevices = InputSystem.devices.Where(device => device is XRController || device is XRHMD).ToArray();
-                        playerInput.SwitchCurrentControlScheme("XR", XRDevices);
-                        break;
-                }
-            };
+            InputSystem.onDeviceChange += OnDeviceChange;
         }
         // default is assigned in the inspector, in the playerInput Component
         currentControlScheme = playerInput.currentControlScheme;
@@ -86,6 +97,11 @@ public class PlayerController : MonoBehaviour
         // update movement here, while orientation is dictated by the camera
         updatePlayerMovement(); 
         // TODO animations
+    }
+
+    private void OnDestroy()
+    {
+        InputSystem.onDeviceChange -= OnDeviceChange;
     }
 
     // Movement Private stuff -----------------------------------------------------------------------------------------
