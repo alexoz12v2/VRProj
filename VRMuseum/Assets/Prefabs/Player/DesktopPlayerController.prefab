@@ -135,7 +135,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 7.09, y: 7.09, z: 7.09}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8363292957115578968}
@@ -245,7 +245,7 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 351f2ccd-1f9f-44bf-9bec-d62ac5c5f408
     m_ActionName: Player Controls/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
-  m_NeverAutoSwitchControlSchemes: 0
+  m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player Controls
   m_SplitScreenIndex: -1
@@ -264,7 +264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMovementBehaviours: {fileID: 5602904944927411383}
   playerInput: {fileID: 491263309138918814}
-  movementSmoothingSpeed: 1
+  movementSmoothingSpeed: 10
 --- !u!114 &5602904944927411383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,5 +278,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRigidbody: {fileID: 7240997043948535718}
-  movementSpeed: 3
-  turnSpeed: 0.1
+  movementSpeed: 100
+  turnSpeed: 1
