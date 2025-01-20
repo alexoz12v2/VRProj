@@ -1,58 +1,95 @@
-Shader "Unlit/Fog"
+Shader"Unlit/Fog"
 {
-    Properties
+        Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        _Color("Color", Color) = (1, 1, 1, 1)
+        _MaxDistance("Max distance", float) = 100
+        _StepSize("Step size", Range(0.1, 20)) = 1
+        _DensityMultiplier("Density multiplier", Range(0, 10)) = 1
+        _NoiseOffset("Noise offset", float) = 0
+        
+        _FogNoise("Fog noise", 3D) = "white" {}
+        _NoiseTiling("Noise tiling", float) = 1
+        _DensityThreshold("Density threshold", Range(0, 1)) = 0.1
+        
+        [HDR]_LightContribution("Light contribution", Color) = (1, 1, 1, 1)
+        _LightScattering("Light scattering", Range(0, 1)) = 0.2
     }
+
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
-        LOD 100
+        Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" }
 
         Pass
         {
-            CGPROGRAM
-            #pragma vertex vert
+            HLSLPROGRAM
+            #pragma vertex Vert
             #pragma fragment frag
-            // make fog work
-            #pragma multi_compile_fog
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
 
-            #include "UnityCG.cginc"
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+#include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GlobalSamplers.hlsl"
 
-            struct appdata
-            {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
-            };
+float4 _Color;
+float _MaxDistance;
+float _DensityMultiplier;
+float _StepSize;
+float _NoiseOffset;
+            TEXTURE3D(_FogNoise);
+float _DensityThreshold;
+float _NoiseTiling;
+float4 _LightContribution;
+float _LightScattering;
 
-            struct v2f
-            {
-                float2 uv : TEXCOORD0;
-                UNITY_FOG_COORDS(1)
-                float4 vertex : SV_POSITION;
-            };
+float henyey_greenstein(float angle, float scattering)
+{
+    return (1.0 - angle * angle) / (4.0 * PI * pow(1.0 + scattering * scattering - (2.0 * scattering) * angle, 1.5f));
+}
+            
+float get_density(float3 worldPos)
+{
+    float4 noise = _FogNoise.SampleLevel(sampler_LinearRepeat, worldPos * 0.01 * _NoiseTiling, 0);
+    float density = dot(noise, noise);
+    density = saturate(density - _DensityThreshold) * _DensityMultiplier;
+    return density;
+}
 
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
+half4 frag(Varyings IN) : SV_Target
+{
+    float4 col = SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, IN.texcoord);
+    float depth = SampleSceneDepth(IN.texcoord);
+    float3 worldPos = ComputeWorldSpacePosition(IN.texcoord, depth, UNITY_MATRIX_I_VP);
 
-            v2f vert (appdata v)
-            {
-                v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                UNITY_TRANSFER_FOG(o,o.vertex);
-                return o;
-            }
+    float3 entryPoint = _WorldSpaceCameraPos;
+    float3 viewDir = worldPos - _WorldSpaceCameraPos;
+    float viewLength = length(viewDir);
+    float3 rayDir = normalize(viewDir);
 
-            fixed4 frag (v2f i) : SV_Target
-            {
-                // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv);
-                // apply fog
-                UNITY_APPLY_FOG(i.fogCoord, col);
-                return col;
-            }
-            ENDCG
+    float2 pixelCoords = IN.texcoord;
+    float distLimit = min(viewLength, _MaxDistance);
+    float distTravelled = InterleavedGradientNoise(pixelCoords, (int) (_Time.y / max(HALF_EPS, unity_DeltaTime.x))) * _NoiseOffset;
+    float transmittance = 1;
+    float4 fogCol = _Color;
+
+    while (distTravelled < distLimit)
+    {
+        float3 rayPos = entryPoint + rayDir * distTravelled;
+        float density = get_density(rayPos);
+        if (density > 0)
+        {
+            Light mainLight = GetMainLight(TransformWorldToShadowCoord(rayPos));
+            fogCol.rgb += mainLight.color.rgb * _LightContribution.rgb * henyey_greenstein(dot(rayDir, mainLight.direction), _LightScattering) * density * mainLight.shadowAttenuation * _StepSize;
+            transmittance *= exp(-density * _StepSize);
+        }
+        distTravelled += _StepSize;
+    }
+                
+    return lerp(col, fogCol, 1.0 - saturate(transmittance));
+}
+            ENDHLSL
         }
     }
 }
