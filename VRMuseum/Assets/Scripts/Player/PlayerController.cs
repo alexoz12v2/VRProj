@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour
     {
         smoothInputMovement = Vector3.Lerp(smoothInputMovement, rawInputMovement, Time.deltaTime * movementSmoothingSpeed);
     }
-     private void updatePlayerMovement()
+    private void updatePlayerMovement()
     {
         playerMovementBehaviours.MovementDirection = smoothInputMovement;
     }
