@@ -118,6 +118,13 @@ namespace vrm
                 // spawn Desktop controller prefab and set main camera to it, eneable Desktop bindings from Input System
                 Debug.Log("There's no XR device here");
             }
+            enablePrefab();
+        }
+
+        private void OnValidate()
+        {
+            if (!Application.isPlaying)
+                enablePrefab();
         }
 
         override protected void OnDestroyCallback() 
@@ -127,6 +134,12 @@ namespace vrm
                 _XRManager.Cleanup();
                 _XRManager = null;
             }
+        }
+
+        private void enablePrefab()
+        {
+            _xrControllerPrefab.SetActive(isXR);
+            _fallbackPrefab.SetActive(!isXR);
         }
 
         void SpawnPrefab(GameObject prefab)

@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerMovementBehaviours : MonoBehaviour
 {
     [Header("Component References")]
-    public Rigidbody playerRigidbody;
+    public CharacterController playerRigidbody;
 
     [Header("Movement Settings")]
     public float movementSpeed = 3f;
@@ -37,24 +37,28 @@ public class PlayerMovementBehaviours : MonoBehaviour
     {
         Vector3 movement = movementSpeed * Time.fixedDeltaTime * wsDirection;
         // works only if rigid body is in the parent of the player hierarchy
-        playerRigidbody.MovePosition(transform.position + movement);
+        playerRigidbody.SimpleMove(movementSpeed * wsDirection);
     }
 
     void RotatePlayer(Vector3 wsDirection)
     { 
         if (movementDirection.sqrMagnitude > 0.01f)
         {
-            Quaternion rotation = Quaternion.Slerp(
-                playerRigidbody.rotation, 
-                Quaternion.LookRotation(wsDirection),
-                turnSpeed);
-            playerRigidbody.MoveRotation(rotation);
+            //Quaternion rotation = Quaternion.Slerp(
+            //    playerRigidbody.attachedRigidbody.rotation, 
+            //    Quaternion.LookRotation(wsDirection),
+            //    turnSpeed);
+            //playerRigidbody.attachedRigidbody.MoveRotation(rotation);
         }
     }
 
     // computations of a world space movement direction from a camera space movement direction
     private Vector3 cameraDirection(Vector3 movementDirection)
     { // TODO when camera is properly setup
-        return movementDirection;
+        var fwd = Camera.main.transform.forward;
+        var right = Camera.main.transform.right;
+        fwd.y = 0;
+        right.y = 0;
+        return fwd * movementDirection.z + right * movementDirection.x;
     }
 }

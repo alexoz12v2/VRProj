@@ -9,6 +9,7 @@ public class GameManager : Singleton<GameManager>
     public bool isPaused = false;
 
     public GameObject playerPrefab = null;
+    public GameObject virtualCamera = null;
 
     [HideInInspector]
     public GameObject inScenePlayer = null;
@@ -21,6 +22,10 @@ public class GameManager : Singleton<GameManager>
         isPaused = false;
         spawnPlayer();
         setupPlayer();
+
+        var freeLook = virtualCamera.GetComponent<Cinemachine.CinemachineFreeLook>();
+        freeLook.Follow = inScenePlayer.transform;
+        freeLook.LookAt = inScenePlayer.transform;
     }
 
     private void spawnPlayer()
