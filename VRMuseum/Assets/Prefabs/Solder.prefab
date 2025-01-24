@@ -48,10 +48,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -2491819377621148141, guid: 20e2700c670d12a40b2c60acd23c66d8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a91abb24fd76b344fbc8a9d52e9c2a7b, type: 2}
     - target: {fileID: 919132149155446097, guid: 20e2700c670d12a40b2c60acd23c66d8, type: 3}
       propertyPath: m_Name
       value: Solder
       objectReference: {fileID: 0}
+    - target: {fileID: 1955366786224153591, guid: 20e2700c670d12a40b2c60acd23c66d8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: acdd61f618a819e47ac2bd6176c057f8, type: 2}
+    - target: {fileID: 1955366786224153591, guid: 20e2700c670d12a40b2c60acd23c66d8, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9bcd8b2b1f1bdbc4ca50037ad7d9bc05, type: 2}
     - target: {fileID: 5866666021909216657, guid: 20e2700c670d12a40b2c60acd23c66d8, type: 3}
       propertyPath: m_Controller
       value: 
