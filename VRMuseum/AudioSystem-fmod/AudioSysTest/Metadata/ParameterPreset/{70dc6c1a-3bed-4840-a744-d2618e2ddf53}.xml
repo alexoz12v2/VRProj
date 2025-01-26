@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{70dc6c1a-3bed-4840-a744-d2618e2ddf53}">
+		<property name="name">
+			<value>background_intensity</value>
+		</property>
+		<relationship name="folder">
+			<destination>{9445d722-d823-4b5a-b933-26da88d14086}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{c43d2451-85a1-40e2-aa7e-1e5f823690ae}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{c43d2451-85a1-40e2-aa7e-1e5f823690ae}">
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>

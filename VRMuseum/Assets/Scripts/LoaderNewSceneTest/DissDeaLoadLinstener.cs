@@ -1,3 +1,4 @@
+using FMODUnity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -67,7 +68,7 @@ public class DissDeaLoadLinstener : MonoBehaviour
         if (_materials.Any())
         {
             float counter = 0;
-
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.dissolve, this.transform.position);
             while (_materials[0][0].GetFloat("_DissolveAmount") < 1)
             {
                 counter += _dissolveRate;
@@ -102,6 +103,7 @@ public class DissDeaLoadLinstener : MonoBehaviour
             
             
             float counter = 1;
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.dissolve, this.transform.position);
             //make material opaque
             while (_materials[0][0].GetFloat("_DissolveAmount") > 0)
             {

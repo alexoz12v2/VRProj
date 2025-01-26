@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{3ddefc03-6a1b-49b1-8a33-6271935e82dc}">
+		<property name="assetPath">
+			<value>SFX/Thing/police-siren.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>22.0499992</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>31.680453514739231</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{3a9e2f62-14ed-465f-8d80-4ae081f9de88}</destination>
+		</relationship>
+	</object>
+</objects>
