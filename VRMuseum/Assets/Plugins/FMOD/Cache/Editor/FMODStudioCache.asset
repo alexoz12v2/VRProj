@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: AudioSystem-fmod/AudioSysTest/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638735321615814590
+  lastModified: 638735352643810827
   FileSizes:
   - Name: Desktop
-    Value: 1046
+    Value: 984
   Exists: 1
 --- !u!114 &-5670754054884939071
 MonoBehaviour:
@@ -43,35 +43,10 @@ MonoBehaviour:
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
-  Parameters:
-  - {fileID: -1941710269668985941}
+  Parameters: []
   MinDistance: 1
   MaxDistance: 20
   Length: 195837
---- !u!114 &-1941710269668985941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Background/background_intensity
-  m_EditorClassIdentifier: 
-  Name: background_intensity
-  StudioPath: 
-  Min: 0
-  Max: 1
-  Default: 0
-  ID:
-    data1: 1612688006
-    data2: 3899100510
-  Type: 0
-  IsGlobal: 0
-  Labels: []
-  Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,7 +74,7 @@ MonoBehaviour:
   - {fileID: 8256786476465407913}
   StringsBanks:
   - {fileID: -8725384183778202502}
-  cacheTime: 638735321616645254
+  cacheTime: 638735352644661775
   cacheVersion: 131622
 --- !u!114 &322520627500272227
 MonoBehaviour:
@@ -143,10 +118,10 @@ MonoBehaviour:
   Path: AudioSystem-fmod/AudioSysTest/Build/Desktop/Background.bank
   Name: Background
   StudioPath: bank:/Background
-  lastModified: 638735321616645254
+  lastModified: 638735352644661775
   FileSizes:
   - Name: Desktop
-    Value: 2892832
+    Value: 2892128
   Exists: 1
 --- !u!114 &4947321815650660914
 MonoBehaviour:
@@ -237,7 +212,7 @@ MonoBehaviour:
   Path: AudioSystem-fmod/AudioSysTest/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638735321615749043
+  lastModified: 638735352643740108
   FileSizes:
   - Name: Desktop
     Value: 1036
