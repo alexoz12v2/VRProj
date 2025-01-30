@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 using vrm;
 
 public class GameManager : Singleton<GameManager> 
@@ -23,9 +24,24 @@ public class GameManager : Singleton<GameManager>
         spawnPlayer();
         setupPlayer();
 
-        var freeLook = virtualCamera.GetComponent<Cinemachine.CinemachineFreeLook>();
-        freeLook.Follow = inScenePlayer.transform;
-        freeLook.LookAt = inScenePlayer.transform;
+        Transform t = null;
+        if (DeviceCheckAndSpawn.Instance.isXR)
+        {
+            GameObject[] objects = GameObject.FindGameObjectsWithTag("MainCamera");
+            foreach (GameObject obj in objects) 
+            {
+                var component = obj.GetComponent<TrackedPoseDriver>();
+                if (component != null)
+                    t = obj.transform;
+            }
+        }
+        else
+        {
+            t = inScenePlayer.transform;
+        }
+        var virtualCamera = this.virtualCamera.GetComponent<Cinemachine.CinemachineVirtualCameraBase>();
+        virtualCamera.Follow = inScenePlayer.transform;
+        virtualCamera.LookAt = t;
     }
 
     private void spawnPlayer()
