@@ -62,17 +62,8 @@ namespace vrm
             if (mouseDown)
             {
                 var inputDevices = new List<UnityEngine.XR.InputDevice>();
-                UnityEngine.XR.InputDevices.GetDevices(inputDevices);
-                if (inputDevices.Count == 0)
-                    Debug.LogError("Fdklfdjsalkfjdsalkfjskdlafjdsaklfjdsa");
-                foreach (var dev in inputDevices)
-                {
-                    Debug.Log("Actual XR Devices: " + dev.name);
-                }
 
                 Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.value);
-                Func<Vector2, string> f = (Vector2 pos) => { return $"{{ {pos.x}, {pos.y} }}"; };
-                Debug.Log($"Mouse Position : { f(Mouse.current.position.value) }");
                 if (Physics.Raycast(ray, out RaycastHit hit))
                 {
                     Vector3 position = hit.transform.position + Vector3.up * _canvas.MaxHeight;
