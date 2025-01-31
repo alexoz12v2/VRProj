@@ -15,14 +15,15 @@ namespace vrm
         public FailedXRLoaderInitializationException(string message, Exception inner) : base(message, inner) { }
     }
 
-    public class XRLoaderManager {
+    public class XRLoaderManager
+    {
         private bool _xrSupported = false;
         private bool _xrSubsystemActive = false;
 
         public bool XRSupported { get { return _xrSupported; } }
         public bool XRSubSystemActive { get { return _xrSubsystemActive; } }
 
-        public XRLoaderManager() 
+        public XRLoaderManager()
         {
             initializeXRSubsystem();
         }
@@ -57,14 +58,18 @@ namespace vrm
             }
             UnityEngine.XR.Management.XRGeneralSettings.Instance.Manager.StartSubsystems();
             _xrSubsystemActive = true;
+            InputSystem.DisableDevice(Mouse.current);
+            InputSystem.DisableDevice(Keyboard.current);
             // set XR controllers as current input system device
         }
 
         public void StopXR()
         {
-            if (UnityEngine.XR.Management.XRGeneralSettings.Instance.Manager.activeLoader != null &&_xrSubsystemActive)
+            if (UnityEngine.XR.Management.XRGeneralSettings.Instance.Manager.activeLoader != null && _xrSubsystemActive)
             {
                 UnityEngine.XR.Management.XRGeneralSettings.Instance.Manager.StopSubsystems();
+                InputSystem.EnableDevice(Mouse.current);
+                InputSystem.EnableDevice(Keyboard.current);
             }
         }
 
@@ -127,7 +132,7 @@ namespace vrm
                 enablePrefab();
         }
 
-        override protected void OnDestroyCallback() 
+        override protected void OnDestroyCallback()
         {
             if (_XRManager != null)
             {

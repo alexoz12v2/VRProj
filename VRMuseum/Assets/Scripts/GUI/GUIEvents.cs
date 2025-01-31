@@ -11,6 +11,7 @@ namespace vrm {
     // event which requests a GUI to be displayed with the given canvas data, at a given position with a given orientation
     public class GUIEvent : UnityEvent<CanvasData, Vector3, Quaternion> { }
 
+    // TODO derive base class Singleton
     public class GUIEvents : MonoBehaviour
     {
         private static GUIEvents _instance;
@@ -114,8 +115,9 @@ namespace vrm {
                 return;
             }
 
-            text.text.Remove(0);
-            text.text.Insert(0, canvasData.Title);
+            if (text.text.Length > 0)
+                text.text.Remove(0);
+            text.text = canvasData.Title;
 
             GameObject contentParent = FindChildWithTag(obj, UIContent);
             if (contentParent == null)
