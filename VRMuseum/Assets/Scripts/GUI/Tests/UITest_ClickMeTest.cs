@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -12,6 +13,12 @@ namespace vrm
     {
         private GUIEvents _events = null;
         [SerializeField] private float _heightOffset = 10f;
+
+        [Header("Raycast Configuration")]
+        [SerializeField] private float _centerRadius = 100f;  // Radius of the circle around the screen center where raycast is valid
+        [SerializeField] private bool showDebugLines = true;  // Flag to enable/disable debug line rendering
+
+        private bool _uiSelected = false;
 
         private static string cleanStr(string input)
         {
@@ -47,30 +54,117 @@ namespace vrm
                 }
             }
         };
+
+        private Texture2D _circleTexture = null;
         void Start()
         {
             _events = GUIEvents.Instance;
+
+            // TODO remove
+            _circleTexture = new Texture2D((int)(_centerRadius * 2), (int)(_centerRadius * 2));
+
+            // Fill the texture with white color and alpha for transparency
+            for (int y = 0; y < _circleTexture.height; y++)
+            {
+                for (int x = 0; x < _circleTexture.width; x++)
+                {
+                    float distance = Vector2.Distance(new Vector2(x, y), new Vector2(_circleTexture.width / 2, _circleTexture.height / 2));
+                    // If inside the circle radius, color the pixel
+                    _circleTexture.SetPixel(x, y, distance <= _centerRadius ? new Color(1, 1, 1, 0.5f) : new Color(0, 0, 0, 0));  // Transparent for outside
+                }
+            }
+            _circleTexture.Apply();  // Apply the changes to the texture
         }
 
         void Update()
         {
-            // difference between this and isPressed is that this will be true only in the first 
-            // frame after you pressed the button
+            // Only process if not in XR mode
             if (!DeviceCheckAndSpawn.Instance.isXR)
             {
                 bool mouseDown = Mouse.current.leftButton.wasPressedThisFrame;
+
+                // Get the object position in world space
+                Vector3 objectWorldPosition = transform.position;
+
+                // Project the object position to screen space
+                Vector3 objectScreenPosition = Camera.main.WorldToScreenPoint(objectWorldPosition);
+
+                // Get the center of the screen
+                Vector2 screenCenter = new Vector2(Screen.width / 2f, Screen.height / 2f);
+
+                // Check if the object's screen position is within the center region (radius) from the screen center
+                Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+                if (Vector2.Distance(new Vector2(objectScreenPosition.x, objectScreenPosition.y), screenCenter) <= _centerRadius)
+                {
+                    Func<RaycastHit, Vector3> position = hit => hit.transform.position + Vector3.up * _canvas.MaxHeight;
+                    Func<RaycastHit, Quaternion> rotation = hit => Quaternion.Inverse(Camera.main.transform.rotation);
+                    castRayAndDispatchCanvasEvent(mouseDown, ray, position, rotation);
+
+                }
+                else if (!_uiSelected)
+                {
+                    gameObject.SetLayerRecursively((int)Layers.Default);
+                }
+            }
+        }
+
+        // TODO: (Desktop) Somehow the raycast hits something when the camera points in the opposite direction
+        private void castRayAndDispatchCanvasEvent(bool mouseDown, Ray ray, Func<RaycastHit, Vector3> positionFromHit, Func<RaycastHit, Quaternion> rotationFromHit)
+        {
+            // Raycast from mouse position on the screen
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                Vector3 position = positionFromHit(hit);
+                Quaternion rotation = rotationFromHit(hit);
+
+                Debug.LogError("Raycast hit object!");
+                gameObject.SetLayerRecursively((int)Layers.Outlined);
+
                 if (mouseDown)
                 {
-                    var inputDevices = new List<UnityEngine.XR.InputDevice>();
-
-                    Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.value);
-                    if (Physics.Raycast(ray, out RaycastHit hit))
-                    {
-                        Vector3 position = hit.transform.position + Vector3.up * _canvas.MaxHeight;
-                        Quaternion rotation = Quaternion.Inverse(Camera.main.transform.rotation);
-                        _events.OnGUIDisplayRequest.Invoke(_canvas, position, rotation);
-                    }
+                    _events.OnGUIDisplayRequest.Invoke(_canvas, position, rotation);
+                    _uiSelected = true;
                 }
+            }
+            else if (!_uiSelected)
+            {
+                gameObject.SetLayerRecursively((int)Layers.Default);
+            }
+
+            // Render the debug ray if the flag is set
+            if (showDebugLines)
+            {
+                Debug.DrawRay(ray.origin, ray.direction * 10f, Color.red, 0.1f); // Draw a red ray for 0.1 seconds
+            }
+        }
+
+        private void OnGUI()
+        {
+            if (showDebugLines)
+            {
+                // Draw a circle at the center of the screen
+                float centerX = Screen.width / 2f;
+                float centerY = Screen.height / 2f;
+
+                GUI.DrawTexture(new Rect(centerX - _centerRadius, centerY - _centerRadius, _centerRadius * 2, _centerRadius * 2), _circleTexture);
+            }
+        }
+
+        public void OnBeginHover(HoverEnterEventArgs args)
+        {
+            Ray ray = new Ray(args.interactorObject.transform.position, args.interactorObject.transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                gameObject.SetLayerRecursively((int)Layers.Outlined);
+            }
+        }
+
+        public void OnExitHover(HoverExitEventArgs args)
+        {
+            Ray ray = new Ray(args.interactorObject.transform.position, args.interactorObject.transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                gameObject.SetLayerRecursively((int)Layers.Default);
             }
         }
 
