@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.XR;
@@ -29,6 +31,10 @@ public class PlayerController : MonoBehaviour
             Debug.Log(" setting Control Scheme: "+_currentControlScheme);
         } 
     }
+
+    // Event for desktop grabbable
+    public event System.Action<InputAction.CallbackContext> GrabCallbackEvent;
+
 
     // called from a game manager as part of the game setup
     public void OnDeviceChange(UnityEngine.InputSystem.InputDevice device, InputDeviceChange change)
@@ -69,6 +75,18 @@ public class PlayerController : MonoBehaviour
     { // should be action of type Value and category vector 2 (see input action asset)
         Vector2 inputMovement = value.ReadValue<Vector2>();
         rawInputMovement = new(inputMovement.x, 0f, inputMovement.y);
+    }
+
+    public void OnInteract(InputAction.CallbackContext ctx)
+    {
+        if (DeviceCheckAndSpawn.Instance.isXR)
+            throw new SystemException("This Input Event is for desktop only!");
+
+        foreach (Delegate d in GrabCallbackEvent.GetInvocationList())
+        {
+            Debug.Log($"delegate {d}");
+        }
+        GrabCallbackEvent?.Invoke(ctx);
     }
 
     // Input System Callbacks -----------------------------------------------------------------------------------------

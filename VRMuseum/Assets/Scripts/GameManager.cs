@@ -84,6 +84,9 @@ namespace vrm
         [HideInInspector]
         public PlayerController player = null;
 
+        public event Action GameStartStarted;
+        public event Action GameDestroy;
+
         void Start()
         {
             DeviceCheckAndSpawn.Instance.Initialize();
@@ -115,6 +118,8 @@ namespace vrm
             virtualCamera.Follow = socket.transform;
             Debug.Log($"Spawned player in position : x ={inScenePlayer.transform.position.x}, y = {inScenePlayer.transform.position.y}, z = {inScenePlayer.transform.position.z}");
             //virtualCamera.LookAt = t;// hard lock to taget doesn't require that 
+
+            GameStartStarted?.Invoke();
         }
 
         private void OnGUI()
@@ -144,6 +149,7 @@ namespace vrm
 
         protected override void OnDestroyCallback()
         {
+            GameDestroy?.Invoke();
         }
 
         // Manual Cursor Management ---------------------------------
