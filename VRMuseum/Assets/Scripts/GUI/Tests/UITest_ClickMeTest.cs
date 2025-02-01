@@ -93,7 +93,7 @@ namespace vrm
                 Vector2 screenCenter = new Vector2(Screen.width / 2f, Screen.height / 2f);
 
                 // Check if the object's screen position is within the center region (radius) from the screen center
-                Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+                Ray ray = Camera.main.ScreenPointToRay(screenCenter);
                 if (Vector2.Distance(new Vector2(objectScreenPosition.x, objectScreenPosition.y), screenCenter) <= _centerRadius)
                 {
                     Func<RaycastHit, Vector3> position = hit => hit.transform.position + Vector3.up * _canvas.MaxHeight;
@@ -112,7 +112,7 @@ namespace vrm
         private void castRayAndDispatchCanvasEvent(bool mouseDown, Ray ray, Func<RaycastHit, Vector3> positionFromHit, Func<RaycastHit, Quaternion> rotationFromHit)
         {
             // Raycast from mouse position on the screen
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            if (Physics.Raycast(ray, out RaycastHit hit, 30))
             {
                 Vector3 position = positionFromHit(hit);
                 Quaternion rotation = rotationFromHit(hit);
