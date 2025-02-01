@@ -117,7 +117,6 @@ namespace vrm
                 Vector3 position = positionFromHit(hit);
                 Quaternion rotation = rotationFromHit(hit);
 
-                Debug.LogError("Raycast hit object!");
                 gameObject.SetLayerRecursively((int)Layers.Outlined);
 
                 if (mouseDown)
