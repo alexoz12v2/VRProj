@@ -45,7 +45,7 @@ namespace vrm {
                 // Validate the Canvas Prefab
                 if (_canvasPrefab != null)
                 {
-                    GameObject canvas = FindChildWithTag(_canvasPrefab, UICanvas);
+                    GameObject canvas = Methods.FindChildWithTag(_canvasPrefab, UICanvas);
                     if (canvas == null)
                         Debug.LogError("Couldn't find canvas game object (tagged with UICanvas)");
                     Canvas canvasComponent = canvas.GetComponent<Canvas>();
@@ -54,7 +54,7 @@ namespace vrm {
                     if (canvasComponent == null || raycasterComponent == null)
                         Debug.LogError("Canvas Prefab must have both a Canvas and a Graphic Raycaster component.");
 
-                    _uiContentObject = FindChildWithTag(_canvasPrefab, UIContent);
+                    _uiContentObject = Methods.FindChildWithTag(_canvasPrefab, UIContent);
                     if (_uiContentObject == null)
                         Debug.LogError("Canvas Prefab must contain a GameObject with the tag 'UIContent'.");
 
@@ -80,14 +80,14 @@ namespace vrm {
 
         private TextMeshProUGUI TitlebarFrom(GameObject canvas)
         {
-            GameObject titleBar = FindChildByName(canvas, "TitleBar");
+            GameObject titleBar = Methods.FindChildByName(canvas, "TitleBar");
             if (titleBar != null)
             {
                 CanvasRenderer renderer = titleBar.GetComponent<CanvasRenderer>();
                 if (renderer == null)
                     Debug.LogError("TitleBar must have a Canvas Renderer component.");
 
-                GameObject titleText = FindChildByName(titleBar, "TitleText");
+                GameObject titleText = Methods.FindChildByName(titleBar, "TitleText");
                 if (titleText != null)
                 {
                     var titleTextComponent = titleText.GetComponent<TextMeshProUGUI>();
@@ -119,7 +119,7 @@ namespace vrm {
                 text.text.Remove(0);
             text.text = canvasData.Title;
 
-            GameObject contentParent = FindChildWithTag(obj, UIContent);
+            GameObject contentParent = Methods.FindChildWithTag(obj, UIContent);
             if (contentParent == null)
             {
                 Debug.LogError("Unexpected Error: GUIEvent prefab didn't have the UIContent Tagged GameObject");
@@ -129,7 +129,7 @@ namespace vrm {
             foreach (var data in canvasData.Paragraphs)
             {
                 GameObject paragraph = Instantiate(_paragraphPrefab, contentParent.transform);
-                GameObject o = FindChildWithTag(paragraph, UIParagraphTitle);
+                GameObject o = Methods.FindChildWithTag(paragraph, UIParagraphTitle);
                 if (o == null)
                 {
                     Debug.LogErrorFormat("Couldn't find title gameobject with tag UIParagraphTitle in gameobject {}", obj);
@@ -147,7 +147,7 @@ namespace vrm {
                     parTitle.text = data.Title != null ? data.Title : "ERROR EMPTY TITLE";
                 }
 
-                o = FindChildWithTag(paragraph, UIParagraphButton);
+                o = Methods.FindChildWithTag(paragraph, UIParagraphButton);
                 if (o == null)
                 {
                     Debug.LogError("Doundn't filnd any object with UIParagrphButton");
@@ -157,7 +157,7 @@ namespace vrm {
                 { // TODO
                 }
 
-                o = FindChildWithTag(paragraph, UIParagraphContent);
+                o = Methods.FindChildWithTag(paragraph, UIParagraphContent);
                 if (o == null)
                 {
                     Debug.LogError("Couldn't find any object with UIParagraphContent");
@@ -181,31 +181,6 @@ namespace vrm {
         {
             if (this == _instance)
                 _instance = null;
-        }
-
-        // Helper method to find a child GameObject by name
-        private GameObject FindChildByName(GameObject parent, string name)
-        {
-            Transform[] children = parent.GetComponentsInChildren<Transform>(true);
-            foreach (Transform child in children)
-            {
-                if (child.name == name)
-                    return child.gameObject;
-            }
-            return null;
-        }
-
-        // Helper method to find a child GameObject by tag
-        private GameObject FindChildWithTag(GameObject parent, string tag)
-        {
-            Transform[] children = parent.GetComponentsInChildren<Transform>(true);
-            foreach (Transform child in children)
-            {
-                if (child.CompareTag(tag))
-                    return child.gameObject;
-            }
-
-            return null;
         }
     }
 
