@@ -15,6 +15,8 @@ namespace vrm
     {
         Default = 0,
         Outlined = 8,
+        Grabbed = 10,
+        GrabbedOutline = 11,
     }
     public class SingletonList<T> : IList<T>
     {

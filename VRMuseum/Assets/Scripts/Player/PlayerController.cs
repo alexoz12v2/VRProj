@@ -24,17 +24,22 @@ public class PlayerController : MonoBehaviour
     const string actionMapPlayerControls = "Player Controls";
 
     private string _currentControlScheme;
-    private string currentControlScheme { 
-        get { return _currentControlScheme; } 
-        set {
+    private string currentControlScheme
+    {
+        get { return _currentControlScheme; }
+        set
+        {
             _currentControlScheme = value;
-            Debug.Log(" setting Control Scheme: "+_currentControlScheme);
-        } 
+            Debug.Log(" setting Control Scheme: " + _currentControlScheme);
+        }
     }
 
     // Event for desktop grabbable
-    public event System.Action<InputAction.CallbackContext> GrabCallbackEvent;
+    public event Action<InputAction.CallbackContext> GrabCallbackEvent;
+    public event Action MovementBreak;
 
+    private Action<GameState, GameState> onGameModeChanged;
+    private bool noMovement = false;
 
     // called from a game manager as part of the game setup
     public void OnDeviceChange(UnityEngine.InputSystem.InputDevice device, InputDeviceChange change)
@@ -68,13 +73,35 @@ public class PlayerController : MonoBehaviour
 
         // call all subbehaviours setup functions
         playerMovementBehaviours.SetupBehaviour();
+        onGameModeChanged = (oldState, newState) =>
+        {
+            if (oldState == 0)
+                noMovement = true;
+            if (newState == 0)
+                noMovement = false;
+        };
+
+
+        GameManager.Instance.GameStateChanged += onGameModeChanged;
+        GameManager.Instance.GameDestroy += () =>
+        {
+            GameManager.Instance.GameStateChanged -= onGameModeChanged;
+        };
     }
 
     // Input Action Event Callbacks -----------------------------------------------------------------------------------
     public void OnMovement(InputAction.CallbackContext value)
     { // should be action of type Value and category vector 2 (see input action asset)
-        Vector2 inputMovement = value.ReadValue<Vector2>();
-        rawInputMovement = new(inputMovement.x, 0f, inputMovement.y);
+        if (noMovement)
+        { 
+            rawInputMovement = Vector3.zero;
+            MovementBreak?.Invoke();
+        }
+        else
+        {
+            Vector2 inputMovement = value.ReadValue<Vector2>();
+            rawInputMovement = new(inputMovement.x, 0f, inputMovement.y);
+        }
     }
 
     public void OnInteract(InputAction.CallbackContext ctx)
@@ -82,10 +109,6 @@ public class PlayerController : MonoBehaviour
         if (DeviceCheckAndSpawn.Instance.isXR)
             throw new SystemException("This Input Event is for desktop only!");
 
-        foreach (Delegate d in GrabCallbackEvent.GetInvocationList())
-        {
-            Debug.Log($"delegate {d}");
-        }
         GrabCallbackEvent?.Invoke(ctx);
     }
 
@@ -93,7 +116,7 @@ public class PlayerController : MonoBehaviour
     // Whenever the input controller changes (applicable only when the input is automatically changed)
     public void OnControlsChanged()
     {
-        if (playerInput.currentControlScheme == currentControlScheme)
+        if (playerInput.currentControlScheme != currentControlScheme)
         {
             currentControlScheme = playerInput.currentControlScheme;
             InputActionRebindingExtensions.RemoveAllBindingOverrides(playerInput.currentActionMap);
@@ -113,7 +136,7 @@ public class PlayerController : MonoBehaviour
     {
         computeSmoothMovmentInput();
         // update movement here, while orientation is dictated by the camera
-        updatePlayerMovement(); 
+        updatePlayerMovement();
         // TODO animations
     }
 
