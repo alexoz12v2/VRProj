@@ -81,8 +81,18 @@ namespace vrm
                         pov.m_VerticalAxis.m_MaxSpeed = 0f;
                     }
 
+                    // Make Rigidbody non-kinematic temporarily to apply physics
+                    // rigidBody.isKinematic = false;
+                    // rigidBody.useGravity = false;
+
+                    // Optional: Lock position to prevent linear movement
+                    rigidBody.constraints = RigidbodyConstraints.FreezePosition; // Freeze all movement
+                                                                                 // Center of mass might need adjustment if it's off-center
+                    m_oldCOM = rigidBody.centerOfMass;
+                    rigidBody.centerOfMass = Vector3.zero; // Make sure it's centered
+
                     GameManager.Instance.player.playerInput.currentActionMap["Move"].Disable();
-                    GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed += rotateFromDelta;
+                    GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed += RotateFromDelta;
                     inInteraction = true;
                 }
                 else if (released)
@@ -92,102 +102,45 @@ namespace vrm
                         pov.m_HorizontalAxis.m_MaxSpeed = 100f;
                         pov.m_VerticalAxis.m_MaxSpeed = 100f;
                     }
+                    rigidBody.isKinematic = true;
+                    rigidBody.useGravity = true;
+                    rigidBody.constraints = RigidbodyConstraints.None; // Release the position constraint
+                    rigidBody.centerOfMass = m_oldCOM;
 
-                    GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed -= rotateFromDelta;
+                    GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed -= RotateFromDelta;
                     GameManager.Instance.player.playerInput.currentActionMap["Move"].Enable();
                     inInteraction = false;
                 }
             }
         }
+        private Vector3 m_oldCOM;
 
         private static CinemachinePOV getCinemachineCameraPOV()
         {
             var camera = GameManager.Instance.virtualCamera.GetComponent<CinemachineVirtualCamera>();
             if (camera)
-                 return camera.GetCinemachineComponent<CinemachinePOV>();
+                return camera.GetCinemachineComponent<CinemachinePOV>();
             return null;
         }
 
         private bool inInteraction = false;
         private Task rotationTask = null;
 
-        private void rotateFromDelta(CallbackContext ctx)
+        public void RotateFromDelta(InputAction.CallbackContext ctx)
         {
-            Debug.Log("RotateFromDelta");
-            if (rotationTask == null || !rotationTask.Running)
+            float maxAngularVelocity = 5f;
+            float torqueStrength = 50f;
+            float sensitivity = 0.1f;
+            Rigidbody rigidBody = GetComponent<Rigidbody>();
+            if (ctx.performed && rigidBody != null)
             {
-                Debug.Log("RotateFromDelta inside condtition");
-                Vector4 rawInput = ctx.ReadValue<Vector2>();
-                if (rawInput.y > rawInput.x)
-                {
-                    rawInput.z = rawInput.y;
-                    rawInput.y = 0;
-                }
+                Vector2 mouseDelta = ctx.ReadValue<Vector2>() * sensitivity;
+                mouseDelta.x *= -1;
 
-                // for now use only the object in it of itself, then accuulate children with rigidbody
-                var rigidBody = GetComponent<Rigidbody>();
-                if (!rigidBody)
-                    return;
-                Vector3 worldSpaceDir = Camera.main.transform.localToWorldMatrix * rawInput;
-                worldSpaceDir.Normalize();
-
-                Vector3 pseudoVec = Vector3.Cross(worldSpaceDir, Camera.main.transform.forward);
-                // DebugPrintXRDevices.Instance.AddMessage($"Torque: {pseudoVec}");
-
-                // doesn't work on kinematic rigid bodies
-                // rigidBody.AddTorque(pseudoVec, ForceMode.Impulse);
-                rotationTask = new Task(rotateFromDelta(pseudoVec, rigidBody));
+                Quaternion xRot = Quaternion.AngleAxis(mouseDelta.x * torqueStrength * Time.fixedDeltaTime, Camera.main.transform.up);
+                Quaternion yRot = Quaternion.AngleAxis(mouseDelta.y * torqueStrength * Time.fixedDeltaTime, Camera.main.transform.right);
+                transform.rotation = xRot * yRot * transform.rotation;
             }
-        }
-
-        private IEnumerator rotateFromDelta(Vector3 pseudoVec, Rigidbody rigidBody)
-        {
-            Debug.Log("Rotation Task Started");
-
-            // Make Rigidbody non-kinematic temporarily to apply physics
-            rigidBody.isKinematic = false;
-            rigidBody.useGravity = false;
-
-            // Optional: Lock position to prevent linear movement
-            rigidBody.constraints = RigidbodyConstraints.FreezePosition; // Freeze all movement
-
-            // Center of mass might need adjustment if it's off-center
-            var oldCOM = rigidBody.centerOfMass;
-            rigidBody.centerOfMass = Vector3.zero; // Make sure it's centered
-
-            // Define the maximum angular velocity you want
-            float maxAngularVelocity = 90f; // Max angular velocity (in degrees per second)
-
-            // TODO: You can adjust torque strength if needed
-            float torqueStrength = 10f;
-
-            while (inInteraction)
-            {
-                // Apply torque based on pseudoVec direction
-                rigidBody.AddTorque(pseudoVec * torqueStrength, ForceMode.Force);
-
-                // Clamp angular velocity to max angular velocity to prevent infinite acceleration
-                Vector3 clampedAngularVelocity = rigidBody.angularVelocity;
-
-                // Limit the angular velocity to maxAngularVelocity
-                clampedAngularVelocity = Vector3.ClampMagnitude(clampedAngularVelocity, Mathf.Deg2Rad * maxAngularVelocity);
-
-                // Apply the clamped angular velocity back to the Rigidbody
-                rigidBody.angularVelocity = clampedAngularVelocity;
-
-                // Optional: Debug the angular velocity for tracking
-                Debug.Log($"Current Angular Velocity: {rigidBody.angularVelocity}");
-
-                yield return new WaitForFixedUpdate(); // Wait for the next fixed frame
-            }
-
-            // After interaction ends, reset Rigidbody settings
-            rigidBody.isKinematic = true;
-            rigidBody.useGravity = true;
-            rigidBody.constraints = RigidbodyConstraints.None; // Release the position constraint
-            rigidBody.centerOfMass = oldCOM;
-
-            Debug.Log("Rotation Task Finished");
         }
 
         private void OnMovementBreak()

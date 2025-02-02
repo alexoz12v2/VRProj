@@ -273,5 +273,22 @@ namespace vrm
             foreach (Renderer r in rr) { b.Encapsulate(r.bounds); }
             return b;
         }
+
+        public static bool RayPlaneIntersection(Ray ray, Vector3 planeNormal, Vector3 planePoint, out Vector3 intersection)
+        {
+            intersection = Vector3.zero;
+            float denom = Vector3.Dot(planeNormal, ray.direction);
+
+            if (Mathf.Abs(denom) > 1e-6f) // Prevent division by zero for parallel rays
+            {
+                float t = Vector3.Dot(planePoint - ray.origin, planeNormal) / denom;
+                if (t >= 0) // Ensure the intersection is in front of the camera
+                {
+                    intersection = ray.origin + t * ray.direction;
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
