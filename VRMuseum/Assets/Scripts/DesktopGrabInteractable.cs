@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cinemachine;
+using System;
 using System.Collections;
 using System.Linq;
 using System.Text;
@@ -71,19 +72,40 @@ namespace vrm
             }
             if (grabbed)
             {
+                var pov = getCinemachineCameraPOV();
                 if (pressed)
                 {
+                    if (pov)
+                    {
+                        pov.m_HorizontalAxis.m_MaxSpeed = 0f;
+                        pov.m_VerticalAxis.m_MaxSpeed = 0f;
+                    }
+
                     GameManager.Instance.player.playerInput.currentActionMap["Move"].Disable();
                     GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed += rotateFromDelta;
                     inInteraction = true;
                 }
                 else if (released)
                 {
+                    if (pov)
+                    {  // TODO mouse sensitivity custom
+                        pov.m_HorizontalAxis.m_MaxSpeed = 100f;
+                        pov.m_VerticalAxis.m_MaxSpeed = 100f;
+                    }
+
                     GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed -= rotateFromDelta;
                     GameManager.Instance.player.playerInput.currentActionMap["Move"].Enable();
                     inInteraction = false;
                 }
             }
+        }
+
+        private static CinemachinePOV getCinemachineCameraPOV()
+        {
+            var camera = GameManager.Instance.virtualCamera.GetComponent<CinemachineVirtualCamera>();
+            if (camera)
+                 return camera.GetCinemachineComponent<CinemachinePOV>();
+            return null;
         }
 
         private bool inInteraction = false;
