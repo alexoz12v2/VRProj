@@ -290,5 +290,25 @@ namespace vrm
             }
             return false;
         }
+
+        // TODO maybe remove
+        static public List<Rigidbody> GetChildRigidbodies(GameObject parent)
+        {
+            List<Rigidbody> rigidbodies = new List<Rigidbody>();
+
+            // Get all rigidbodies in children, including inactive ones
+            Rigidbody[] allRigidbodies = parent.GetComponentsInChildren<Rigidbody>(true);
+
+            foreach (Rigidbody rb in allRigidbodies)
+            {
+                // Exclude the parent Rigidbody if it exists
+                if (rb.gameObject != parent)
+                {
+                    rigidbodies.Add(rb);
+                }
+            }
+
+            return rigidbodies;
+        }
     }
 }
