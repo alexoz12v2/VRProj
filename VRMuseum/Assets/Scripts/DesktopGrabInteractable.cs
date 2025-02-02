@@ -1,18 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 using static UnityEngine.InputSystem.InputAction;
 
 namespace vrm
 {
     class DesktopGrabInteractable : MonoBehaviour
     {
-        private Action<CallbackContext> _f;
         private Action OnGameStarted;
         private Action OnGameDestroy;
 
@@ -20,14 +20,13 @@ namespace vrm
 
         private void Start()
         {
-            _f = (CallbackContext ctx) => { OnInteract(gameObject, ctx); };
             OnGameStarted = () =>
             {
-                GameManager.Instance.player.GrabCallbackEvent += _f;
+                GameManager.Instance.player.GrabCallbackEvent += OnInteract;
             };
             OnGameDestroy = () =>
             {
-                GameManager.Instance.player.GrabCallbackEvent -= _f;
+                GameManager.Instance.player.GrabCallbackEvent -= OnInteract;
                 GameManager.Instance.GameStartStarted -= OnGameStarted;
             };
 
@@ -50,39 +49,123 @@ namespace vrm
             }
         }
 
-        public static void OnInteract(GameObject self, CallbackContext ctx)
+        private void OnInteract(CallbackContext ctx)
         {
-            var component = self.GetComponent<DesktopGrabInteractable>();
-            var rigidBody = self.GetComponent<Rigidbody>();
+            var rigidBody = GetComponent<Rigidbody>();
             bool pressed = ctx.started;
             bool released = ctx.canceled;
-            if (component && !component.grabbed && pressed && Methods.CheckScreenCircleIntersection(new SingletonList<GameObject>(self), 10f) >= 0)
+            if (!grabbed && pressed && Methods.CheckScreenCircleIntersection(new SingletonList<GameObject>(gameObject), 10f) >= 0)
             {
                 if (!GameManager.Instance.GameState.HasFlag(GameState.TinkerableInteractable) && !GameManager.Instance.GameState.HasFlag(GameState.Paused))
                 {
-                    component.grabbed = true;
+                    grabbed = true;
                     if (rigidBody)
                         rigidBody.isKinematic = true;
-                    self.SetLayerRecursively((int)Layers.Grabbed);
-                    Debug.Log("GRABBED");
-                    Vector3 offset = Camera.main.transform.forward * 1f + Camera.main.transform.up * -0.2f; 
-                    self.transform.SetPositionAndRotation(Camera.main.transform.position + offset, Quaternion.identity);
+                    gameObject.SetLayerRecursively((int)Layers.Grabbed);
+                    Vector3 offset = Camera.main.transform.forward * 1f + Camera.main.transform.up * -0.2f;
+                    transform.SetPositionAndRotation(Camera.main.transform.position + offset, Quaternion.identity);
 
                     GameManager.Instance.GameState |= GameState.TinkerableInteractable;
-                    GameManager.Instance.player.MovementBreak += component.OnMovementBreak;
+                    GameManager.Instance.player.MovementBreak += OnMovementBreak;
                 }
             }
-            if (component && component.grabbed)
+            if (grabbed)
             {
                 if (pressed)
                 {
                     GameManager.Instance.player.playerInput.currentActionMap["Move"].Disable();
+                    GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed += rotateFromDelta;
+                    inInteraction = true;
                 }
                 else if (released)
                 {
+                    GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed -= rotateFromDelta;
                     GameManager.Instance.player.playerInput.currentActionMap["Move"].Enable();
+                    inInteraction = false;
                 }
             }
+        }
+
+        private bool inInteraction = false;
+        private Task rotationTask = null;
+
+        private void rotateFromDelta(CallbackContext ctx)
+        {
+            Debug.Log("RotateFromDelta");
+            if (rotationTask == null || !rotationTask.Running)
+            {
+                Debug.Log("RotateFromDelta inside condtition");
+                Vector4 rawInput = ctx.ReadValue<Vector2>();
+                if (rawInput.y > rawInput.x)
+                {
+                    rawInput.z = rawInput.y;
+                    rawInput.y = 0;
+                }
+
+                // for now use only the object in it of itself, then accuulate children with rigidbody
+                var rigidBody = GetComponent<Rigidbody>();
+                if (!rigidBody)
+                    return;
+                Vector3 worldSpaceDir = Camera.main.transform.localToWorldMatrix * rawInput;
+                worldSpaceDir.Normalize();
+
+                Vector3 pseudoVec = Vector3.Cross(worldSpaceDir, Camera.main.transform.forward);
+                // DebugPrintXRDevices.Instance.AddMessage($"Torque: {pseudoVec}");
+
+                // doesn't work on kinematic rigid bodies
+                // rigidBody.AddTorque(pseudoVec, ForceMode.Impulse);
+                rotationTask = new Task(rotateFromDelta(pseudoVec, rigidBody));
+            }
+        }
+
+        private IEnumerator rotateFromDelta(Vector3 pseudoVec, Rigidbody rigidBody)
+        {
+            Debug.Log("Rotation Task Started");
+
+            // Make Rigidbody non-kinematic temporarily to apply physics
+            rigidBody.isKinematic = false;
+            rigidBody.useGravity = false;
+
+            // Optional: Lock position to prevent linear movement
+            rigidBody.constraints = RigidbodyConstraints.FreezePosition; // Freeze all movement
+
+            // Center of mass might need adjustment if it's off-center
+            var oldCOM = rigidBody.centerOfMass;
+            rigidBody.centerOfMass = Vector3.zero; // Make sure it's centered
+
+            // Define the maximum angular velocity you want
+            float maxAngularVelocity = 90f; // Max angular velocity (in degrees per second)
+
+            // TODO: You can adjust torque strength if needed
+            float torqueStrength = 10f;
+
+            while (inInteraction)
+            {
+                // Apply torque based on pseudoVec direction
+                rigidBody.AddTorque(pseudoVec * torqueStrength, ForceMode.Force);
+
+                // Clamp angular velocity to max angular velocity to prevent infinite acceleration
+                Vector3 clampedAngularVelocity = rigidBody.angularVelocity;
+
+                // Limit the angular velocity to maxAngularVelocity
+                clampedAngularVelocity = Vector3.ClampMagnitude(clampedAngularVelocity, Mathf.Deg2Rad * maxAngularVelocity);
+
+                // Apply the clamped angular velocity back to the Rigidbody
+                rigidBody.angularVelocity = clampedAngularVelocity;
+
+                // Optional: Debug the angular velocity for tracking
+                Debug.Log($"Current Angular Velocity: {rigidBody.angularVelocity}");
+
+                yield return new WaitForFixedUpdate(); // Wait for the next fixed frame
+            }
+
+            // After interaction ends, reset Rigidbody settings
+            rigidBody.isKinematic = true;
+            rigidBody.useGravity = true;
+            rigidBody.constraints = RigidbodyConstraints.None; // Release the position constraint
+            rigidBody.centerOfMass = oldCOM;
+
+            Debug.Log("Rotation Task Finished");
         }
 
         private void OnMovementBreak()
@@ -94,7 +177,6 @@ namespace vrm
                 if (rigidBody)
                     rigidBody.isKinematic = false;
                 gameObject.SetLayerRecursively((int)Layers.Default);
-                Debug.Log("UNGRABBED");
                 rigidBody.AddRelativeForce(Vector3.forward, ForceMode.Impulse);
 
                 GameManager.Instance.player.MovementBreak -= OnMovementBreak;
