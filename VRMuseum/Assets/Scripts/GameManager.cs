@@ -69,6 +69,15 @@ namespace vrm
         }
     }
 
+    [Flags]
+    public enum GameState : int
+    {
+        Paused = 0x0000_0002,
+        UIInteractable = 0x0000_0004,
+        TinkerableInteractable = 0x0000_0008,
+        TinkerableDecomposed = 0x0000_0010
+    }
+
     public class GameManager : Singleton<GameManager>
     {
         [HideInInspector]
@@ -86,6 +95,20 @@ namespace vrm
 
         public event Action GameStartStarted;
         public event Action GameDestroy;
+        public event Action<GameState, GameState> GameStateChanged;
+
+        private GameState gameState;
+        public GameState GameState
+        {
+            get { return gameState; }
+            set
+            {
+                if (gameState == value)
+                    throw new SystemException("GameState Shouldn't be changed with itself");
+                GameStateChanged?.Invoke(gameState, value);
+                gameState = value;
+            }
+        }
 
         void Start()
         {
