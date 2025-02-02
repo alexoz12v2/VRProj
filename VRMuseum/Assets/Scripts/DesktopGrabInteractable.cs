@@ -12,6 +12,7 @@ using static UnityEngine.InputSystem.InputAction;
 
 namespace vrm
 {
+    // TODO handle both tinkerable and non
     class DesktopGrabInteractable : MonoBehaviour
     {
         private Action OnGameStarted;

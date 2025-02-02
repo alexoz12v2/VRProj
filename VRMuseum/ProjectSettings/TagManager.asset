@@ -10,6 +10,7 @@ TagManager:
   - UIParagraphContent
   - UICanvas
   - CameraSocket
+  - ExplosionBarrier
   layers:
   - Default
   - TransparentFX
