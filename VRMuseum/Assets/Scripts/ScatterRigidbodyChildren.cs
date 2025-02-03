@@ -27,17 +27,25 @@ namespace vrm
             //GameManager.Instance.player.MovementBreak += OnMovementBreak; // handled by desktopgrabinteratable
         }
 
-        private void MakeChildrenTransformable() {
+        private void MakeChildrenTransformable()
+        {
             var component = GetComponent<DesktopGrabInteractable>();
             if (component == null)
                 return;
 
-            IList<Action<CallbackContext>> rigidbodies = Methods.GetChildRigidbodies(gameObject)
+            IDictionary<GameObject, Action<CallbackContext>> callbacks = Methods.GetChildRigidbodies(gameObject)
                 .Select(r => r.gameObject)
-                .Select(obj => new Action<CallbackContext>((CallbackContext ctx) => Methods.ParentMouseDeltaCallback(obj)))
-                .ToList();
-            component.ClearMouseDeltaCallbacks();
-            component.AddAllMouseDeltaCallbacks(rigidbodies);
+                .Select(obj => new Tuple<GameObject, Action<CallbackContext>>(obj, new Action<CallbackContext>((CallbackContext ctx) => Methods.ParentMouseDeltaCallback(obj))))
+                .ToDictionary(t => t.Item1, t => t.Item2);
+            component.AddAllMouseDeltaCallbacks(callbacks);
+        }
+
+        private void RestoreTransformableObjects()
+        {
+            var component = GetComponent<DesktopGrabInteractable>();
+            if (component == null)
+                return;
+            component.ResetMouseDeltaCallbacks();
         }
 
         public void FromCompOnMovementBreak()
@@ -58,6 +66,14 @@ namespace vrm
                 explodeAction.Enable();
             else
                 explodeAction.Disable();
+
+            if (!newState.HasFlag(GameState.Paused) && oldState.HasFlag(GameState.TinkerableInteractable) && newState.HasFlag(GameState.TinkerableInteractable))
+            {
+                if (newState.HasFlag(GameState.TinkerableDecomposed))
+                    MakeChildrenTransformable();
+                else
+                    RestoreTransformableObjects();
+            }
         }
 
 

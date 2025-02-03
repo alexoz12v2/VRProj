@@ -20,36 +20,80 @@ namespace vrm
 
         private bool grabbed = false;
         private bool inInteraction = false;
-        private IList<Action<CallbackContext>> MouseDeltaCallbacks = new List<Action<CallbackContext>>();
+        private GameObject m_Active;
+        private IDictionary<GameObject, Action<CallbackContext>> m_MouseDeltaCallbacks = new Dictionary<GameObject, Action<CallbackContext>>();
 
-        public void ClearMouseDeltaCallbacks()
-        {
-            foreach (var callback in MouseDeltaCallbacks)
-            {
-                GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed -= callback;
-            }
-            MouseDeltaCallbacks.Clear();
-        }
         public void ResetMouseDeltaCallbacks()
         {
-            if (MouseDeltaCallbacks.Count > 0)
-                ClearMouseDeltaCallbacks();
-            MouseDeltaCallbacks.Add(Methods.ParentMouseDeltaCallback(gameObject));
+            InputAction rotateAction = GameManager.Instance.player.playerInput.currentActionMap["Rotate"];
+            if (m_MouseDeltaCallbacks.Count > 1)
+            {
+                GameObject originalKey = null; 
+                foreach (var pair in m_MouseDeltaCallbacks)
+                {
+                    if (pair.Key == gameObject)
+                    {
+                        originalKey = pair.Key;
+                        continue;
+                    }
+                    if (m_Active == pair.Key)
+                    {
+                        m_Active = null;
+                    }
+                    rotateAction.performed -= pair.Value;
+                }
+                m_MouseDeltaCallbacks.Clear();
+                if (originalKey == null)
+                    throw new SystemException("WHAT");
+                m_MouseDeltaCallbacks.Add(originalKey, Methods.ParentMouseDeltaCallback(gameObject));
+            }
         }
 
-        public void AddAllMouseDeltaCallbacks(IList<Action<CallbackContext>> actions)
+        public void AddAllMouseDeltaCallbacks(IDictionary<GameObject, Action<CallbackContext>> actions)
         {
-            InputAction rotateAction = GameManager.Instance.player.playerInput.currentActionMap["Rotate"];
-            foreach (Action<CallbackContext> action in actions)
+            foreach (var action in actions)
             {
-                rotateAction.performed += action;
-                MouseDeltaCallbacks.Add(action);
+                m_MouseDeltaCallbacks.Add(action);
             }
+        }
+
+        private IList<GameObject> GetChildComponents()
+        {
+            List<GameObject> list = new();
+            Methods.ForEachChildWith(gameObject, (child) => child.CompareTag("Component"), (child) => list.Add(child));
+            return list;
+        }
+
+        private GameObject GrabActiveRotateGameObject()
+        {
+            Debug.Log($"Requesting active rotator, count: {m_MouseDeltaCallbacks.Count}");
+            if (m_MouseDeltaCallbacks.Count == 1)
+                return gameObject;
+
+            float currentDistance = Mathf.Infinity;
+            int index = -1;
+            IList<GameObject> list = GetChildComponents();
+            foreach (GameObject gameObject in list)
+            {
+                int current = 0;
+                float screenSpaceDist = Methods.CheckScreenCircleIntersection(gameObject, 10f);
+                if (screenSpaceDist >= 0 && screenSpaceDist < currentDistance)
+                {
+                    index = current;
+                    currentDistance = screenSpaceDist;
+                }
+            }
+
+            Debug.Log($"Multiple: Active Rotator is {(index == -1 ? "Nobody" : list[index])}");
+            if (index == -1)
+                return null;
+            else
+                return list[index];
         }
 
         private void Start()
         {
-            MouseDeltaCallbacks.Add(Methods.ParentMouseDeltaCallback(gameObject));
+            m_MouseDeltaCallbacks.Add(gameObject, Methods.ParentMouseDeltaCallback(gameObject));
             OnGameStarted = () =>
             {
                 GameManager.Instance.player.GrabCallbackEvent += OnInteract;
@@ -71,7 +115,7 @@ namespace vrm
         {
             if (!grabbed)
             {
-                if (Methods.CheckScreenCircleIntersection(new SingletonList<GameObject>(gameObject), 10f) >= 0)
+                if (Methods.CheckScreenCircleIntersection(gameObject, 10f) >= 0)
                 {
                     gameObject.SetLayerRecursively((int)Layers.Outlined);
                 }
@@ -84,17 +128,15 @@ namespace vrm
 
         private void OnInteract(CallbackContext ctx)
         {
-            var rigidBody = gameObject.GetComponent<Rigidbody>();
-            if (rigidBody == null)
-                return;
 
             bool pressed = ctx.started;
             bool released = ctx.canceled;
-            if (!grabbed && pressed && Methods.CheckScreenCircleIntersection(new SingletonList<GameObject>(gameObject), 10f) >= 0)
+            if (!grabbed && pressed && Methods.CheckScreenCircleIntersection(gameObject, 10f) >= 0)
             {
                 if (!GameManager.Instance.GameState.HasFlag(GameState.TinkerableInteractable) && !GameManager.Instance.GameState.HasFlag(GameState.Paused))
                 {
                     grabbed = true;
+                    var rigidBody = gameObject.GetComponent<Rigidbody>(); // shouldn't be null
                     if (rigidBody)
                         rigidBody.isKinematic = true;
                     gameObject.SetLayerRecursively((int)Layers.Grabbed);
@@ -105,40 +147,49 @@ namespace vrm
                     GameManager.Instance.player.MovementBreak += OnMovementBreak;
                 }
             }
-            if (grabbed)
+            else if (grabbed)
             {
                 var pov = getCinemachineCameraPOV();
                 if (pressed)
                 {
+                    Debug.Log("PRESSED---------------");
                     if (pov)
                     {
                         pov.m_HorizontalAxis.m_MaxSpeed = 0f;
                         pov.m_VerticalAxis.m_MaxSpeed = 0f;
                     }
 
-                    // Make Rigidbody non-kinematic temporarily to apply physics
-                    // rigidBody.isKinematic = false;
-                    // rigidBody.useGravity = false;
-
-                    // Optional: Lock position to prevent linear movement
-                    rigidBody.constraints = RigidbodyConstraints.FreezePosition; // Freeze all movement
-
+                    // TODO register only the callback for the intersected object within the screen space circle and store it for later removal
+                    // if store, and removal is alao propagated
                     GameManager.Instance.player.playerInput.currentActionMap["Move"].Disable();
-                    GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed += MouseDeltaCallbacks[0];
-                    inInteraction = true;
+                    m_Active = GrabActiveRotateGameObject();
+                    if (m_Active != null)
+                    {
+                        GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed += m_MouseDeltaCallbacks[m_Active];
+                        var rigidBody = m_Active.GetComponent<Rigidbody>(); // shouldn't be null
+                        rigidBody.constraints = RigidbodyConstraints.FreezePosition; // Freeze all movement
+                        inInteraction = true;
+                    }
                 }
                 else if (released)
                 {
+                    Debug.Log("RELEASED---------------");
                     if (pov)
                     {  // TODO mouse sensitivity custom
                         pov.m_HorizontalAxis.m_MaxSpeed = 100f;
                         pov.m_VerticalAxis.m_MaxSpeed = 100f;
                     }
-                    rigidBody.isKinematic = true;
-                    rigidBody.useGravity = true;
-                    rigidBody.constraints = RigidbodyConstraints.None; // Release the position constraint
 
-                    GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed -= MouseDeltaCallbacks[0];
+                    if (m_Active)
+                    {
+                        var rigidBody = m_Active.GetComponent<Rigidbody>(); // shouldn't be null
+                        rigidBody.isKinematic = true;
+                        rigidBody.useGravity = true;
+                        rigidBody.constraints = RigidbodyConstraints.None; // Release the position constraint
+                        GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed -= m_MouseDeltaCallbacks[m_Active];
+                        m_Active = null;
+                    }
+
                     GameManager.Instance.player.playerInput.currentActionMap["Move"].Enable();
                     inInteraction = false;
                 }
@@ -152,26 +203,6 @@ namespace vrm
             if (camera)
                 return camera.GetCinemachineComponent<CinemachinePOV>();
             return null;
-        }
-
-        // TODO remove
-        public void RotateFromDelta_(InputAction.CallbackContext ctx)
-        {
-            var rigidBody = gameObject.GetComponent<Rigidbody>();
-            if (rigidBody == null)
-                return;
-            float maxAngularVelocity = 5f;
-            float torqueStrength = 50f;
-            float sensitivity = 0.1f;
-            if (ctx.performed && rigidBody != null)
-            {
-                Vector2 mouseDelta = ctx.ReadValue<Vector2>() * sensitivity;
-                mouseDelta.x *= -1;
-
-                Quaternion xRot = Quaternion.AngleAxis(mouseDelta.x * torqueStrength * Time.fixedDeltaTime, Camera.main.transform.up);
-                Quaternion yRot = Quaternion.AngleAxis(mouseDelta.y * torqueStrength * Time.fixedDeltaTime, Camera.main.transform.right);
-                transform.rotation = xRot * yRot * transform.rotation;
-            }
         }
 
         private void OnMovementBreak()
