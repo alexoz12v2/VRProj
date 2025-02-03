@@ -382,6 +382,33 @@ namespace vrm
                 action(component);
             }
         }
+
+        public static Quaternion QuaternionFromMouseDelta(Vector2 delta, float angularSpeed)
+        {
+            delta *= angularSpeed;
+            delta.x *= -1;
+            Quaternion xRot = Quaternion.AngleAxis(delta.x * Time.fixedDeltaTime, Camera.main.transform.up);
+            Quaternion yRot = Quaternion.AngleAxis(delta.y * Time.fixedDeltaTime, Camera.main.transform.right);
+            return xRot * yRot;
+        }
+
+        public delegate bool ObjectCallbackPredicate(GameObject obj, UnityEngine.InputSystem.InputAction.CallbackContext ctx);
+        public static Action<UnityEngine.InputSystem.InputAction.CallbackContext> RotateFromDeltaCallback(GameObject gameObject, ObjectCallbackPredicate pred, float angularSpeed)
+        {
+            return ctx =>
+            {
+                if (pred(gameObject, ctx))
+                {
+                    Quaternion rot = QuaternionFromMouseDelta(ctx.ReadValue<Vector2>(), angularSpeed);
+                    gameObject.transform.rotation = rot * gameObject.transform.rotation;
+                }
+            };
+        }
+
+        static public Action<UnityEngine.InputSystem.InputAction.CallbackContext> ParentMouseDeltaCallback(GameObject gameObject, float angleSpeed = 5f)
+        {
+            return Methods.RotateFromDeltaCallback(gameObject, (obj, ctx) => obj.GetComponent<Rigidbody>() != null && ctx.performed, angleSpeed);
+        }
     }
 
 }
