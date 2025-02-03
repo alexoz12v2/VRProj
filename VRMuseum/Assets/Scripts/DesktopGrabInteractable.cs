@@ -34,7 +34,7 @@ namespace vrm
         {
             if (MouseDeltaCallbacks.Count > 0)
                 ClearMouseDeltaCallbacks();
-            MouseDeltaCallbacks.Add(ParentMouseDeltaCallback());
+            MouseDeltaCallbacks.Add(Methods.ParentMouseDeltaCallback(gameObject));
         }
 
         public void AddAllMouseDeltaCallbacks(IList<Action<CallbackContext>> actions)
