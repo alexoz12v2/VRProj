@@ -134,43 +134,48 @@ namespace vrm
         }
 
         // Meant for desktop only
-        public static int CheckScreenCircleIntersection(IList<GameObject> targets, float radius)
+        public static float CheckScreenCircleIntersection(GameObject target, float radius)
         {
-            Vector2 screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
+            Vector2 screenCenter = new(Screen.width / 2, Screen.height / 2);
+            Bounds bounds = BoundsInChildren(target.transform);
 
-            for (int i = 0; i < targets.Count; i++)
+            // Get all 8 corners of the bounds
+            Vector3[] worldCorners = GetBoundsCorners(bounds);
+            List<Vector2> screenCorners = new();
+
+            bool isInFrontOfCamera = false;
+
+            // Project corners to screen space
+            foreach (var corner in worldCorners)
             {
-                GameObject obj = targets[i];
-                Bounds bounds = BoundsInChildren(obj.transform);
+                Vector3 screenPoint = Camera.main.WorldToScreenPoint(corner);
 
-                // Get all 8 corners of the bounds
-                Vector3[] worldCorners = GetBoundsCorners(bounds);
-                List<Vector2> screenCorners = new List<Vector2>();
+                // Check if any point is in front of the camera
+                if (screenPoint.z > 0)
+                    isInFrontOfCamera = true;
 
-                bool isInFrontOfCamera = false;
+                screenCorners.Add(new(screenPoint.x, screenPoint.y));
+            }
 
-                // Project corners to screen space
-                foreach (var corner in worldCorners)
+            if (isInFrontOfCamera)
+            {
+                if (CircleIntersectsPolygon(screenCenter, radius, screenCorners))
                 {
-                    Vector3 screenPoint = Camera.main.WorldToScreenPoint(corner);
+                    // Find the closest point on the polygon to the screen center
+                    float minDistance = float.MaxValue;
 
-                    // Check if any point is in front of the camera
-                    if (screenPoint.z > 0)
-                        isInFrontOfCamera = true;
+                    foreach (var corner in screenCorners)
+                    {
+                        float distance = Vector2.Distance(screenCenter, corner);
+                        minDistance = Mathf.Min(minDistance, distance);
+                    }
 
-                    screenCorners.Add(new Vector2(screenPoint.x, screenPoint.y));
-                }
-
-                if (isInFrontOfCamera)
-                {
-                    if (CircleIntersectsPolygon(screenCenter, radius, screenCorners))
-                        return i;
+                    return minDistance;
                 }
             }
 
-            return -1;
+            return -1f;
         }
-
         // Get all 8 corners of the bounds
         private static Vector3[] GetBoundsCorners(Bounds bounds)
         {
