@@ -11,12 +11,9 @@ namespace vrm
     // TODO: For now it focuses on Desktop. VR Integration will come at a later step, hopefully using the default input action assets from XR Interaction Toolkit
     public class ScatterRigidbodyChildren : MonoBehaviour
     {
-
-        [SerializeField] private BoxCollider explosionBounds;
-
+        private Task m_ExplosionTask;
         void Start()
         {// TODO callback cleanup
-            explosionBounds.enabled = false;
             GameManager.Instance.GameStartStarted += OnGameStarted;
             GameManager.Instance.GameStateChanged += OnGameStateChanged;
         }
@@ -25,20 +22,16 @@ namespace vrm
         {
             InputAction explodeAction = GameManager.Instance.player.playerInput.currentActionMap["Explode"];
             explodeAction.performed += OnExplode;
-            GameManager.Instance.player.MovementBreak += OnMovementBreak;
+            //GameManager.Instance.player.MovementBreak += OnMovementBreak;
         }
 
-        private void OnMovementBreak()
+        public void FromCompOnMovementBreak()
         {
-            IList<Rigidbody> rigidbodies = Methods.GetChildRigidbodies(gameObject);
-            foreach (Rigidbody rb in rigidbodies)
+            if (m_ExplosionTask != null && m_ExplosionTask.Running)
             {
-                rb.isKinematic = true;
-                rb.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-                rb.isKinematic = false;
+                m_ExplosionTask.Stop();
+                HandleExplosionTermination();
             }
-            if (GameManager.Instance.GameState.HasFlag(GameState.TinkerableDecomposed))
-                GameManager.Instance.GameState &= ~GameState.TinkerableDecomposed; // TinkerableInteractable removed by other component
         }
 
         private void OnGameStateChanged(GameState oldState, GameState newState)
@@ -60,41 +53,57 @@ namespace vrm
             if (!isValidState(GameManager.Instance.GameState))
                 throw new SystemException("What");
 
-            IList<Rigidbody> rigidbodies = Methods.GetChildRigidbodies(gameObject);
-            if (GameManager.Instance.GameState.HasFlag(GameState.TinkerableInteractable))
+            if (!GameManager.Instance.GameState.HasFlag(GameState.TinkerableDecomposed))
             { // TODO Use specific layer for explosion, and move all components in there
+                Methods.ForEachChildWith(gameObject, (child) => child.CompareTag("Component"), (child) => child.AddComponent<Rigidbody>());
+                Methods.RemoveComponent<Rigidbody>(gameObject); // Unity readds it if there are any RequireComponent[Rigidbody]
+                IList<Rigidbody> rigidbodies = Methods.GetChildRigidbodies(gameObject);
+
                 InputAction explodeAction = GameManager.Instance.player.playerInput.currentActionMap["Explode"];
+                var barrier = Methods.FindFirstChildRecursive(gameObject, (child) => child.CompareTag("ExplosionBarrier"));
+                Methods.ForEachComponent<Collider>(barrier, (collider) => collider.enabled = true);
                 Debug.Log("Remove Input Action Event");
-                new Task(processExplosion(3f, rigidbodies)).Finished += (manual) =>
+                m_ExplosionTask = new Task(processExplosion(0.3f, rigidbodies));
+                m_ExplosionTask.Finished += (manual) =>
                 {
                     Debug.Log("Add Input Action Event");
                     explodeAction.performed += OnExplode;
+                    Methods.ForEachComponent<Collider>(barrier, (collider) => collider.enabled = false);
                 };
                 explodeAction.performed -= OnExplode;
             }
             else
             {
-                foreach (Rigidbody rb in rigidbodies)
-                {
-                    rb.isKinematic = true;
-                    rb.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-                    rb.isKinematic = false;
-                }
-                GameManager.Instance.GameState &= ~GameState.TinkerableDecomposed;
+                HandleExplosionTermination();
             }
+        }
+
+        private void HandleExplosionTermination()
+        {
+            Methods.ForEachChildWith(gameObject, (child) => child.CompareTag("Component"), (child) =>
+            {
+                Methods.RemoveComponent<Rigidbody>(child);
+                child.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            });
+            var parentBody = gameObject.AddComponent<Rigidbody>();
+            parentBody.isKinematic = true;
+            GameManager.Instance.GameState &= ~GameState.TinkerableDecomposed;
         }
 
         private IEnumerator processExplosion(float maxSeconds, IList<Rigidbody> rigidbodies)
         {
             Debug.Log("Process Explosion");
-            explosionBounds.enabled = true;
+            float depthIntensity = 0.1f; // TODO parameter
+            float explosionIntensity = 1f;
             foreach (Rigidbody rb in rigidbodies)
             {
-                Vector3 dir = UnityEngine.Random.insideUnitSphere;
+                Vector3 dir = UnityEngine.Random.insideUnitCircle;
+                dir.z = UnityEngine.Random.value * depthIntensity;
+                dir.Normalize();
                 rb.isKinematic = false;
                 rb.useGravity = false;
                 //rb.AddExplosionForce(10f, rb.transform.position + dir, 10f);
-                rb.AddForce(dir * 10f, ForceMode.Impulse);
+                rb.AddRelativeForce(dir * explosionIntensity, ForceMode.Impulse);
             }
 
             float start = Time.time;
@@ -109,7 +118,6 @@ namespace vrm
                 rb.isKinematic = true;
             }
             Debug.Log("Explosion finished, setting state");
-            explosionBounds.enabled = false;
             GameManager.Instance.GameState |= GameState.TinkerableDecomposed;
         }
     }

@@ -20,11 +20,16 @@ namespace vrm
 
         private bool grabbed = false;
 
+        private bool inInteraction = false;
+
         private void Start()
         {
             OnGameStarted = () =>
             {
                 GameManager.Instance.player.GrabCallbackEvent += OnInteract;
+                var rigidBody = gameObject.AddComponent<Rigidbody>(); // TODO mass
+                rigidBody.isKinematic = false;
+                rigidBody.useGravity = true;
             };
             OnGameDestroy = () =>
             {
@@ -53,7 +58,10 @@ namespace vrm
 
         private void OnInteract(CallbackContext ctx)
         {
-            var rigidBody = GetComponent<Rigidbody>();
+            var rigidBody = gameObject.GetComponent<Rigidbody>();
+            if (rigidBody == null)
+                return;
+
             bool pressed = ctx.started;
             bool released = ctx.canceled;
             if (!grabbed && pressed && Methods.CheckScreenCircleIntersection(new SingletonList<GameObject>(gameObject), 10f) >= 0)
@@ -88,9 +96,6 @@ namespace vrm
 
                     // Optional: Lock position to prevent linear movement
                     rigidBody.constraints = RigidbodyConstraints.FreezePosition; // Freeze all movement
-                                                                                 // Center of mass might need adjustment if it's off-center
-                    m_oldCOM = rigidBody.centerOfMass;
-                    rigidBody.centerOfMass = Vector3.zero; // Make sure it's centered
 
                     GameManager.Instance.player.playerInput.currentActionMap["Move"].Disable();
                     GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed += RotateFromDelta;
@@ -106,7 +111,6 @@ namespace vrm
                     rigidBody.isKinematic = true;
                     rigidBody.useGravity = true;
                     rigidBody.constraints = RigidbodyConstraints.None; // Release the position constraint
-                    rigidBody.centerOfMass = m_oldCOM;
 
                     GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed -= RotateFromDelta;
                     GameManager.Instance.player.playerInput.currentActionMap["Move"].Enable();
@@ -114,7 +118,6 @@ namespace vrm
                 }
             }
         }
-        private Vector3 m_oldCOM;
 
         private static CinemachinePOV getCinemachineCameraPOV()
         {
@@ -124,15 +127,14 @@ namespace vrm
             return null;
         }
 
-        private bool inInteraction = false;
-        private Task rotationTask = null;
-
         public void RotateFromDelta(InputAction.CallbackContext ctx)
         {
+            var rigidBody = gameObject.GetComponent<Rigidbody>();
+            if (rigidBody == null)
+                return;
             float maxAngularVelocity = 5f;
             float torqueStrength = 50f;
             float sensitivity = 0.1f;
-            Rigidbody rigidBody = GetComponent<Rigidbody>();
             if (ctx.performed && rigidBody != null)
             {
                 Vector2 mouseDelta = ctx.ReadValue<Vector2>() * sensitivity;
@@ -147,6 +149,13 @@ namespace vrm
         private void OnMovementBreak()
         {
             var rigidBody = gameObject.GetComponent<Rigidbody>();
+            if (rigidBody == null)
+            {
+                GetComponent<ScatterRigidbodyChildren>().FromCompOnMovementBreak();
+                if (rigidBody == null)
+                    throw new SystemException("aaaa");
+            }
+
             if (!GameManager.Instance.GameState.HasFlag(GameState.Paused))
             {
                 grabbed = false;
