@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
@@ -310,5 +311,77 @@ namespace vrm
 
             return rigidbodies;
         }
+
+        static public void ForEachChildWith(GameObject parent, Predicate<GameObject> pred, Action<GameObject> func)
+        {
+            if (parent == null || pred == null || func == null)
+                return;
+
+            // Recursive helper function
+            void Traverse(GameObject obj)
+            {
+                foreach (Transform child in obj.transform)
+                {
+                    GameObject childObj = child.gameObject;
+
+                    if (pred(childObj))
+                    {
+                        func(childObj);
+                    }
+
+                    // Recursively check this child's children
+                    Traverse(childObj);
+                }
+            }
+
+            // Start traversal from the parent
+            Traverse(parent);
+        }
+
+        static public void RemoveComponent<T>(GameObject obj) where T : Component
+        {
+            T component = obj.GetComponent<T>();
+            if (component != null)
+                UnityEngine.Object.Destroy(component);
+        }
+
+        public static GameObject FindFirstChildRecursive(GameObject parent, Predicate<GameObject> pred)
+        {
+            if (parent == null || pred == null)
+                return null;
+
+            foreach (Transform child in parent.transform)
+            {
+                GameObject childObj = child.gameObject;
+
+                // Check the current child
+                if (pred(childObj))
+                {
+                    return childObj;
+                }
+
+                // Recursively check the child's children
+                GameObject result = FindFirstChildRecursive(childObj, pred);
+                if (result != null)
+                {
+                    return result;  // Return as soon as a match is found in deeper levels
+                }
+            }
+
+            return null;  // No match found
+        }
+
+        public static void ForEachComponent<T>(GameObject gameObject, Action<T> action) where T : Component
+        {
+            if (gameObject == null || action == null)
+                return;
+
+            T[] components = gameObject.GetComponents<T>();
+            foreach (T component in components)
+            {
+                action(component);
+            }
+        }
     }
+
 }
