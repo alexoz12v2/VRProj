@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Timers;
 using UnityEngine;
+using System.Linq;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
@@ -12,6 +13,7 @@ namespace vrm
     public class ScatterRigidbodyChildren : MonoBehaviour
     {
         private Task m_ExplosionTask;
+
         void Start()
         {// TODO callback cleanup
             GameManager.Instance.GameStartStarted += OnGameStarted;
@@ -22,7 +24,20 @@ namespace vrm
         {
             InputAction explodeAction = GameManager.Instance.player.playerInput.currentActionMap["Explode"];
             explodeAction.performed += OnExplode;
-            //GameManager.Instance.player.MovementBreak += OnMovementBreak;
+            //GameManager.Instance.player.MovementBreak += OnMovementBreak; // handled by desktopgrabinteratable
+        }
+
+        private void MakeChildrenTransformable() {
+            var component = GetComponent<DesktopGrabInteractable>();
+            if (component == null)
+                return;
+
+            IList<Action<CallbackContext>> rigidbodies = Methods.GetChildRigidbodies(gameObject)
+                .Select(r => r.gameObject)
+                .Select(obj => new Action<CallbackContext>((CallbackContext ctx) => Methods.ParentMouseDeltaCallback(obj)))
+                .ToList();
+            component.ClearMouseDeltaCallbacks();
+            component.AddAllMouseDeltaCallbacks(rigidbodies);
         }
 
         public void FromCompOnMovementBreak()
@@ -30,8 +45,8 @@ namespace vrm
             if (m_ExplosionTask != null && m_ExplosionTask.Running)
             {
                 m_ExplosionTask.Stop();
-                HandleExplosionTermination();
             }
+            HandleExplosionTermination();
         }
 
         private void OnGameStateChanged(GameState oldState, GameState newState)

@@ -47,7 +47,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 3072
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -68,7 +68,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 3072
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -89,7 +89,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 3072
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -110,7 +110,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 3072
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -131,7 +131,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 3072
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -152,7 +152,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 3072
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -442,7 +442,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fdfd40f5e2dbb14fb7236dc8e9129b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionBounds: {fileID: 0}
 --- !u!1 &1296227780783888694
 GameObject:
   m_ObjectHideFlags: 0

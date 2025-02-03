@@ -1,6 +1,6 @@
 ﻿using Cinemachine;
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,11 +19,37 @@ namespace vrm
         private Action OnGameDestroy;
 
         private bool grabbed = false;
-
         private bool inInteraction = false;
+        private IList<Action<CallbackContext>> MouseDeltaCallbacks = new List<Action<CallbackContext>>();
+
+        public void ClearMouseDeltaCallbacks()
+        {
+            foreach (var callback in MouseDeltaCallbacks)
+            {
+                GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed -= callback;
+            }
+            MouseDeltaCallbacks.Clear();
+        }
+        public void ResetMouseDeltaCallbacks()
+        {
+            if (MouseDeltaCallbacks.Count > 0)
+                ClearMouseDeltaCallbacks();
+            MouseDeltaCallbacks.Add(ParentMouseDeltaCallback());
+        }
+
+        public void AddAllMouseDeltaCallbacks(IList<Action<CallbackContext>> actions)
+        {
+            InputAction rotateAction = GameManager.Instance.player.playerInput.currentActionMap["Rotate"];
+            foreach (Action<CallbackContext> action in actions)
+            {
+                rotateAction.performed += action;
+                MouseDeltaCallbacks.Add(action);
+            }
+        }
 
         private void Start()
         {
+            MouseDeltaCallbacks.Add(Methods.ParentMouseDeltaCallback(gameObject));
             OnGameStarted = () =>
             {
                 GameManager.Instance.player.GrabCallbackEvent += OnInteract;
@@ -98,7 +124,7 @@ namespace vrm
                     rigidBody.constraints = RigidbodyConstraints.FreezePosition; // Freeze all movement
 
                     GameManager.Instance.player.playerInput.currentActionMap["Move"].Disable();
-                    GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed += RotateFromDelta;
+                    GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed += MouseDeltaCallbacks[0];
                     inInteraction = true;
                 }
                 else if (released)
@@ -112,7 +138,7 @@ namespace vrm
                     rigidBody.useGravity = true;
                     rigidBody.constraints = RigidbodyConstraints.None; // Release the position constraint
 
-                    GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed -= RotateFromDelta;
+                    GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed -= MouseDeltaCallbacks[0];
                     GameManager.Instance.player.playerInput.currentActionMap["Move"].Enable();
                     inInteraction = false;
                 }
@@ -121,13 +147,15 @@ namespace vrm
 
         private static CinemachinePOV getCinemachineCameraPOV()
         {
+
             var camera = GameManager.Instance.virtualCamera.GetComponent<CinemachineVirtualCamera>();
             if (camera)
                 return camera.GetCinemachineComponent<CinemachinePOV>();
             return null;
         }
 
-        public void RotateFromDelta(InputAction.CallbackContext ctx)
+        // TODO remove
+        public void RotateFromDelta_(InputAction.CallbackContext ctx)
         {
             var rigidBody = gameObject.GetComponent<Rigidbody>();
             if (rigidBody == null)
@@ -152,6 +180,7 @@ namespace vrm
             if (rigidBody == null)
             {
                 GetComponent<ScatterRigidbodyChildren>().FromCompOnMovementBreak();
+                rigidBody = gameObject.GetComponent<Rigidbody>();
                 if (rigidBody == null)
                     throw new SystemException("aaaa");
             }
