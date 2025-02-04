@@ -23,12 +23,16 @@ namespace vrm
         private GameObject m_Active;
         private IDictionary<GameObject, Action<CallbackContext>> m_MouseDeltaCallbacks = new Dictionary<GameObject, Action<CallbackContext>>();
 
+        [SerializeField] private bool m_DebugDraw = false;
+        [SerializeField] private float m_ScreenDistanceThreshold = 1f;
+        [SerializeField] private float m_CenterDistanceThreshold = 1f;
+
         public void ResetMouseDeltaCallbacks()
         {
             InputAction rotateAction = GameManager.Instance.player.playerInput.currentActionMap["Rotate"];
             if (m_MouseDeltaCallbacks.Count > 1)
             {
-                GameObject originalKey = null; 
+                GameObject originalKey = null;
                 foreach (var pair in m_MouseDeltaCallbacks)
                 {
                     if (pair.Key == gameObject)
@@ -70,25 +74,35 @@ namespace vrm
             if (m_MouseDeltaCallbacks.Count == 1)
                 return gameObject;
 
-            float currentDistance = Mathf.Infinity;
-            int index = -1;
-            IList<GameObject> list = GetChildComponents();
-            foreach (GameObject gameObject in list)
+            IList<Tuple<GameObject, float>> list = GetChildComponents()
+                .Select(obj => new Tuple<GameObject, float>(obj, Methods.CheckScreenCircleIntersection(obj, 10f, true)))
+                //.Select(tup => { Debug.Log($"INTERSECTION: {tup.Item1} at {tup.Item2}"); return tup; }) // TODO comment when you are done
+                .Where(tup => tup.Item2 > 0f)
+                .ToList();
+            if (list.Count > 0)
             {
-                int current = 0;
-                float screenSpaceDist = Methods.CheckScreenCircleIntersection(gameObject, 10f);
-                if (screenSpaceDist >= 0 && screenSpaceDist < currentDistance)
+                GameObject selected = list.Aggregate((acc, current) =>
                 {
-                    index = current;
-                    currentDistance = screenSpaceDist;
-                }
-            }
+                    Vector3 accCenter = acc.Item1.GetComponent<Renderer>().bounds.center;
+                    Vector3 currCenter = current.Item1.GetComponent<Renderer>().bounds.center;
 
-            Debug.Log($"Multiple: Active Rotator is {(index == -1 ? "Nobody" : list[index])}");
-            if (index == -1)
-                return null;
+                    // World-space distance from the camera center
+                    float accCenterDist = Vector3.Distance(Camera.main.transform.position, accCenter);
+                    float currCenterDist = Vector3.Distance(Camera.main.transform.position, currCenter);
+
+                    // Hybrid score combining screen-space and center distance
+                    float accScore = (acc.Item2 * m_ScreenDistanceThreshold) - (accCenterDist * m_CenterDistanceThreshold);
+                    float currScore = (current.Item2 * m_ScreenDistanceThreshold) - (currCenterDist * m_CenterDistanceThreshold);
+
+                    return (currScore > accScore) ? current : acc;
+                }).Item1;
+
+                Debug.Log($"Selected: {selected}");
+
+                return selected;
+            }
             else
-                return list[index];
+                return null;
         }
 
         private void Start()
@@ -96,6 +110,14 @@ namespace vrm
             m_MouseDeltaCallbacks.Add(gameObject, Methods.ParentMouseDeltaCallback(gameObject));
             OnGameStarted = () =>
             {
+                if (m_DebugDraw)
+                {
+                    foreach (var obj in GetChildComponents())
+                    {
+                        var comp = obj.AddComponent<DebugDrawBounds>();
+                        comp.DrawScreenProjected = true;
+                    }
+                }
                 GameManager.Instance.player.GrabCallbackEvent += OnInteract;
                 var rigidBody = gameObject.AddComponent<Rigidbody>(); // TODO mass
                 rigidBody.isKinematic = false;

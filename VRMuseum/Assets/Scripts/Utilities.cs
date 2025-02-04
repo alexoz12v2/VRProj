@@ -133,11 +133,12 @@ namespace vrm
             return null;
         }
 
-        // Meant for desktop only
-        public static float CheckScreenCircleIntersection(GameObject target, float radius)
+        // Meant for desktop only, radius is a percentage relative to the smaller screen dimension
+        public static float CheckScreenCircleIntersection(GameObject target, float radius, bool lookSelf = false)
         {
+            radius *= 0.01f * Math.Min(Screen.width, Screen.height);
             Vector2 screenCenter = new(Screen.width / 2, Screen.height / 2);
-            Bounds bounds = BoundsInChildren(target.transform);
+            Bounds bounds = lookSelf ? target.GetComponent<Renderer>().bounds : BoundsInChildren(target.transform);
 
             // Get all 8 corners of the bounds
             Vector3[] worldCorners = GetBoundsCorners(bounds);
@@ -177,7 +178,7 @@ namespace vrm
             return -1f;
         }
         // Get all 8 corners of the bounds
-        private static Vector3[] GetBoundsCorners(Bounds bounds)
+        public static Vector3[] GetBoundsCorners(Bounds bounds)
         {
             Vector3 center = bounds.center;
             Vector3 extents = bounds.extents;
@@ -198,28 +199,26 @@ namespace vrm
         // Check if a circle intersects with the projected quad
         private static bool CircleIntersectsPolygon(Vector2 circleCenter, float radius, List<Vector2> polygon)
         {
-            // Check if any point of the polygon is inside the circle
+            // Step 1: Get the AABB (axis-aligned bounding box) from the polygon points
+            Vector2 min = new Vector2(float.MaxValue, float.MaxValue);
+            Vector2 max = new Vector2(float.MinValue, float.MinValue);
+
             foreach (var point in polygon)
             {
-                if (Vector2.Distance(circleCenter, point) <= radius)
-                    return true;
+                min = Vector2.Min(min, point);
+                max = Vector2.Max(max, point);
             }
 
-            // Check if any edge of the polygon intersects with the circle
-            for (int i = 0; i < polygon.Count; i++)
-            {
-                Vector2 p1 = polygon[i];
-                Vector2 p2 = polygon[(i + 1) % polygon.Count];
+            // Step 2: Find the closest point on the rectangle to the circle's center
+            Vector2 closestPoint = new Vector2(
+                Mathf.Clamp(circleCenter.x, min.x, max.x),
+                Mathf.Clamp(circleCenter.y, min.y, max.y)
+            );
 
-                if (LineIntersectsCircle(p1, p2, circleCenter, radius))
-                    return true;
-            }
+            // Step 3: Check if the distance between the circle's center and the closest point is within the radius
+            float distanceSquared = (circleCenter - closestPoint).sqrMagnitude;
 
-            // Check if circle is entirely within the polygon
-            if (IsPointInPolygon(circleCenter, polygon))
-                return true;
-
-            return false;
+            return distanceSquared <= radius * radius;
         }
 
         // Check if a line segment intersects with a circle
@@ -402,8 +401,10 @@ namespace vrm
         {
             return ctx =>
             {
+                Debug.Log($"Rotation Callback for {gameObject}, predicate...");
                 if (pred(gameObject, ctx))
                 {
+                    Debug.Log($"Rotation Callback for {gameObject},After predicate"); 
                     Quaternion rot = QuaternionFromMouseDelta(ctx.ReadValue<Vector2>(), angularSpeed);
                     gameObject.transform.rotation = rot * gameObject.transform.rotation;
                 }

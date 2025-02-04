@@ -35,7 +35,7 @@ namespace vrm
 
             IDictionary<GameObject, Action<CallbackContext>> callbacks = Methods.GetChildRigidbodies(gameObject)
                 .Select(r => r.gameObject)
-                .Select(obj => new Tuple<GameObject, Action<CallbackContext>>(obj, new Action<CallbackContext>((CallbackContext ctx) => Methods.ParentMouseDeltaCallback(obj))))
+                .Select(obj => new Tuple<GameObject, Action<CallbackContext>>(obj, Methods.ParentMouseDeltaCallback(obj)))
                 .ToDictionary(t => t.Item1, t => t.Item2);
             component.AddAllMouseDeltaCallbacks(callbacks);
         }
