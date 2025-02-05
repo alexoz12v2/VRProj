@@ -84,26 +84,28 @@ namespace vrm
             if (!isValidState(GameManager.Instance.GameState))
                 throw new SystemException("What");
 
-            if (!GameManager.Instance.GameState.HasFlag(GameState.TinkerableDecomposed))
+            if (!GameManager.Instance.GameState.HasFlag(GameState.Paused) && !GameManager.Instance.GameState.HasFlag(GameState.TinkerableDecomposed))
             { // TODO Use specific layer for explosion, and move all components in there
-                Methods.ForEachChildWith(gameObject, (child) => child.CompareTag("Component"), (child) => child.AddComponent<Rigidbody>());
-                Methods.RemoveComponent<Rigidbody>(gameObject); // Unity readds it if there are any RequireComponent[Rigidbody]
+                Methods.ForEachChildWith(gameObject, (child) => child.CompareTag(Tags.Component), (child) => child.AddComponent<Rigidbody>());
+                Methods.RemoveComponent<Rigidbody>(gameObject); // Unity reads it if there are any RequireComponent[Rigidbody]
                 IList<Rigidbody> rigidbodies = Methods.GetChildRigidbodies(gameObject);
 
                 InputAction explodeAction = GameManager.Instance.player.playerInput.currentActionMap["Explode"];
-                var barrier = Methods.FindFirstChildRecursive(gameObject, (child) => child.CompareTag("ExplosionBarrier"));
+                var barrier = Methods.FindFirstChildRecursive(gameObject, (child) => child.CompareTag(Tags.ExplosionBarrier));
                 Methods.ForEachComponent<Collider>(barrier, (collider) => collider.enabled = true);
                 Debug.Log("Remove Input Action Event");
+                GameManager.Instance.player.playerInput.currentActionMap["Move"].Disable();
                 m_ExplosionTask = new Task(processExplosion(0.3f, rigidbodies));
                 m_ExplosionTask.Finished += (manual) =>
                 {
                     Debug.Log("Add Input Action Event");
                     explodeAction.performed += OnExplode;
                     Methods.ForEachComponent<Collider>(barrier, (collider) => collider.enabled = false);
+                    GameManager.Instance.player.playerInput.currentActionMap["Move"].Enable();
                 };
                 explodeAction.performed -= OnExplode;
             }
-            else
+            else if (!GameManager.Instance.GameState.HasFlag(GameState.Paused))
             {
                 HandleExplosionTermination();
             }
@@ -111,7 +113,7 @@ namespace vrm
 
         private void HandleExplosionTermination()
         {
-            Methods.ForEachChildWith(gameObject, (child) => child.CompareTag("Component"), (child) =>
+            Methods.ForEachChildWith(gameObject, (child) => child.CompareTag(Tags.Component), (child) =>
             {
                 Methods.RemoveComponent<Rigidbody>(child);
                 child.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
@@ -130,6 +132,7 @@ namespace vrm
             {
                 Vector3 dir = UnityEngine.Random.insideUnitCircle;
                 dir.z = UnityEngine.Random.value * depthIntensity;
+                dir.y = Math.Abs(dir.y);
                 dir.Normalize();
                 rb.isKinematic = false;
                 rb.useGravity = false;

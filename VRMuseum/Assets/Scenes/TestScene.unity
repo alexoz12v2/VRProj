@@ -3235,7 +3235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _xrControllerPrefab: {fileID: 586536773}
   _fallbackPrefab: {fileID: 1779700040}
-  _forceDesktop: 1
+  _forceDesktop: 0
 --- !u!4 &1804266685
 Transform:
   m_ObjectHideFlags: 0
