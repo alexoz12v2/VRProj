@@ -8,6 +8,7 @@ using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using UnityEngine.XR.Interaction.Toolkit;
 using static UnityEngine.InputSystem.InputAction;
 
 namespace vrm
@@ -19,13 +20,16 @@ namespace vrm
         private Action OnGameDestroy;
 
         private bool grabbed = false;
-        private bool inInteraction = false;
         private GameObject m_Active;
         private IDictionary<GameObject, Action<CallbackContext>> m_MouseDeltaCallbacks = new Dictionary<GameObject, Action<CallbackContext>>();
 
         [SerializeField] private bool m_DebugDraw = false;
+        [Header("Desktop Settings")]
         [SerializeField] private float m_ScreenDistanceThreshold = 1f;
         [SerializeField] private float m_CenterDistanceThreshold = 1f;
+
+        private GameObject m_Left = null;
+        private GameObject m_Right = null;
 
         public void ResetMouseDeltaCallbacks()
         {
@@ -76,7 +80,7 @@ namespace vrm
 
             IList<Tuple<GameObject, float>> list = GetChildComponents()
                 .Select(obj => new Tuple<GameObject, float>(obj, Methods.CheckScreenCircleIntersection(obj, 10f, true)))
-                //.Select(tup => { Debug.Log($"INTERSECTION: {tup.Item1} at {tup.Item2}"); return tup; }) // TODO comment when you are done
+                .Select(tup => { Debug.Log($"INTERSECTION: {tup.Item1} at {tup.Item2}"); return tup; }) // TODO comment when you are done
                 .Where(tup => tup.Item2 > 0f)
                 .ToList();
             if (list.Count > 0)
@@ -118,7 +122,17 @@ namespace vrm
                         comp.DrawScreenProjected = true;
                     }
                 }
-                GameManager.Instance.player.GrabCallbackEvent += OnInteract;
+                if (!DeviceCheckAndSpawn.Instance.isXR)
+                {
+                    GameManager.Instance.player.GrabCallbackEvent += OnInteract;
+                }
+                else
+                {
+                    //(m_Left, m_Right) = Methods.GetXRControllers(Camera.main.gameObject);
+                    //if (m_Left == null || m_Right == null)
+                    //    throw new SystemException("You Should set left and right as the gameobjects containing a hierarchy of XRController components and interactors");
+                    gameObject.AddComponent<XRGrabInteractable>();
+                }
                 var rigidBody = gameObject.AddComponent<Rigidbody>(); // TODO mass
                 rigidBody.isKinematic = false;
                 rigidBody.useGravity = true;
@@ -169,7 +183,7 @@ namespace vrm
                     GameManager.Instance.player.MovementBreak += OnMovementBreak;
                 }
             }
-            else if (grabbed)
+            else if (grabbed && !GameManager.Instance.GameState.HasFlag(GameState.Paused))
             {
                 var pov = getCinemachineCameraPOV();
                 if (pressed)
@@ -190,7 +204,6 @@ namespace vrm
                         GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed += m_MouseDeltaCallbacks[m_Active];
                         var rigidBody = m_Active.GetComponent<Rigidbody>(); // shouldn't be null
                         rigidBody.constraints = RigidbodyConstraints.FreezePosition; // Freeze all movement
-                        inInteraction = true;
                     }
                 }
                 else if (released)
@@ -205,7 +218,7 @@ namespace vrm
                     if (m_Active)
                     {
                         var rigidBody = m_Active.GetComponent<Rigidbody>(); // shouldn't be null
-                        rigidBody.isKinematic = true;
+                        //rigidBody.isKinematic = true;
                         rigidBody.useGravity = true;
                         rigidBody.constraints = RigidbodyConstraints.None; // Release the position constraint
                         GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed -= m_MouseDeltaCallbacks[m_Active];
@@ -213,7 +226,6 @@ namespace vrm
                     }
 
                     GameManager.Instance.player.playerInput.currentActionMap["Move"].Enable();
-                    inInteraction = false;
                 }
             }
         }
@@ -227,6 +239,8 @@ namespace vrm
             return null;
         }
 
+        // TODO: 1) If this is called while the object is being destructured, exceptions
+        // TODO: 2) Reposition object to its starting transform 
         private void OnMovementBreak()
         {
             var rigidBody = gameObject.GetComponent<Rigidbody>();

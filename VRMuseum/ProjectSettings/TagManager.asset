@@ -12,6 +12,8 @@ TagManager:
   - CameraSocket
   - ExplosionBarrier
   - Component
+  - LeftXRController
+  - RightXRController
   layers:
   - Default
   - TransparentFX

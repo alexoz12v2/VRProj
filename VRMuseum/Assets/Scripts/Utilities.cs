@@ -19,6 +19,26 @@ namespace vrm
         Grabbed = 10,
         GrabbedOutline = 11,
     }
+
+    public class Tags
+    {
+        public string Value { get; private set; }
+
+        private Tags(string value) { Value = value; }
+        public override string ToString() { return Value; }
+        public static implicit operator string(Tags _taga) => _taga.Value;
+
+        public static Tags UIContent = new("UIContent");
+        public static Tags UIParagraphTitle = new("UIParagraphTitle");
+        public static Tags UIParagraphButton = new("UIParagraphButton");
+        public static Tags UICanvas = new("UICanvas");
+        public static Tags CameraSocket = new("CameraSocket");
+        public static Tags ExplosionBarrier = new("ExplosionBarrier");
+        public static Tags Component = new("Component");
+        public static Tags LeftXRController = new("LeftXRController");
+        public static Tags RightXRController = new("RightXRController");
+    }
+
     public class SingletonList<T> : IList<T>
     {
         private readonly T _item;
@@ -413,7 +433,11 @@ namespace vrm
 
         static public Action<UnityEngine.InputSystem.InputAction.CallbackContext> ParentMouseDeltaCallback(GameObject gameObject, float angleSpeed = 5f)
         {
-            return Methods.RotateFromDeltaCallback(gameObject, (obj, ctx) => obj.GetComponent<Rigidbody>() != null && ctx.performed, angleSpeed);
+            return RotateFromDeltaCallback(gameObject, (obj, ctx) => obj.GetComponent<Rigidbody>() != null && ctx.performed, angleSpeed);
+        }
+
+        static public Tuple<GameObject, GameObject> GetXRControllers(GameObject parent) {
+            return new(FindFirstChildRecursive(parent, obj => obj.CompareTag(Tags.LeftXRController)), FindFirstChildRecursive(parent, obj => obj.CompareTag(Tags.RightXRController)));
         }
     }
 
