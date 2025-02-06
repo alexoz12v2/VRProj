@@ -97,7 +97,7 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 3584
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -272,6 +272,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 57263d8b-6e73-46a6-bfb8-c2cc992d24b4
     m_ActionName: Player Controls/Interact[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 63482e68-aa3c-486b-a0b8-008644b56cd3
+    m_ActionName: Player Controls/Rotate[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a0df8095-78ad-4d33-b0f7-46b36113f055
+    m_ActionName: Player Controls/Explode[/Keyboard/f]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8590957d-56c2-4cf9-ae14-2f43e8bc2d17
+    m_ActionName: Player Controls/Elevate[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bd3260b5-b06a-4835-ad34-fa68c2bcfbd8
+    m_ActionName: Player Controls/Lower[/Keyboard/q]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player Controls

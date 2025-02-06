@@ -193,6 +193,17 @@
                 },
                 {
                     "name": "",
+                    "id": "77e1e6a5-0d0b-4e5b-9dbd-73dd42ac897e",
+                    "path": "<XRController>{RightHand}/{Primary2DAxis}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";XR",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "442e6c9f-ec4d-4fb7-8c57-bf31f9abdc33",
                     "path": "<Mouse>/delta",
                     "interactions": "",
