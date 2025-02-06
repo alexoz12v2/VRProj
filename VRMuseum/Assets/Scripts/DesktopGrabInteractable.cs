@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Unity.XR.CoreUtils;
@@ -167,6 +168,9 @@ namespace vrm
 
         private void ConfigureXRSimpleInteractable(XRSimpleInteractable interactable)
         {
+            // set the layer such that Direct interactor cannot see you
+            interactable.interactionLayers = (int)InteractionLayers.Grabbed;
+
             // allow to select multiple objects at the same time
             interactable.selectMode = InteractableSelectMode.Multiple;
 
@@ -179,7 +183,7 @@ namespace vrm
             interactable.deactivated.AddListener(OnDeactivate);
         }
 
-        private IXRSelectInteractor m_LastSelectInteractor = null;
+        private IXRSelectInteractor m_XRLastSelectInteractor = null;
         private void OnHoverEnter(HoverEnterEventArgs args)
         {
             Debug.Log("hoverEntered");
@@ -192,26 +196,37 @@ namespace vrm
             gameObject.SetLayerRecursively((int)Layers.Default);
         }
 
+        // TODO Fix the fact that the direcct interactor is preferred over the ray interactor??
         private void OnSelectEnter(SelectEnterEventArgs args)
         {
-            Debug.Log("eelectEntered");
-            if (m_LastSelectInteractor != null)
+            GameObject interactorObj = args.interactorObject.transform.gameObject;
+            InputAction moveAction = GameManager.Instance.player.playerInput.currentActionMap["Move"];
+            if (moveAction == null)
+                throw new SystemException("Couldn't find move action");
+            Debug.Log($"eelectEntered Interactor: {interactorObj.name}");
+
+            string bindingPathRegex = Methods.PathRegexFromTag(interactorObj);
+            if (m_XRLastSelectInteractor != null)
             {
                 Methods.RemoveComponent<FollowTargetPosition>(args.interactableObject.transform.gameObject);
+                Methods.EnableAllBindingsWith(moveAction, b => b.path.StartsWith("<XRController>"));
             }
 
-            if (m_LastSelectInteractor == null || m_LastSelectInteractor.transform.gameObject != args.interactorObject.transform.gameObject)
+            if (m_XRLastSelectInteractor == null || m_XRLastSelectInteractor.transform.gameObject != args.interactorObject.transform.gameObject)
             {
                 var component = args.interactableObject.transform.gameObject.AddComponent<FollowTargetPosition>();
-                // TODO configurable parameters
-                component.Offset = Vector3.up * 0.1f;
+                component.Offset = Vector3.up * 0.1f; // TODO configurable
                 component.DampingStrength = 10f; 
-                component.ForceStrength = 3f;
+                component.ForceStrength = 30f;
                 component.Target = args.interactorObject.transform.gameObject;
-                m_LastSelectInteractor = args.interactorObject;
+                m_XRLastSelectInteractor = args.interactorObject;
+                Methods.DisableBinding(moveAction, b => b.path.StartsWith(bindingPathRegex));
+                Methods.DebugPrintPredicate(moveAction.bindings, b => b.overridePath != null);
             }
-            else if (m_LastSelectInteractor.transform.gameObject == args.interactorObject.transform.gameObject)
+            else if (m_XRLastSelectInteractor.transform.gameObject == args.interactorObject.transform.gameObject)
             {
+                m_XRLastSelectInteractor = null;
+                Debug.LogWarning("Exiting");
                 var rigidbody = args.interactableObject.transform.gameObject.GetComponent<Rigidbody>();
                 if (rigidbody != null)
                 {
@@ -219,6 +234,7 @@ namespace vrm
                     rigidbody.useGravity = true;
                     rigidbody.AddRelativeForce(Vector3.forward, ForceMode.Impulse);
                 }
+                Methods.DebugPrintPredicate(moveAction.bindings, b => b.overridePath != null);
             }
         }
 
