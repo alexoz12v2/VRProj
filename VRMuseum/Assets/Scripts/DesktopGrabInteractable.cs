@@ -200,17 +200,19 @@ namespace vrm
                 Methods.RemoveComponent<FollowTargetPosition>(args.interactableObject.transform.gameObject);
             }
 
-            if (m_LastSelectInteractor == null || m_LastSelectInteractor != args.interactorObject)
+            if (m_LastSelectInteractor == null || m_LastSelectInteractor.transform.gameObject != args.interactorObject.transform.gameObject)
             {
                 var component = args.interactableObject.transform.gameObject.AddComponent<FollowTargetPosition>();
-                component.Offset = Vector3.up;
-                component.DampingStrength = 1f; // TODO configurable parameter
+                // TODO configurable parameters
+                component.Offset = Vector3.up * 0.1f;
+                component.DampingStrength = 10f; 
+                component.ForceStrength = 3f;
                 component.Target = args.interactorObject.transform.gameObject;
                 m_LastSelectInteractor = args.interactorObject;
             }
-            else if (m_LastSelectInteractor == args.interactorObject)
+            else if (m_LastSelectInteractor.transform.gameObject == args.interactorObject.transform.gameObject)
             {
-                var rigidbody = args.interactorObject.transform.gameObject.GetComponent<Rigidbody>();
+                var rigidbody = args.interactableObject.transform.gameObject.GetComponent<Rigidbody>();
                 if (rigidbody != null)
                 {
                     rigidbody.isKinematic = false;

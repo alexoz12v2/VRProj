@@ -453,6 +453,7 @@ namespace vrm
         public bool ForceDisableGravity = true;
         public float StoppingDistance = 0.1f;
         public float DampingStrength = 10f;
+        public float ForceStrength = 1f;
 
         private void LateUpdate()
         {
@@ -489,7 +490,7 @@ namespace vrm
                     // Compute velocity to reach the target smoothly (Critically damped motion)
                     Vector3 targetVelocity = direction.normalized * SmoothSpeed;
                     Vector3 velocityError = targetVelocity - rigidbody.velocity; 
-                    rigidbody.AddForce((forceDirection) + velocityError * DampingStrength, ForceMode.Acceleration);
+                    rigidbody.AddForce(forceDirection * ForceStrength + velocityError * DampingStrength, ForceMode.Acceleration);
                 }
             }
         }
