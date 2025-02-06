@@ -441,4 +441,58 @@ namespace vrm
         }
     }
 
+    public class FollowTargetPosition : MonoBehaviour 
+    {
+        [Header("General")]
+        public GameObject Target = null;
+        public Vector3 Offset = Vector3.zero;
+        public float SmoothSpeed = 1.0f;
+
+        [Header("For Targets having a rigidbody")]
+        public bool ForceKinematic = false;
+        public bool ForceDisableGravity = true;
+        public float StoppingDistance = 0.1f;
+        public float DampingStrength = 10f;
+
+        private void LateUpdate()
+        {
+            if (Target == null)
+                return;
+            var rigidbody = GetComponent<Rigidbody>();
+            bool noForce = true;
+            if (rigidbody)
+            {
+                if (ForceDisableGravity)
+                    rigidbody.useGravity = false;
+                if (ForceKinematic)
+                    rigidbody.isKinematic = true;
+                else
+                    noForce = false;
+            }
+
+            if (noForce)
+            {
+                transform.position = Vector3.Lerp(transform.position, Target.transform.position + Offset, Time.deltaTime * SmoothSpeed);
+            }
+            else
+            {
+                Vector3 desiredPosition = Target.transform.position + Offset;
+                Vector3 direction = desiredPosition - transform.position;
+                Vector3 forceDirection = direction * SmoothSpeed;
+                float distance = direction.magnitude;
+                if (distance < StoppingDistance)
+                {
+                    rigidbody.velocity = Vector3.zero;
+                }
+                else
+                {
+                    // Compute velocity to reach the target smoothly (Critically damped motion)
+                    Vector3 targetVelocity = direction.normalized * SmoothSpeed;
+                    Vector3 velocityError = targetVelocity - rigidbody.velocity; 
+                    rigidbody.AddForce((forceDirection) + velocityError * DampingStrength, ForceMode.Acceleration);
+                }
+            }
+        }
+    }
+
 }

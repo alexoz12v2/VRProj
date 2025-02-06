@@ -665,6 +665,7 @@ GameObject:
   - component: {fileID: 2556663463544994778}
   - component: {fileID: 4640033801682108113}
   - component: {fileID: 5780404737004597559}
+  - component: {fileID: 1912852546446440320}
   m_Layer: 0
   m_Name: Left Direct Interactor
   m_TagString: Untagged
@@ -1003,6 +1004,27 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_PhysicsTriggerInteraction: 1
+--- !u!65 &1912852546446440320
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982893680282882783}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2161413476972083774
 GameObject:
   m_ObjectHideFlags: 0
@@ -2665,6 +2687,7 @@ GameObject:
   - component: {fileID: 430055310032331232}
   - component: {fileID: 2503186014545861169}
   - component: {fileID: 1229766341484153693}
+  - component: {fileID: 6002664037633522653}
   m_Layer: 0
   m_Name: Right Direct Interactor
   m_TagString: Untagged
@@ -3003,3 +3026,24 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_PhysicsTriggerInteraction: 1
+--- !u!65 &6002664037633522653
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8998011076478725023}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

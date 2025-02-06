@@ -128,12 +128,14 @@ namespace vrm
                 }
                 else
                 {
-                    //(m_Left, m_Right) = Methods.GetXRControllers(Camera.main.gameObject);
-                    //if (m_Left == null || m_Right == null)
-                    //    throw new SystemException("You Should set left and right as the gameobjects containing a hierarchy of XRController components and interactors");
-                    gameObject.AddComponent<XRGrabInteractable>();
+                    (m_Left, m_Right) = Methods.GetXRControllers(Camera.main.gameObject.transform.parent.gameObject);
+                    if (m_Left == null || m_Right == null)
+                        throw new SystemException("You Should set left and right as the gameobjects containing a hierarchy of XRController components and interactors");
+                    ConfigureXRSimpleInteractable(gameObject.AddComponent<XRSimpleInteractable>());
                 }
-                var rigidBody = gameObject.AddComponent<Rigidbody>(); // TODO mass
+                Rigidbody rigidBody = null;
+                while (rigidBody == null)
+                    rigidBody = gameObject.AddComponent<Rigidbody>(); // TODO mass
                 rigidBody.isKinematic = false;
                 rigidBody.useGravity = true;
             };
@@ -147,9 +149,10 @@ namespace vrm
             GameManager.Instance.GameDestroy += OnGameDestroy;
         }
 
+        // TODO maybe: any optional logic to a nested component?
         private void Update()
         {
-            if (!grabbed)
+            if (!grabbed && !DeviceCheckAndSpawn.Instance.isXR)
             {
                 if (Methods.CheckScreenCircleIntersection(gameObject, 10f) >= 0)
                 {
@@ -160,6 +163,55 @@ namespace vrm
                     gameObject.SetLayerRecursively((int)Layers.Default);
                 }
             }
+        }
+
+        private void ConfigureXRSimpleInteractable(XRSimpleInteractable interactable)
+        {
+            // allow to select multiple objects at the same time
+            interactable.selectMode = InteractableSelectMode.Multiple;
+
+            // configure interactable events
+            interactable.hoverEntered.AddListener(OnHoverEnter);
+            interactable.hoverExited.AddListener(OnHoverExit);
+            interactable.selectEntered.AddListener(OnSelectEnter);
+            interactable.selectExited.AddListener(OnSelectExit);
+            interactable.activated.AddListener(OnActivate);
+            interactable.deactivated.AddListener(OnDeactivate);
+        }
+
+        private void OnHoverEnter(HoverEnterEventArgs args)
+        { 
+            Debug.Log("hoverEntered");
+            gameObject.SetLayerRecursively((int)Layers.Outlined);
+        }
+
+        private void OnHoverExit(HoverExitEventArgs args) 
+        {
+            Debug.Log("hoverExited"); 
+            gameObject.SetLayerRecursively((int)Layers.Default);
+        }
+
+        private void OnSelectEnter(SelectEnterEventArgs args) 
+        { 
+            Debug.Log("eelectEntered");
+            var component = args.interactableObject.transform.gameObject.AddComponent<FollowTargetPosition>();
+            component.Offset = Vector3.up;
+            component.Target = args.interactorObject.transform.gameObject;
+        }
+
+        private void OnSelectExit(SelectExitEventArgs args) 
+        { 
+            Debug.Log("selectExited"); 
+        }
+
+        private void OnActivate(ActivateEventArgs args) 
+        { 
+            Debug.Log("activated"); 
+        }
+
+        private void OnDeactivate(DeactivateEventArgs args) 
+        { 
+            Debug.Log("deactivated"); 
         }
 
         private void OnInteract(CallbackContext ctx)

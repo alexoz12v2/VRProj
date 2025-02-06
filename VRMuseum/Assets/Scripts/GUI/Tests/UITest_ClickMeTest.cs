@@ -149,6 +149,7 @@ namespace vrm
             }
         }
 
+        /*
         public void OnBeginHover(HoverEnterEventArgs args)
         {
             Ray ray = new Ray(args.interactorObject.transform.position, args.interactorObject.transform.forward);
@@ -166,6 +167,7 @@ namespace vrm
                 gameObject.SetLayerRecursively((int)Layers.Default);
             }
         }
+        */
 
         public void OnActivateXR(SelectEnterEventArgs args)
         {
