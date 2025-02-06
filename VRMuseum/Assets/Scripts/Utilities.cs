@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Unity;
 using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.PlayerLoop;
 
 namespace vrm
@@ -18,6 +19,14 @@ namespace vrm
         Outlined = 8,
         Grabbed = 10,
         GrabbedOutline = 11,
+    }
+
+    [Flags]
+    public enum InteractionLayers : int
+    {
+        Default = 0,
+        Grabbed = 1 << 30,
+        Teleport = 1 << 31
     }
 
     public class Tags
@@ -37,6 +46,8 @@ namespace vrm
         public static Tags Component = new("Component");
         public static Tags LeftXRController = new("LeftXRController");
         public static Tags RightXRController = new("RightXRController");
+        public static Tags LeftXRControllerChild = new("LeftXRControllerChild");
+        public static Tags RightXRControllerChild = new("RightXRControllerChild");
     }
 
     public class SingletonList<T> : IList<T>
@@ -438,6 +449,57 @@ namespace vrm
 
         static public Tuple<GameObject, GameObject> GetXRControllers(GameObject parent) {
             return new(FindFirstChildRecursive(parent, obj => obj.CompareTag(Tags.LeftXRController)), FindFirstChildRecursive(parent, obj => obj.CompareTag(Tags.RightXRController)));
+        }
+
+        static public void DebugPrintPredicate(UnityEngine.InputSystem.Utilities.ReadOnlyArray<InputBinding> bindings, Predicate<InputBinding> pred)
+        {
+            foreach (InputBinding binding in bindings)
+            {
+                if (pred(binding))
+                {
+                    string msg = $"Binding: {binding.path} ";
+                    if (binding.overridePath != null)
+                        msg += $"override {binding.overridePath}";
+                    Debug.Log(msg);
+                }
+            }
+        }
+
+        // To be used with startsWith
+        static public string PathRegexFromTag(GameObject gameObject)
+        {
+            if (gameObject.CompareTag(Tags.LeftXRControllerChild))
+            {
+                return "<XRController>{LeftHand}";
+            }
+            else if (gameObject.CompareTag(Tags.RightXRControllerChild))
+            {
+                return "<XRController>{RightHand}";
+            }
+            else
+                throw new SystemException(
+                    $"Couldn't find controller game object. Name: {gameObject.name} " +
+                    $"Unexpected tag: {gameObject.tag}");
+        }
+
+        static public void DisableBinding(InputAction inputAction, Predicate<InputBinding> predicate)
+        {
+            int bindingIndex = inputAction.bindings.IndexOf(predicate);
+            if (bindingIndex >= 0)
+            {
+                inputAction.ApplyBindingOverride(bindingIndex, "");
+            }
+        }
+
+        static public void EnableAllBindingsWith(InputAction inputAction, Predicate<InputBinding> predicate)
+        {
+            for (int i = 0; i < inputAction.bindings.Count; ++i)
+            {
+                if (predicate(inputAction.bindings[i]))
+                {
+                    inputAction.RemoveBindingOverride(i);
+                }
+            }
         }
     }
 

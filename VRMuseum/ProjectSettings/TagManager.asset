@@ -14,6 +14,8 @@ TagManager:
   - Component
   - LeftXRController
   - RightXRController
+  - LeftXRControllerChild
+  - RightXRControllerChild
   layers:
   - Default
   - TransparentFX
