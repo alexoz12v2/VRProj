@@ -179,39 +179,60 @@ namespace vrm
             interactable.deactivated.AddListener(OnDeactivate);
         }
 
+        private IXRSelectInteractor m_LastSelectInteractor = null;
         private void OnHoverEnter(HoverEnterEventArgs args)
-        { 
+        {
             Debug.Log("hoverEntered");
             gameObject.SetLayerRecursively((int)Layers.Outlined);
         }
 
-        private void OnHoverExit(HoverExitEventArgs args) 
+        private void OnHoverExit(HoverExitEventArgs args)
         {
-            Debug.Log("hoverExited"); 
+            Debug.Log("hoverExited");
             gameObject.SetLayerRecursively((int)Layers.Default);
         }
 
-        private void OnSelectEnter(SelectEnterEventArgs args) 
-        { 
+        private void OnSelectEnter(SelectEnterEventArgs args)
+        {
             Debug.Log("eelectEntered");
-            var component = args.interactableObject.transform.gameObject.AddComponent<FollowTargetPosition>();
-            component.Offset = Vector3.up;
-            component.Target = args.interactorObject.transform.gameObject;
+            if (m_LastSelectInteractor != null)
+            {
+                Methods.RemoveComponent<FollowTargetPosition>(args.interactableObject.transform.gameObject);
+            }
+
+            if (m_LastSelectInteractor == null || m_LastSelectInteractor != args.interactorObject)
+            {
+                var component = args.interactableObject.transform.gameObject.AddComponent<FollowTargetPosition>();
+                component.Offset = Vector3.up;
+                component.DampingStrength = 1f; // TODO configurable parameter
+                component.Target = args.interactorObject.transform.gameObject;
+                m_LastSelectInteractor = args.interactorObject;
+            }
+            else if (m_LastSelectInteractor == args.interactorObject)
+            {
+                var rigidbody = args.interactorObject.transform.gameObject.GetComponent<Rigidbody>();
+                if (rigidbody != null)
+                {
+                    rigidbody.isKinematic = false;
+                    rigidbody.useGravity = true;
+                    rigidbody.AddRelativeForce(Vector3.forward, ForceMode.Impulse);
+                }
+            }
         }
 
-        private void OnSelectExit(SelectExitEventArgs args) 
-        { 
-            Debug.Log("selectExited"); 
+        private void OnSelectExit(SelectExitEventArgs args)
+        {
+            Debug.Log("selectExited");
         }
 
-        private void OnActivate(ActivateEventArgs args) 
-        { 
-            Debug.Log("activated"); 
+        private void OnActivate(ActivateEventArgs args)
+        {
+            Debug.Log("activated");
         }
 
-        private void OnDeactivate(DeactivateEventArgs args) 
-        { 
-            Debug.Log("deactivated"); 
+        private void OnDeactivate(DeactivateEventArgs args)
+        {
+            Debug.Log("deactivated");
         }
 
         private void OnInteract(CallbackContext ctx)

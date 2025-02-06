@@ -460,7 +460,7 @@ namespace vrm
                 return;
             var rigidbody = GetComponent<Rigidbody>();
             bool noForce = true;
-            if (rigidbody)
+            if (rigidbody != null)
             {
                 if (ForceDisableGravity)
                     rigidbody.useGravity = false;
