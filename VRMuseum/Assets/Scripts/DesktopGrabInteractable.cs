@@ -27,6 +27,8 @@ namespace vrm
 
         private HandInteractors m_Left = null;
         private HandInteractors m_Right = null;
+        private Vector3 m_startingPosition = Vector3.zero;
+        private Quaternion m_startingRotation = Quaternion.identity;
 
         public void ResetMouseDeltaCallbacks()
         {
@@ -109,6 +111,8 @@ namespace vrm
         private void Start()
         {
             m_MouseDeltaCallbacks.Add(gameObject, Methods.ParentMouseDeltaCallback(gameObject));
+            m_startingPosition = transform.position;
+            m_startingRotation = transform.rotation;
             OnGameStarted = () =>
             {
                 if (m_DebugDraw)
@@ -394,6 +398,10 @@ namespace vrm
                 //rigidBody.constraints = RigidbodyConstraints.None; // Release the position constraint
                 GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed -= m_MouseDeltaCallbacks[m_Active];
                 m_Active = null;
+                rigidBody.isKinematic = false;
+                gameObject.transform.position = m_startingPosition;
+                gameObject.transform.rotation = m_startingRotation;
+                rigidBody.isKinematic = m_ParentRigidbodyKinematic;
             }
         }
 
