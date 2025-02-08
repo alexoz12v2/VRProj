@@ -327,6 +327,13 @@ namespace vrm
         private void OnActivate(ActivateEventArgs args)
         {
             Debug.Log("activated");
+            if (args.interactorObject is XRRayInteractor)
+            {
+                Methods.ForEachChildWith(gameObject, child => child.CompareTag(Tags.Component), child =>
+                {
+                    child.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                });
+            }
             //GetComponent<ScatterRigidbodyChildren>().HandleObjectDecomposition();
         }
 
