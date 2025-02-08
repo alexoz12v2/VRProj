@@ -237,6 +237,17 @@
                 },
                 {
                     "name": "",
+                    "id": "a57aaf54-10b3-48c6-bec2-69a629b775d7",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "ScaleVector2(x=5,y=5)",
+                    "groups": ";XR",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "b24a7be4-5315-4b74-b02a-27f0aed68295",
                     "path": "<Keyboard>/f",
                     "interactions": "",

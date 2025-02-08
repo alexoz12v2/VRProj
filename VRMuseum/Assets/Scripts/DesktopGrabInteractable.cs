@@ -201,6 +201,7 @@ namespace vrm
         {
             GameObject interactorObj = args.interactorObject.transform.gameObject;
             InputAction moveAction = GameManager.Instance.player.playerInput.currentActionMap["Move"];
+            InputAction rotateAction = GameManager.Instance.player.playerInput.currentActionMap["Rotate"];
             if (moveAction == null)
                 throw new SystemException("Couldn't find move action");
             Debug.Log($"eelectEntered Interactor: {interactorObj.name}");
@@ -214,17 +215,23 @@ namespace vrm
 
             if (m_XRLastSelectInteractor == null || m_XRLastSelectInteractor.transform.gameObject != args.interactorObject.transform.gameObject)
             {
+                int bindingIndex = rotateAction.bindings.IndexOf(b => b.groups.Contains("XR"));
                 if (m_XRLastSelectInteractor != null)
                 {
                     var vargs = new SelectExitEventArgs();
                     vargs.interactorObject = m_XRLastSelectInteractor;
                     vargs.interactableObject = args.interactableObject;
+                    //string pathToRemove = Methods.XRPrimaryAxisPathHand(m_XRLastSelectInteractor.transform.gameObject);
+                    rotateAction.ApplyBindingOverride(bindingIndex, "");
+
                     var rayInteractor = m_XRLastSelectInteractor.transform.gameObject.GetComponent<XRRayInteractor>();
                     if (rayInteractor != null && rayInteractor.interactablesSelected.Count > 0)
                         rayInteractor.interactionManager.SelectExit(rayInteractor, rayInteractor.interactablesSelected[0]);
                     else
                         Debug.LogError("WHAT");
                 }
+                string path = Methods.XRPrimaryAxisPathHand(args.interactorObject.transform.gameObject);
+                rotateAction.ApplyBindingOverride(bindingIndex, path);
 
                 var component = args.interactableObject.transform.gameObject.AddComponent<FollowTargetPosition>();
                 component.Offset = Vector3.up * 0.1f; // TODO configurable
@@ -234,6 +241,8 @@ namespace vrm
                 m_XRLastSelectInteractor = args.interactorObject;
                 Methods.DisableBinding(moveAction, b => b.path.StartsWith(bindingPathRegex));
                 Methods.DebugPrintPredicate(moveAction.bindings, b => b.overridePath != null);
+
+                ActivateRotationCallbackForActiveObject();
             }
             else if (m_XRLastSelectInteractor.transform.gameObject == args.interactorObject.transform.gameObject)
             {
@@ -251,6 +260,7 @@ namespace vrm
                 Methods.RemoveComponent<FollowTargetPosition>(args.interactableObject.transform.gameObject);
                 Methods.EnableAllBindingsWith(moveAction, b => b.path.StartsWith("<XRController>"));
                 m_XRLastSelectInteractor = null;
+                DeactivateRotationCallbackForActiveObject();
             }
             else
             {
@@ -314,13 +324,7 @@ namespace vrm
                     // TODO register only the callback for the intersected object within the screen space circle and store it for later removal
                     // if store, and removal is alao propagated
                     GameManager.Instance.player.playerInput.currentActionMap["Move"].Disable();
-                    m_Active = GrabActiveRotateGameObject();
-                    if (m_Active != null)
-                    {
-                        GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed += m_MouseDeltaCallbacks[m_Active];
-                        var rigidBody = m_Active.GetComponent<Rigidbody>(); // shouldn't be null
-                        rigidBody.constraints = RigidbodyConstraints.FreezePosition; // Freeze all movement
-                    }
+                    ActivateRotationCallbackForActiveObject();
                 }
                 else if (released)
                 {
@@ -331,18 +335,34 @@ namespace vrm
                         pov.m_VerticalAxis.m_MaxSpeed = 100f;
                     }
 
-                    if (m_Active)
-                    {
-                        var rigidBody = m_Active.GetComponent<Rigidbody>(); // shouldn't be null
-                        //rigidBody.isKinematic = true;
-                        rigidBody.useGravity = true;
-                        rigidBody.constraints = RigidbodyConstraints.None; // Release the position constraint
-                        GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed -= m_MouseDeltaCallbacks[m_Active];
-                        m_Active = null;
-                    }
+                    DeactivateRotationCallbackForActiveObject();
 
                     GameManager.Instance.player.playerInput.currentActionMap["Move"].Enable();
                 }
+            }
+        }
+
+        private void DeactivateRotationCallbackForActiveObject()
+        {
+            if (m_Active)
+            {
+                var rigidBody = m_Active.GetComponent<Rigidbody>(); // shouldn't be null
+                                                                    //rigidBody.isKinematic = true;
+                rigidBody.useGravity = true;
+                //rigidBody.constraints = RigidbodyConstraints.None; // Release the position constraint
+                GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed -= m_MouseDeltaCallbacks[m_Active];
+                m_Active = null;
+            }
+        }
+
+        private void ActivateRotationCallbackForActiveObject()
+        {
+            m_Active = GrabActiveRotateGameObject();
+            if (m_Active != null)
+            {
+                GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed += m_MouseDeltaCallbacks[m_Active];
+                var rigidBody = m_Active.GetComponent<Rigidbody>(); // shouldn't be null
+                //rigidBody.constraints = RigidbodyConstraints.FreezePosition; // Freeze all movement
             }
         }
 

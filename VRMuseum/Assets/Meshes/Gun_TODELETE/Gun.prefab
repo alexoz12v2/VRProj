@@ -430,6 +430,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ad4eeb8e4bd844c9060fe8c9aa0f39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_DebugDraw: 0
+  m_ScreenDistanceThreshold: 1
+  m_CenterDistanceThreshold: 1
 --- !u!114 &5382088888828147138
 MonoBehaviour:
   m_ObjectHideFlags: 0

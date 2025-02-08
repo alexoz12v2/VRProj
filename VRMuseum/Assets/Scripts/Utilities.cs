@@ -428,8 +428,8 @@ namespace vrm
             return xRot * yRot;
         }
 
-        public delegate bool ObjectCallbackPredicate(GameObject obj, UnityEngine.InputSystem.InputAction.CallbackContext ctx);
-        public static Action<UnityEngine.InputSystem.InputAction.CallbackContext> RotateFromDeltaCallback(GameObject gameObject, ObjectCallbackPredicate pred, float angularSpeed)
+        public delegate bool ObjectCallbackPredicate(GameObject obj, InputAction.CallbackContext ctx);
+        public static Action<InputAction.CallbackContext> RotateFromDeltaCallback(GameObject gameObject, ObjectCallbackPredicate pred, float angularSpeed)
         {
             return ctx =>
             {
@@ -437,13 +437,50 @@ namespace vrm
                 if (pred(gameObject, ctx))
                 {
                     Debug.Log($"Rotation Callback for {gameObject},After predicate"); 
-                    Quaternion rot = QuaternionFromMouseDelta(ctx.ReadValue<Vector2>(), angularSpeed);
-                    gameObject.transform.rotation = rot * gameObject.transform.rotation;
+                    Quaternion targetRotation = QuaternionFromMouseDelta(ctx.ReadValue<Vector2>(), angularSpeed) * gameObject.transform.rotation;
+                    var rigidbody = gameObject.GetComponent<Rigidbody>();
+                    if (rigidbody != null && !rigidbody.isKinematic)
+                        ApplyTorqueToRotation(rigidbody, targetRotation, angularSpeed);
+                    else
+                        gameObject.transform.rotation = targetRotation;
                 }
             };
         }
 
-        static public Action<UnityEngine.InputSystem.InputAction.CallbackContext> ParentMouseDeltaCallback(GameObject gameObject, float angleSpeed = 5f)
+        private static void ApplyTorqueToRotation(Rigidbody rb, Quaternion targetRotation, float angularSpeed)
+        {
+            float torqueForce = 10f;  // Increase for stronger input response
+            float dampingFactor = 0.7f;  // Lower = stronger damping (e.g., 0.7 = 30% reduction per frame)
+            float velocityThreshold = 0.1f;  // Minimum speed before stopping
+            float maxAngularSpeed = 5f;  // Prevents excessive spinning
+
+            // Compute the necessary torque
+            Quaternion deltaRotation = targetRotation * Quaternion.Inverse(rb.rotation);
+            deltaRotation.ToAngleAxis(out float rotationAngle, out Vector3 rotationAxis);
+
+            if (rotationAngle > 180f) rotationAngle -= 360f;
+
+            // If rotation difference is small, stop applying torque
+            if (Mathf.Abs(rotationAngle) < velocityThreshold)
+            {
+                rb.angularVelocity = Vector3.zero;  // **Immediate stop for better control**
+                return;
+            }
+
+            // Apply torque only if below max speed
+            Vector3 torque = rotationAxis.normalized * (rotationAngle * torqueForce);
+            if (rb.angularVelocity.magnitude < maxAngularSpeed)
+                rb.AddTorque(torque, ForceMode.VelocityChange);
+
+            // **Stronger Damping**: Slows down rotation more aggressively
+            rb.angularVelocity *= dampingFactor;
+
+            // **Extra Stability**: If angular velocity is too low, force a full stop
+            if (rb.angularVelocity.magnitude < velocityThreshold)
+                rb.angularVelocity = Vector3.zero;
+        }
+
+        static public Action<InputAction.CallbackContext> ParentMouseDeltaCallback(GameObject gameObject, float angleSpeed = 5f)
         {
             return RotateFromDeltaCallback(gameObject, (obj, ctx) => obj.GetComponent<Rigidbody>() != null && ctx.performed, angleSpeed);
         }
@@ -501,6 +538,11 @@ namespace vrm
                     inputAction.RemoveBindingOverride(i);
                 }
             }
+        }
+
+        static public string XRPrimaryAxisPathHand(GameObject interactor)
+        {
+            return "<XRController>{" + (interactor.CompareTag(Tags.LeftXRControllerChild) ? "Left" : "Right") + "Hand}/{Primary2DAxis}";
         }
     }
 
