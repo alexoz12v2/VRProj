@@ -214,6 +214,18 @@ namespace vrm
 
             if (m_XRLastSelectInteractor == null || m_XRLastSelectInteractor.transform.gameObject != args.interactorObject.transform.gameObject)
             {
+                if (m_XRLastSelectInteractor != null)
+                {
+                    var vargs = new SelectExitEventArgs();
+                    vargs.interactorObject = m_XRLastSelectInteractor;
+                    vargs.interactableObject = args.interactableObject;
+                    var rayInteractor = m_XRLastSelectInteractor.transform.gameObject.GetComponent<XRRayInteractor>();
+                    if (rayInteractor != null && rayInteractor.interactablesSelected.Count > 0)
+                        rayInteractor.interactionManager.SelectExit(rayInteractor, rayInteractor.interactablesSelected[0]);
+                    else
+                        Debug.LogError("WHAT");
+                }
+
                 var component = args.interactableObject.transform.gameObject.AddComponent<FollowTargetPosition>();
                 component.Offset = Vector3.up * 0.1f; // TODO configurable
                 component.DampingStrength = 10f; 
@@ -225,22 +237,35 @@ namespace vrm
             }
             else if (m_XRLastSelectInteractor.transform.gameObject == args.interactorObject.transform.gameObject)
             {
-                m_XRLastSelectInteractor = null;
-                Debug.LogWarning("Exiting");
-                var rigidbody = args.interactableObject.transform.gameObject.GetComponent<Rigidbody>();
-                if (rigidbody != null)
-                {
-                    rigidbody.isKinematic = false;
-                    rigidbody.useGravity = true;
-                    rigidbody.AddRelativeForce(Vector3.forward, ForceMode.Impulse);
-                }
-                Methods.DebugPrintPredicate(moveAction.bindings, b => b.overridePath != null);
+                Debug.LogError("You shouldn't be here, set the interactor to Toggle mode");
             }
         }
 
         private void OnSelectExit(SelectExitEventArgs args)
         {
             Debug.Log("selectExited");
+            InputAction moveAction = GameManager.Instance.player.playerInput.currentActionMap["Move"];
+
+            if (m_XRLastSelectInteractor != null)
+            {
+                Methods.RemoveComponent<FollowTargetPosition>(args.interactableObject.transform.gameObject);
+                Methods.EnableAllBindingsWith(moveAction, b => b.path.StartsWith("<XRController>"));
+                m_XRLastSelectInteractor = null;
+            }
+            else
+            {
+                Debug.LogError("Unexpected: SelectExit has no associated interactor");
+            }
+
+            var rigidbody = args.interactableObject.transform.gameObject.GetComponent<Rigidbody>();
+            if (rigidbody != null)
+            {
+                rigidbody.isKinematic = false;
+                rigidbody.useGravity = true;
+                rigidbody.AddRelativeForce(Vector3.forward, ForceMode.Impulse);
+                rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+            }
+            Methods.DebugPrintPredicate(moveAction.bindings, b => b.overridePath != null);
         }
 
         private void OnActivate(ActivateEventArgs args)

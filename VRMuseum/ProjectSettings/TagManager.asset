@@ -29,7 +29,7 @@ TagManager:
   - PlayerGeometry
   - Grabbed
   - GrabbedOutlined
-  - 
+  - Hidden
   - 
   - 
   - 
@@ -52,4 +52,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Layer1
+    uniqueID: 222018681
     locked: 0

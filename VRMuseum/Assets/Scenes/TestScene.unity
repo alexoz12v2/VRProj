@@ -1494,10 +1494,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2058394802}
     m_Modifications:
-    - target: {fileID: 2356554929632635152, guid: bec561858a0bd1548a236252c2aa0fb4, type: 3}
-      propertyPath: m_PlayHapticsOnSelectEntered
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4306016735085799098, guid: bec561858a0bd1548a236252c2aa0fb4, type: 3}
       propertyPath: m_Name
       value: XRRig
