@@ -19,6 +19,7 @@ namespace vrm
         Outlined = 8,
         Grabbed = 10,
         GrabbedOutline = 11,
+        Hidden = 12,
     }
 
     [Flags]
