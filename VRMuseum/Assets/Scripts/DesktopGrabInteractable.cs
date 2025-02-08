@@ -2,15 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 using UnityEngine.XR.Interaction.Toolkit;
-using static UnityEngine.InputSystem.InputAction;
 
 namespace vrm
 {
@@ -22,15 +17,16 @@ namespace vrm
 
         private bool grabbed = false;
         private GameObject m_Active;
-        private IDictionary<GameObject, Action<CallbackContext>> m_MouseDeltaCallbacks = new Dictionary<GameObject, Action<CallbackContext>>();
+        private IDictionary<GameObject, Action<InputAction.CallbackContext>> m_MouseDeltaCallbacks = new Dictionary<GameObject, Action<InputAction.CallbackContext>>();
 
         [SerializeField] private bool m_DebugDraw = false;
         [Header("Desktop Settings")]
         [SerializeField] private float m_ScreenDistanceThreshold = 1f;
         [SerializeField] private float m_CenterDistanceThreshold = 1f;
+        [SerializeField] private bool m_ParentRigidbodyKinematic = false;
 
-        private GameObject m_Left = null;
-        private GameObject m_Right = null;
+        private HandInteractors m_Left = null;
+        private HandInteractors m_Right = null;
 
         public void ResetMouseDeltaCallbacks()
         {
@@ -58,7 +54,7 @@ namespace vrm
             }
         }
 
-        public void AddAllMouseDeltaCallbacks(IDictionary<GameObject, Action<CallbackContext>> actions)
+        public void AddAllMouseDeltaCallbacks(IDictionary<GameObject, Action<InputAction.CallbackContext>> actions)
         {
             foreach (var action in actions)
             {
@@ -129,16 +125,23 @@ namespace vrm
                 }
                 else
                 {
+                    Methods.ForEachChildWith(gameObject, (child) => child.CompareTag(Tags.Component), (child) =>
+                    {
+                        var component = child.AddComponent<XRGrabInteractable>(); // Adds a rigidbody
+                        component.interactionLayers = (int)InteractionLayers.Component;
+                        child.GetComponent<Rigidbody>().isKinematic = true;
+                    });
                     (m_Left, m_Right) = Methods.GetXRControllers(Camera.main.gameObject.transform.parent.gameObject);
                     if (m_Left == null || m_Right == null)
                         throw new SystemException("You Should set left and right as the gameobjects containing a hierarchy of XRController components and interactors");
                     ConfigureXRSimpleInteractable(gameObject.AddComponent<XRSimpleInteractable>());
                 }
-                Rigidbody rigidBody = null;
+                Rigidbody rigidBody = gameObject.GetComponent<Rigidbody>();
                 while (rigidBody == null)
                     rigidBody = gameObject.AddComponent<Rigidbody>(); // TODO mass
-                rigidBody.isKinematic = false;
+                rigidBody.isKinematic = m_ParentRigidbodyKinematic;
                 rigidBody.useGravity = true;
+                // disable child colliders
             };
             OnGameDestroy = () =>
             {
@@ -161,7 +164,7 @@ namespace vrm
                 }
                 else
                 {
-                    gameObject.SetLayerRecursively((int)Layers.Default);
+                    gameObject.SetLayerRecursively((int)Layers.Object);
                 }
             }
         }
@@ -181,6 +184,11 @@ namespace vrm
             interactable.selectExited.AddListener(OnSelectExit);
             interactable.activated.AddListener(OnActivate);
             interactable.deactivated.AddListener(OnDeactivate);
+
+            // colliders
+            //var colliders = gameObject.GetComponents<Collider>();
+            //interactable.colliders.Clear();
+            //interactable.colliders.AddRange(colliders);
         }
 
         private IXRSelectInteractor m_XRLastSelectInteractor = null;
@@ -193,19 +201,37 @@ namespace vrm
         private void OnHoverExit(HoverExitEventArgs args)
         {
             Debug.Log("hoverExited");
-            gameObject.SetLayerRecursively((int)Layers.Default);
+            gameObject.SetLayerRecursively((int)Layers.Object);
+        }
+
+        private Tuple<GameObject, InputAction, InputAction, Hand> XRBasicInteractionData(BaseInteractionEventArgs args)
+        {
+            GameObject interactorObj = args.interactorObject.transform.gameObject;
+            InputAction moveAction = GameManager.Instance.player.playerInput.currentActionMap["Move"];
+            InputAction rotateAction = GameManager.Instance.player.playerInput.currentActionMap["Rotate"];
+            Hand hand = Methods.HandFromInteractor(interactorObj);
+            if (moveAction == null || rotateAction == null)
+                throw new SystemException("AAAAA");
+            return new(interactorObj, moveAction, rotateAction, hand);
         }
 
         // TODO Fix the fact that the direcct interactor is preferred over the ray interactor??
         private void OnSelectEnter(SelectEnterEventArgs args)
         {
-            GameObject interactorObj = args.interactorObject.transform.gameObject;
-            InputAction moveAction = GameManager.Instance.player.playerInput.currentActionMap["Move"];
-            InputAction rotateAction = GameManager.Instance.player.playerInput.currentActionMap["Rotate"];
-            if (moveAction == null)
-                throw new SystemException("Couldn't find move action");
-            Debug.Log($"eelectEntered Interactor: {interactorObj.name}");
+            var (interactorObj, moveAction, rotateAction, hand) = XRBasicInteractionData(args);
+            if (args.interactorObject is XRRayInteractor)
+            {
+                Debug.Log($"eelectEntered RAY Interactor: {interactorObj.name}");
+                SelectEnterHandleRayInteractor(args, interactorObj, moveAction, rotateAction, hand);
+            }
+            else if (args.interactorObject is XRDirectInteractor)
+            {
+                Debug.Log($"eelectEntered DIRECT Interactor: {interactorObj.name}");
+            }
+        }
 
+        private void SelectEnterHandleRayInteractor(SelectEnterEventArgs args, GameObject interactorObj, InputAction moveAction, InputAction rotateAction, Hand hand)
+        {
             string bindingPathRegex = Methods.PathRegexFromTag(interactorObj);
             if (m_XRLastSelectInteractor != null)
             {
@@ -218,12 +244,7 @@ namespace vrm
                 int bindingIndex = rotateAction.bindings.IndexOf(b => b.groups.Contains("XR"));
                 if (m_XRLastSelectInteractor != null)
                 {
-                    var vargs = new SelectExitEventArgs();
-                    vargs.interactorObject = m_XRLastSelectInteractor;
-                    vargs.interactableObject = args.interactableObject;
-                    //string pathToRemove = Methods.XRPrimaryAxisPathHand(m_XRLastSelectInteractor.transform.gameObject);
                     rotateAction.ApplyBindingOverride(bindingIndex, "");
-
                     var rayInteractor = m_XRLastSelectInteractor.transform.gameObject.GetComponent<XRRayInteractor>();
                     if (rayInteractor != null && rayInteractor.interactablesSelected.Count > 0)
                         rayInteractor.interactionManager.SelectExit(rayInteractor, rayInteractor.interactablesSelected[0]);
@@ -235,14 +256,18 @@ namespace vrm
 
                 var component = args.interactableObject.transform.gameObject.AddComponent<FollowTargetPosition>();
                 component.Offset = Vector3.up * 0.1f; // TODO configurable
-                component.DampingStrength = 10f; 
+                component.DampingStrength = 10f;
                 component.ForceStrength = 30f;
+                component.ForceKinematic = m_ParentRigidbodyKinematic;
                 component.Target = args.interactorObject.transform.gameObject;
                 m_XRLastSelectInteractor = args.interactorObject;
                 Methods.DisableBinding(moveAction, b => b.path.StartsWith(bindingPathRegex));
                 Methods.DebugPrintPredicate(moveAction.bindings, b => b.overridePath != null);
 
                 ActivateRotationCallbackForActiveObject();
+
+                GameManager.Instance.GameState |= GameState.TinkerableInteractable;
+                Methods.DisableRayEnableDirectOnLayer(hand == Hand.Left ? m_Right : m_Left, InteractionLayers.Component, InteractionLayers.Grabbed);
             }
             else if (m_XRLastSelectInteractor.transform.gameObject == args.interactorObject.transform.gameObject)
             {
@@ -252,12 +277,23 @@ namespace vrm
 
         private void OnSelectExit(SelectExitEventArgs args)
         {
-            Debug.Log("selectExited");
-            InputAction moveAction = GameManager.Instance.player.playerInput.currentActionMap["Move"];
+            var (interactorObj, moveAction, rotateAction, hand) = XRBasicInteractionData(args);
+            if (args.interactorObject is XRRayInteractor)
+            {
+                Debug.Log($"selectExited RAY Interactor: {interactorObj.name}");
+                SelectExitHandleRayInteractor(args, moveAction, hand);
+            }
+            else if (args.interactorObject is XRDirectInteractor)
+            {
+                Debug.Log($"selectExited DIRECT Interactor: {interactorObj.name}");
+            }
+        }
 
+        private void SelectExitHandleRayInteractor(SelectExitEventArgs args, InputAction moveAction, Hand hand)
+        {
             if (m_XRLastSelectInteractor != null)
             {
-                Methods.RemoveComponent<FollowTargetPosition>(args.interactableObject.transform.gameObject);
+                args.interactableObject.transform.gameObject.GetComponent<FollowTargetPosition>().OnSelectExit(args.interactorObject.transform.gameObject.GetComponent<XRRayInteractor>());
                 Methods.EnableAllBindingsWith(moveAction, b => b.path.StartsWith("<XRController>"));
                 m_XRLastSelectInteractor = null;
                 DeactivateRotationCallbackForActiveObject();
@@ -270,17 +306,24 @@ namespace vrm
             var rigidbody = args.interactableObject.transform.gameObject.GetComponent<Rigidbody>();
             if (rigidbody != null)
             {
-                rigidbody.isKinematic = false;
+                rigidbody.isKinematic = m_ParentRigidbodyKinematic;
                 rigidbody.useGravity = true;
                 rigidbody.AddRelativeForce(Vector3.forward, ForceMode.Impulse);
                 rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             }
             Methods.DebugPrintPredicate(moveAction.bindings, b => b.overridePath != null);
+            Methods.EnableRayDisableDirectOnLayer(hand == Hand.Left ? m_Right : m_Left, InteractionLayers.Component, InteractionLayers.Grabbed);
+            Methods.ForEachChildWith(gameObject, child => child.CompareTag(Tags.Component), child =>
+            {
+                child.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            });
+            GameManager.Instance.GameState &= ~GameState.TinkerableInteractable;
         }
 
         private void OnActivate(ActivateEventArgs args)
         {
             Debug.Log("activated");
+            //GetComponent<ScatterRigidbodyChildren>().HandleObjectDecomposition();
         }
 
         private void OnDeactivate(DeactivateEventArgs args)
@@ -288,7 +331,7 @@ namespace vrm
             Debug.Log("deactivated");
         }
 
-        private void OnInteract(CallbackContext ctx)
+        private void OnInteract(InputAction.CallbackContext ctx)
         {
 
             bool pressed = ctx.started;
@@ -347,7 +390,6 @@ namespace vrm
             if (m_Active)
             {
                 var rigidBody = m_Active.GetComponent<Rigidbody>(); // shouldn't be null
-                                                                    //rigidBody.isKinematic = true;
                 rigidBody.useGravity = true;
                 //rigidBody.constraints = RigidbodyConstraints.None; // Release the position constraint
                 GameManager.Instance.player.playerInput.currentActionMap["Rotate"].performed -= m_MouseDeltaCallbacks[m_Active];
@@ -393,7 +435,7 @@ namespace vrm
                 grabbed = false;
                 if (rigidBody)
                     rigidBody.isKinematic = false;
-                gameObject.SetLayerRecursively((int)Layers.Default);
+                gameObject.SetLayerRecursively((int)Layers.Object);
                 rigidBody.AddRelativeForce(Vector3.forward, ForceMode.Impulse);
 
                 GameManager.Instance.player.MovementBreak -= OnMovementBreak;

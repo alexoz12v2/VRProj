@@ -1,17 +1,38 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity;
-using UnityEditor.PackageManager;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.PlayerLoop;
+using UnityEngine.XR.Interaction.Toolkit;
 
 namespace vrm
 {
+    public class CreatePrefab : MonoBehaviour
+    {
+        [MenuItem("Extras/Create Prefab From Selection")]
+        static void DoCreatePrefab()
+        {
+            Transform[] transforms = Selection.transforms;
+            foreach (Transform t in transforms)
+            {
+                GameObject prefab = PrefabUtility.SaveAsPrefabAssetAndConnect(t.gameObject, "Assets/Prefabs/" + t.gameObject.name + ".prefab", InteractionMode.UserAction);
+            }
+        }
+    }
+
+    public class HandInteractors
+    {
+        public HandInteractors(XRRayInteractor rayInteractor, XRDirectInteractor directInteractor)
+        {
+            RayInteractor = rayInteractor;
+            DirectInteractor = directInteractor;
+        }
+
+        public XRRayInteractor RayInteractor;
+        public XRDirectInteractor DirectInteractor;
+    }
+
     [Flags]
     public enum Layers : int
     {
@@ -20,14 +41,22 @@ namespace vrm
         Grabbed = 10,
         GrabbedOutline = 11,
         Hidden = 12,
+        Object = 13,
     }
 
     [Flags]
     public enum InteractionLayers : int
     {
         Default = 0,
+        Component = 1 << 29,
         Grabbed = 1 << 30,
         Teleport = 1 << 31
+    }
+
+    public enum Hand
+    {
+        Left = 0,
+        Right = 1,
     }
 
     public class Tags
@@ -436,7 +465,7 @@ namespace vrm
                 Debug.Log($"Rotation Callback for {gameObject}, predicate...");
                 if (pred(gameObject, ctx))
                 {
-                    Debug.Log($"Rotation Callback for {gameObject},After predicate"); 
+                    Debug.Log($"Rotation Callback for {gameObject},After predicate");
                     Quaternion targetRotation = QuaternionFromMouseDelta(ctx.ReadValue<Vector2>(), angularSpeed) * gameObject.transform.rotation;
                     var rigidbody = gameObject.GetComponent<Rigidbody>();
                     if (rigidbody != null && !rigidbody.isKinematic)
@@ -449,7 +478,7 @@ namespace vrm
 
         private static void ApplyTorqueToRotation(Rigidbody rb, Quaternion targetRotation, float angularSpeed)
         {
-            float torqueForce = 10f;  // Increase for stronger input response
+            float torqueForce = 5f;  // Increase for stronger input response
             float dampingFactor = 0.7f;  // Lower = stronger damping (e.g., 0.7 = 30% reduction per frame)
             float velocityThreshold = 0.1f;  // Minimum speed before stopping
             float maxAngularSpeed = 5f;  // Prevents excessive spinning
@@ -485,8 +514,40 @@ namespace vrm
             return RotateFromDeltaCallback(gameObject, (obj, ctx) => obj.GetComponent<Rigidbody>() != null && ctx.performed, angleSpeed);
         }
 
-        static public Tuple<GameObject, GameObject> GetXRControllers(GameObject parent) {
-            return new(FindFirstChildRecursive(parent, obj => obj.CompareTag(Tags.LeftXRController)), FindFirstChildRecursive(parent, obj => obj.CompareTag(Tags.RightXRController)));
+        static public Tuple<HandInteractors, HandInteractors> GetXRControllers(GameObject parent)
+        {
+            return new(
+                InteractorsFromGameObject(FindFirstChildRecursive(parent, obj => obj.CompareTag(Tags.LeftXRController))),
+                InteractorsFromGameObject(FindFirstChildRecursive(parent, obj => obj.CompareTag(Tags.RightXRController)))
+            );
+        }
+
+        static public void DisableRayEnableDirectOnLayer(HandInteractors interactors, InteractionLayers directLayer, InteractionLayers rayLayer)
+        {
+            interactors.DirectInteractor.interactionLayers |= (int)directLayer;
+            interactors.RayInteractor.interactionLayers &= ~(int)rayLayer;
+            var lineRenderer = interactors.RayInteractor.gameObject.GetComponent<LineRenderer>();
+            if (lineRenderer != null)
+                lineRenderer.renderingLayerMask = 0;
+        }
+
+        static public void EnableRayDisableDirectOnLayer(HandInteractors interactors, InteractionLayers directLayer, InteractionLayers rayLayer)
+        {
+            interactors.DirectInteractor.interactionLayers &= ~(int)directLayer;
+            interactors.RayInteractor.interactionLayers |= (int)rayLayer;
+            var lineRenderer = interactors.RayInteractor.gameObject.GetComponent<LineRenderer>();
+            if (lineRenderer != null)
+                lineRenderer.renderingLayerMask = 1;
+        }
+
+        /// @warning If you modify the prefab, eg adding more interactors, modify this too!
+        private static HandInteractors InteractorsFromGameObject(GameObject handObject)
+        {
+            var rayList = handObject.GetComponentsInChildren<XRRayInteractor>();
+            var directList = handObject.GetComponentsInChildren<XRDirectInteractor>();
+            if (rayList.Length == 0 || directList.Length == 0)
+                throw new SystemException("What");
+            return new(rayList[0], directList[0]);
         }
 
         static public void DebugPrintPredicate(UnityEngine.InputSystem.Utilities.ReadOnlyArray<InputBinding> bindings, Predicate<InputBinding> pred)
@@ -540,65 +601,130 @@ namespace vrm
             }
         }
 
+        static public Hand HandFromInteractor(GameObject interactor)
+        {
+            if (interactor.CompareTag(Tags.LeftXRControllerChild))
+                return Hand.Left;
+            else if (interactor.CompareTag(Tags.RightXRControllerChild))
+                return Hand.Right;
+            else
+                throw new SystemException("Unexpected gameobject");
+        }
+
         static public string XRPrimaryAxisPathHand(GameObject interactor)
         {
             return "<XRController>{" + (interactor.CompareTag(Tags.LeftXRControllerChild) ? "Left" : "Right") + "Hand}/{Primary2DAxis}";
         }
     }
 
-    public class FollowTargetPosition : MonoBehaviour 
+    public class FollowTargetPosition : MonoBehaviour
     {
         [Header("General")]
         public GameObject Target = null;
         public Vector3 Offset = Vector3.zero;
         public float SmoothSpeed = 1.0f;
 
-        [Header("For Targets having a rigidbody")]
+        [Header("For Targets having a Rigidbody")]
         public bool ForceKinematic = false;
         public bool ForceDisableGravity = true;
         public float StoppingDistance = 0.1f;
         public float DampingStrength = 10f;
         public float ForceStrength = 1f;
 
+        private Rigidbody m_RigidBody;
+        private bool m_HasAttached = false;
+        private Transform m_OriginalParent;
+        private XRBaseInteractor m_CurrentInteractor;
+
+        private void Start()
+        {
+            m_RigidBody = GetComponent<Rigidbody>();
+            m_OriginalParent = transform.parent;
+        }
+
         private void LateUpdate()
         {
-            if (Target == null)
+            if (Target == null || m_HasAttached)
                 return;
-            var rigidbody = GetComponent<Rigidbody>();
-            bool noForce = true;
-            if (rigidbody != null)
+
+            bool useForces = m_RigidBody != null && !ForceKinematic;
+            if (m_RigidBody != null)
             {
                 if (ForceDisableGravity)
-                    rigidbody.useGravity = false;
+                    m_RigidBody.useGravity = false;
                 if (ForceKinematic)
-                    rigidbody.isKinematic = true;
-                else
-                    noForce = false;
+                    m_RigidBody.isKinematic = true;
             }
 
-            if (noForce)
+            Vector3 desiredPosition = Target.transform.position + Offset;
+            float distance = Vector3.Distance(transform.position, desiredPosition);
+
+            if (distance < StoppingDistance)
             {
-                transform.position = Vector3.Lerp(transform.position, Target.transform.position + Offset, Time.deltaTime * SmoothSpeed);
+                AttachToInteractor();
+            }
+            else if (useForces)
+            {
+                ApplyForces(desiredPosition);
             }
             else
             {
-                Vector3 desiredPosition = Target.transform.position + Offset;
-                Vector3 direction = desiredPosition - transform.position;
-                Vector3 forceDirection = direction * SmoothSpeed;
-                float distance = direction.magnitude;
-                if (distance < StoppingDistance)
+                transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * SmoothSpeed);
+            }
+        }
+
+        private void ApplyForces(Vector3 targetPosition)
+        {
+            Vector3 direction = targetPosition - transform.position;
+            Vector3 forceDirection = direction * SmoothSpeed;
+
+            Vector3 targetVelocity = direction.normalized * SmoothSpeed;
+            Vector3 velocityError = targetVelocity - m_RigidBody.velocity;
+
+            m_RigidBody.AddForce(forceDirection * ForceStrength + velocityError * DampingStrength, ForceMode.Acceleration);
+        }
+
+        private void AttachToInteractor()
+        {
+            if (Target.TryGetComponent(out XRBaseInteractor interactor))
+            {
+                Debug.Log("Object reached target, attaching to interactor.");
+                m_HasAttached = true;
+
+                // Parent the object to the interactor to follow its movement
+                transform.SetParent(interactor.transform, true);
+
+                // If it has a Rigidbody, make it kinematic to follow smoothly
+                if (m_RigidBody != null)
                 {
-                    rigidbody.velocity = Vector3.zero;
+                    m_RigidBody.isKinematic = true;
+                    m_RigidBody.velocity = Vector3.zero;
+                    m_RigidBody.angularVelocity = Vector3.zero;
                 }
-                else
-                {
-                    // Compute velocity to reach the target smoothly (Critically damped motion)
-                    Vector3 targetVelocity = direction.normalized * SmoothSpeed;
-                    Vector3 velocityError = targetVelocity - rigidbody.velocity; 
-                    rigidbody.AddForce(forceDirection * ForceStrength + velocityError * DampingStrength, ForceMode.Acceleration);
-                }
+
+                m_CurrentInteractor = interactor;
+            }
+        }
+
+        public void OnSelectExit(XRBaseInteractor interactor)
+        {
+            if (interactor == m_CurrentInteractor)
+            {
+                Debug.Log("Interactor released object, restoring parent.");
+                Destroy(this); // Component is removed, OnDestroy restores original parent
+            }
+        }
+
+        private void OnDestroy()
+        {
+            // Restore original parent when the object is released
+            transform.SetParent(m_OriginalParent, true);
+
+            if (m_RigidBody != null)
+            {
+                m_RigidBody.isKinematic = false;  // Restore original physics settings
+                m_RigidBody.useGravity = true;
             }
         }
     }
-
 }

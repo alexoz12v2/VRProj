@@ -240,7 +240,7 @@
                     "id": "a57aaf54-10b3-48c6-bec2-69a629b775d7",
                     "path": "",
                     "interactions": "",
-                    "processors": "ScaleVector2(x=5,y=5)",
+                    "processors": "ScaleVector2(x=100,y=100)",
                     "groups": ";XR",
                     "action": "Rotate",
                     "isComposite": false,

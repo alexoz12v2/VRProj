@@ -80,6 +80,11 @@ namespace vrm
         private void OnExplode(CallbackContext ctx)
         {
             Debug.Log("OnExplode");
+            HandleObjectDecomposition();
+        }
+
+        public void HandleObjectDecomposition()
+        {
             Func<GameState, bool> isValidState = (_s) => { return (_s.HasFlag(GameState.TinkerableInteractable) || _s.HasFlag(GameState.TinkerableDecomposed)) && !_s.HasFlag(GameState.Paused); };
             if (!isValidState(GameManager.Instance.GameState))
                 throw new SystemException("What");
@@ -94,14 +99,19 @@ namespace vrm
                 var barrier = Methods.FindFirstChildRecursive(gameObject, (child) => child.CompareTag(Tags.ExplosionBarrier));
                 Methods.ForEachComponent<Collider>(barrier, (collider) => collider.enabled = true);
                 Debug.Log("Remove Input Action Event");
-                GameManager.Instance.player.playerInput.currentActionMap["Move"].Disable();
+
+                if (!DeviceCheckAndSpawn.Instance.isXR)
+                    GameManager.Instance.player.playerInput.currentActionMap["Move"].Disable();
+
                 m_ExplosionTask = new Task(processExplosion(0.3f, rigidbodies));
                 m_ExplosionTask.Finished += (manual) =>
                 {
                     Debug.Log("Add Input Action Event");
                     explodeAction.performed += OnExplode;
                     Methods.ForEachComponent<Collider>(barrier, (collider) => collider.enabled = false);
-                    GameManager.Instance.player.playerInput.currentActionMap["Move"].Enable();
+
+                    if (!DeviceCheckAndSpawn.Instance.isXR)
+                        GameManager.Instance.player.playerInput.currentActionMap["Move"].Enable();
                 };
                 explodeAction.performed -= OnExplode;
             }
