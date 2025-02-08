@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7941857625644726937}
   - component: {fileID: 4241870136451681368}
   - component: {fileID: 1540279998388150554}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: ExplosionBarrier
   m_TagString: ExplosionBarrier
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 1294323799127314089}
   - component: {fileID: 6505496266257544835}
   - component: {fileID: 9061418843753820453}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Receiver
   m_TagString: Component
   m_Icon: {fileID: 0}
@@ -281,7 +281,7 @@ GameObject:
   - component: {fileID: 5681817184111643499}
   - component: {fileID: 6598131827915870442}
   - component: {fileID: 6663310618890908679}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Magazine
   m_TagString: Component
   m_Icon: {fileID: 0}
@@ -386,7 +386,8 @@ GameObject:
   - component: {fileID: 8147500259621803104}
   - component: {fileID: 9169249848788925178}
   - component: {fileID: 5382088888828147138}
-  m_Layer: 0
+  - component: {fileID: 1330889477267232275}
+  m_Layer: 13
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -433,6 +434,7 @@ MonoBehaviour:
   m_DebugDraw: 0
   m_ScreenDistanceThreshold: 1
   m_CenterDistanceThreshold: 1
+  m_ParentRigidbodyKinematic: 0
 --- !u!114 &5382088888828147138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,6 +447,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fdfd40f5e2dbb14fb7236dc8e9129b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &1330889477267232275
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200876233202345957}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 12032
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.05, y: 0.34, z: 0.74}
+  m_Center: {x: 0, y: -0.03, z: 0}
 --- !u!1 &1296227780783888694
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,7 +477,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5356671176401937727}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Magazine Offset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -486,7 +509,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6710561984694550553}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Trigger Offset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -521,7 +544,7 @@ GameObject:
   - component: {fileID: 4673823644257842914}
   - component: {fileID: 2885246459353371972}
   - component: {fileID: 4697663127464066935}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Plate
   m_TagString: Component
   m_Icon: {fileID: 0}
@@ -624,7 +647,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 406110363137117651}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Plate Offset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -656,7 +679,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6546395334290153249}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bolts Offset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -688,7 +711,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8069256870147831217}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Stock_Mount Offset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -723,7 +746,7 @@ GameObject:
   - component: {fileID: 1334049314006610851}
   - component: {fileID: 2703097598143927827}
   - component: {fileID: 5680581703639241756}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Trigger
   m_TagString: Component
   m_Icon: {fileID: 0}
@@ -829,7 +852,7 @@ GameObject:
   - component: {fileID: 2423397067216760286}
   - component: {fileID: 5098468092730683296}
   - component: {fileID: 1400761582705121770}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Stock
   m_TagString: Component
   m_Icon: {fileID: 0}
@@ -932,7 +955,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3574907230924723892}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Body Offset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -967,7 +990,7 @@ GameObject:
   - component: {fileID: 7443377246282139130}
   - component: {fileID: 4679358034547937462}
   - component: {fileID: 2804367313489611417}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bolts
   m_TagString: Component
   m_Icon: {fileID: 0}
@@ -1070,7 +1093,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3003242720530223615}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Selector Offset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1102,7 +1125,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4134957394341258263}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Stock Offset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1137,7 +1160,7 @@ GameObject:
   - component: {fileID: 5543195605763920489}
   - component: {fileID: 705941332642742363}
   - component: {fileID: 2781478548322820491}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Stock_Mount
   m_TagString: Component
   m_Icon: {fileID: 0}
@@ -1245,7 +1268,7 @@ GameObject:
   - component: {fileID: 3303412424185361038}
   - component: {fileID: 7713352945808584053}
   - component: {fileID: 7916325952169910816}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Body
   m_TagString: Component
   m_Icon: {fileID: 0}
@@ -1392,7 +1415,7 @@ GameObject:
   - component: {fileID: 7276037248136259608}
   - component: {fileID: 4262969397412632414}
   - component: {fileID: 8425672095208750879}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Selector
   m_TagString: Component
   m_Icon: {fileID: 0}
@@ -1495,7 +1518,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5123778899990481840}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Receiver Offset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
