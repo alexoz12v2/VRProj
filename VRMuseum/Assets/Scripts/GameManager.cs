@@ -5,6 +5,7 @@ using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 using System;
+using FMODUnity;
 
 namespace vrm
 {
@@ -50,7 +51,7 @@ namespace vrm
         {
             if (isFocused)
             {
-                CenterCursorInGameWindow();
+                //CenterCursorInGameWindow();
             }
         }
 
@@ -113,6 +114,7 @@ namespace vrm
         void Start()
         {
             DeviceCheckAndSpawn.Instance.Initialize();
+            AudioManager.Instance.Initialize();
             isPaused = false;
             spawnPlayer();
             setupPlayer();
@@ -141,7 +143,9 @@ namespace vrm
             virtualCamera.Follow = socket.transform;
             Debug.Log($"Spawned player in position : x ={inScenePlayer.transform.position.x}, y = {inScenePlayer.transform.position.y}, z = {inScenePlayer.transform.position.z}");
             //virtualCamera.LookAt = t;// hard lock to taget doesn't require that 
-
+            StudioListener listenerAudio = Camera.main.GetComponent<StudioListener>();
+            var field = typeof(StudioListener).GetField("attenuationObject", System.Reflection.BindingFlags.Instance |System.Reflection.BindingFlags.NonPublic);
+            field.SetValue(listenerAudio, socket);
             GameStartStarted?.Invoke();
         }
 

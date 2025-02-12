@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{72f053ed-18f4-4765-95d9-238811c5bfa8}">
+		<property name="assetPath">
+			<value>SFX/Arm/Carcano/CarcanoFire02.ogg</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.3260997732426303</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{ba1157a2-665a-4d29-8673-38a9d4cd6fe0}</destination>
+		</relationship>
+	</object>
+</objects>
