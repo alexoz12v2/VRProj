@@ -14,6 +14,10 @@ public class FMODEvents : Singleton<FMODEvents>
     [field: SerializeField] public EventReference Trincea { get; private set; }
     [field: Header("Ambient Sound")]
     [field: SerializeField] public EventReference AmbientSound { get; private set; }
+    [field: Header("Main Menu")]
+    [field: SerializeField] public EventReference BackgroundUI { get; private set; }
+    [field: Header("UI")]
+    [field: SerializeField] public EventReference ClickUI { get; private set; }
 
     protected override void OnDestroyCallback()
     {

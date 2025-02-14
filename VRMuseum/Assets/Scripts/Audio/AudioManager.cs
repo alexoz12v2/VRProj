@@ -12,11 +12,15 @@ namespace vrm
         
         [Range(0, 1)]
         public float MasterVolume = 1;
-
         [Range(0, 1)]
         public float AmbientVolume = 1;
         [Range(0, 1)]
         public float SFXVolume = 1;
+        [Range(0, 1)]
+        public float MusicVolume = 1;
+        [Range(0, 1)]
+        public float UIVolume = 1;
+
 
         private List<EventInstance> _eventInstances = new();
         private List<StudioEventEmitter> _eventEmitters = new();
@@ -26,12 +30,16 @@ namespace vrm
         private Bus _masterBus;
         private Bus _ambientBus;
         private Bus _sfxBus;
+        private Bus _musicBus;
+        private Bus _UIBus;
 
         public void Awake()
         {
             _masterBus = RuntimeManager.GetBus("bus:/");
             _ambientBus = RuntimeManager.GetBus("bus:/Ambient");
             _sfxBus = RuntimeManager.GetBus("bus:/SFX");
+            _UIBus = RuntimeManager.GetBus("bus:/UI");
+            _musicBus = RuntimeManager.GetBus("bus:/Music");
         }
         public void Initialize()
         {
@@ -41,6 +49,11 @@ namespace vrm
         public void PlayOneShot(EventReference sound, Vector3 worldPos)
         {
             RuntimeManager.PlayOneShot(sound, worldPos);
+        }
+
+        public void PlayOneShot(EventReference sound)
+        {
+            RuntimeManager.PlayOneShot(sound);
         }
 
         public EventInstance CreateInstance(EventReference eventReference)
@@ -79,6 +92,8 @@ namespace vrm
             _background.setParameterByName(parameterName, parameterValue);
         }
 
+
+
         private void CleanUp()
         {
             foreach (EventInstance eventInstance in _eventInstances)
@@ -97,6 +112,8 @@ namespace vrm
             _masterBus.setVolume(MasterVolume);
             _ambientBus.setVolume(AmbientVolume);
             _sfxBus.setVolume(SFXVolume);
+            _UIBus.setVolume(UIVolume);
+            _musicBus.setVolume(MusicVolume);
         }
         protected override void OnDestroyCallback()
         {

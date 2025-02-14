@@ -113,11 +113,10 @@ namespace vrm
 
         void Start()
         {
-            DeviceCheckAndSpawn.Instance.Initialize();
-            AudioManager.Instance.Initialize();
             isPaused = false;
             spawnPlayer();
             setupPlayer();
+            AudioManager.Instance.Initialize();
 
             Transform t = null;
             if (DeviceCheckAndSpawn.Instance.isXR)

@@ -10,169 +10,127 @@ using System.Text.RegularExpressions;
 using Tommy;
 
 namespace vrm {
-    public class GUIDictionary : MonoBehaviour
+    public class GUIDictionary : Singleton<GUIDictionary>
     {
-        public delegate void GUIShow(); // to update
-        public static event GUIShow OnGUIShow;
+        private Dictionary<string, CanvasData> _DictCanvas = new();
 
-        private Dictionary<string, CanvasData> _dict = new();
-        private static GUIDictionary _instance = new GUIDictionary();
-        public static GUIDictionary Instance { get { return _instance; } }
-
-        [SerializeField]
-        private string _path = "*";
-        private static bool _instanced = false;
-
-        [ContextMenu("Select File Path")]
-        public void SelectFilePath()
+        public void Start()
         {
-            // Use OpenFilePanel to let the user select a file (for file selection)
-            _path = EditorUtility.OpenFolderPanel("Select a folder", "", "");
+            //Fiat---------------------
+            _DictCanvas.Add("Fiat", new CanvasData
+            {
+                MaxWidth = 2,
+                MaxHeight = 3,
+                Title = "Fiat Revelli Mod. 1914",
+                Paragraphs = new List<ParagraphData> {
+                new(cleanStr(@"
+                    Il modello Fiat Ravelli 1914 era una mitragliatrice di medie dimensioni utilizzata dagli eserciti nella prima guerra mondiale, è l'arma automatica più usata nella grande guerra in Italia, prodotta a 37.500 esemplari 
+ La progettazione dell'arma risale al 1910.
+Abiel Revelli modifica la mitragliatrice Perino 1908"".  È stata presentata ad una gara d'appalto indetta dall'esercito reale italiano. Quando viene presentata, non è scelta dalla giuria, ma è Maxim a vincere la gara.
+Nel 1913 Abiel Revelli rappresenta la FIAT RAVELLI a Nettuno, e questa volta lo stato maggiore dell'esercito testa nuovamente la mitragliatrice che giudica conforme alle esigenze.
+Questa arma è molto robusta, ha una meccanica rustica e una balistica adeguata, ma era molto pesante a causa del suo sistema di raffreddamento ad acqua (17 kg a vuoto e 22 kg riempita d'acqua). Il suo cannone era di 645 mm. Dopo la prima guerra mondiale sarà usata ancora per altre due guerre: le guerre di Spagna e la guerra d'Etiopia.
+Nel 1935 sarà sostituita dalla Fiat-Revelli M 1935 che è un'evoluzione della Fiat-Revelli 1914 ma con un nuovo sistema di raffreddamento ad aria, un nuovo calibro portato da 6,5 a 8 mm e infine una nuova alimentazione a nastri metallici al posto del nastro cartuccia.
+                "))
+                {
+                    Audio = "test.wav",
+                    Title = "Introduzione"
+                },
+                new(cleanStr(@"
+                    La <b>Fiat-Revelli Mod. 1914<b> e' stata una mitragliatrice media,
+                    adottata dal Regio Esercito Italiano nella prima guerra mondiale.
+                "))
+                {
+                    Audio = "test.wav",
+                    Title = "Introduzione"
+                }
+            }
+            });
+            //Caschetto------------------
+            _DictCanvas.Add("Caschetto", new CanvasData
+            {
+                MaxWidth = 2,
+                MaxHeight = 3,
+                Title = "Caschetto",
+                Paragraphs = new List<ParagraphData> {
+                new(cleanStr(@"
+                    Questo equipaggiamento comprende un casco d'acciaio di forma ovale munito di una larga piastra frontale di rinforzo e una corazza d'acciaio i suoi artifici di protezione sono fabbricati a Milano dall'ingegnere Farina che dirige parallelamente una piccola fabbrica la fabbrica farina fabbrica un casco simile Elmo da trincea per il resto delle truppe, anche se sembra improbabile che un esercito intero possa essere equipaggiato con un tale Tark. Molto scomodo e di limitata efficacia i caschi Farina non sono apprezzati
+Per questo motivo il nostro supremo ordina un importante casco Adrian dalla Francia al fine di utilizzare la situazione, tanto più che l'esplosione di proiettili nelle regioni rocciose costituiscono la maggior parte dei fronti su cui i soldati italiani sono impegnati nell'autunno 1915 in emergenza l'Italia sarà vicina alla Francia per l'importazione di questi caschi per equipaggiare il suo esercito si avanza la cifra di 500000 unità identiche al casco impiegati dai pelosi sul fronte francese colore blu orizzonte con la granata fanteria recante la dicitura RF per Repubblica francese. La fabbricazione potente le nella bomba non è fornita di fessura per l'attaccamento di un attributo su fabbricare appositamente per l'Italia sono in un primo tempo non in grigio blu poi un grigio verde per essere abbinato all'uniforme italiana i caschi modello 15 Adrien degli munides segno frontale metallici sono subito muniti di un distintivo frontale applicato allo stencil per esempio nella fanteria si parte in nero il numero di reggimento sormontato dalla corona reale parallelamente a questo acquisto l'Italia inizia uno studio per la fabbricazione del proprio modello.
+                "))
+                {
+                    Audio = "test.wav",
+                    Title = "Introduzione"
+                },
+            }
+            });
+            //Pugnale
+            _DictCanvas.Add("Pugnale", new CanvasData
+            {
+                MaxWidth = 2,
+                MaxHeight = 3,
+                Title = "Pugnale",
+                Paragraphs = new List<ParagraphData> {
+                new(cleanStr(@"
+                    TODO
+                "))
+                {
+                    Audio = "test.wav",
+                    Title = "Introduzione"
+                }
+            }
+            });
+            //Carcano Mod.91
+            _DictCanvas.Add("Carcano", new CanvasData
+            {
+                MaxWidth = 2,
+                MaxHeight = 3,
+                Title = "Carcano Mod.91",
+                Paragraphs = new List<ParagraphData> {
+                new(cleanStr(@"
+                    Nel 1914 i bersaglieri avevano una bicicletta pieghevole della marca Bianchi sulla quale trasportava il loro fucile ma poteva trasportare anche una mitragliatrice revelis. Fiat ha aggiunto la staffa per la stabilità durante il tiro di altri cicli erano trasformabili per il servizio sanitario presso lo studio italiano Bianchi con possibilità di mettere borse sotto il telaio. Le biciclette potevano anche essere usate come poltrone operatorie e barelle.
+                "))
+                {
+                    Audio = "test.wav",
+                    Title = "Introduzione"
+                }
+            }
+            });
+            //Bomba
+            _DictCanvas.Add("Bomba", new CanvasData
+            {
+                MaxWidth = 2,
+                MaxHeight = 3,
+                Title = "Bomba",
+                Paragraphs = new List<ParagraphData> {
+                new(cleanStr(@"
+                    TODO
+                "))
+                {
+                    Audio = "test.wav",
+                    Title = "Introduzione"
+                }
+            }
+            });
 
-            // Optionally check if a valid file was selected
-            if (string.IsNullOrEmpty(_path))
-            {
-                Debug.Log("No file was selected.");
-            }
-            else
-            {
-                Debug.Log("Selected file: " + _path);
-            }
         }
 
-        public CanvasData getData(string key)
+
+        public CanvasData GetCanvasDataByKey(string Key)
         {
-            return _dict[key];
+            return _DictCanvas[Key];
         }
 
-        public void Awake()
+
+        private static string cleanStr(string input)
         {
-            if (_instanced)
-            {
-                throw new System.InvalidOperationException("[GUIDictionary::Awake]" +
-                    " there can only be one");
-            }
-            _instance = this;
-
-            if (_path == "*")
-            {
-                throw new System.InvalidOperationException("[GUIDictionary::Awake]" +
-                    " you didn't initialize the path from which opening TOML files");
-            }
-
-            Regex tomlRegex = new Regex(@"^(.*)\.toml$");
-            var fileIt = Directory.EnumerateFiles(Path.Combine(Application.dataPath, _path), "*.toml", SearchOption.AllDirectories);
-            foreach (var file in fileIt)
-            {
-                // if (m.Groups[0].ToString().Length > 0) <- should always be true
-                Match m = tomlRegex.Match(file);
-                string name = GUIDictionary.RemoveAccents(m.Groups[1].ToString());
-                String.Intern(name);
-                using StreamReader reader = File.OpenText(file);
-                var table = TOML.Parse(reader);
-                _dict.Add(name, extractCanvas(table));
-            }
-
-            _instanced = true;
+            // Step 1: Remove excess whitespace and literal newlines
+            string cleaned = Regex.Replace(input, @"\s+", " ").Trim();
+            // Step 2: Insert newlines wherever \n is present
+            string result = cleaned.Replace(@"\n", Environment.NewLine);
+            return result;
         }
-
-        public void Start() 
+        protected override void OnDestroyCallback()
         {
-            Debug.Log($"{_dict}");
-        }
 
-        private CanvasData extractCanvas(TomlTable table) 
-        {
-            table.TryGetNode(TomlKey.Header.Value, out TomlNode headerNode);
-
-            float maxWidth = 0f;
-            headerNode.AsTable.TryGetNode(TomlKey.MaxWidth.Value, out TomlNode MaxWidthNode);
-            if (MaxWidthNode.IsInteger)
-            {
-                maxWidth = (float)MaxWidthNode.AsInteger.Value;
-            }
-            else 
-            {
-                maxWidth = (float)MaxWidthNode.AsFloat.Value;
-            }
-
-            float maxHeight = 0f;
-            headerNode.AsTable.TryGetNode(TomlKey.MaxHeight.Value, out TomlNode MaxHeightNode);
-            if (MaxHeightNode.IsInteger)
-            {
-                maxHeight = (float)MaxHeightNode.AsInteger.Value;
-            }
-            else 
-            {
-                maxHeight = (float)MaxHeightNode.AsFloat.Value;
-            }
-
-            headerNode.AsTable.TryGetNode(TomlKey.Title.Value, out TomlNode titleNode);
-            string headerTitle = titleNode.AsString.ToString();
-
-            table.TryGetNode(TomlKey.Body.Value, out TomlNode bodyNode);
-            bodyNode.AsTable.TryGetNode(TomlKey.Paragraphs.Value, out TomlNode paragraphsNode);
-            List<ParagraphData> paragraphs = new(paragraphsNode.AsArray.ChildrenCount);
-            for (int i = 0; i != paragraphsNode.AsArray.ChildrenCount; ++i) 
-            { 
-                paragraphs.Add(extractParagraph(paragraphsNode.AsArray[i].AsTable));
-            }
-
-            return new CanvasData
-            {
-                MaxWidth = maxWidth,
-                MaxHeight = maxHeight,
-                Title = headerTitle,
-                Paragraphs = paragraphs,
-            };
-        }
-
-#nullable enable
-        private static ParagraphData extractParagraph(TomlTable table) 
-        {
-            table.TryGetNode(TomlKey.Corpus.Value, out TomlNode corpusNode);
-            string corpus = corpusNode.AsString.ToString();
-
-            table.TryGetNode(TomlKey.Title.Value, out TomlNode titleNode);
-            string? title = titleNode != null && titleNode.IsString && !string.IsNullOrEmpty(titleNode.AsString.ToString()) ? titleNode.AsString.ToString() : null;
-
-            // TODO: load audio file
-            table.TryGetNode(TomlKey.Audio.Value, out TomlNode audioNode);
-            string? audio = audioNode != null && audioNode.IsString && !string.IsNullOrEmpty(audioNode.AsString.ToString()) ? audioNode.AsString.ToString() : null;
-
-            return new ParagraphData(corpus)
-            {
-                Audio = audio,
-                Title = title,
-            };
-        }
-#nullable disable
-
-        private static string RemoveAccents(string input)
-        {
-            // the normalization to FormD splits accented letters in letters+accents
-            // the rest removes those accents (and other non-spacing characters)
-            // and creates a new string from the remaining chars
-            return new string(input
-                .Normalize(NormalizationForm.FormD)
-                .Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
-                .ToArray());
-        }
-
-        private class TomlKey
-        {
-            public string Value { get; private set; }
-
-            private TomlKey(string value) { Value = value; }
-
-            public static TomlKey Header { get { return new TomlKey("header"); } }
-            public static TomlKey Paragraphs { get { return new TomlKey("paragraphs"); } }
-            public static TomlKey Body { get { return new TomlKey("body"); } }
-            public static TomlKey MaxWidth { get { return new TomlKey("max_width"); } }
-            public static TomlKey MaxHeight { get { return new TomlKey("max_height"); } }
-            public static TomlKey Audio { get { return new TomlKey("audio"); } }
-            public static TomlKey Corpus { get { return new TomlKey("corpus"); } }
-            public static TomlKey Title { get { return new TomlKey("title"); } }
         }
     }
 }

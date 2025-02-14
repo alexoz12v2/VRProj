@@ -91,9 +91,7 @@ namespace vrm
     // This object has to persist between scenes, and be instanciated once at application startup
     public class DeviceCheckAndSpawn : Singleton<DeviceCheckAndSpawn>
     {
-        [Header("Prefabs to spawn")]
-        public GameObject _xrControllerPrefab;  // XR Controller Prefab to spawn if OpenXR device is detected
-        public GameObject _fallbackPrefab;      // Fallback Prefab to spawn if no OpenXR device is found
+   
 
         [SerializeField] private bool _forceDesktop = false;
         private bool _startRun = false;
@@ -103,7 +101,7 @@ namespace vrm
 
         public bool isXR { get { return _XRManager != null && _XRManager.XRSupported && _XRManager.XRSubSystemActive; } }
 
-        public void Initialize()
+        public void Start()
         {
             if (_startRun)
                 return;
@@ -123,13 +121,6 @@ namespace vrm
                 // spawn Desktop controller prefab and set main camera to it, eneable Desktop bindings from Input System
                 Debug.Log("There's no XR device here");
             }
-            enablePrefab();
-        }
-
-        private void OnValidate()
-        {
-            if (!Application.isPlaying)
-                enablePrefab();
         }
 
         override protected void OnDestroyCallback()
@@ -139,12 +130,6 @@ namespace vrm
                 _XRManager.Cleanup();
                 _XRManager = null;
             }
-        }
-
-        private void enablePrefab()
-        {
-            _xrControllerPrefab.SetActive(isXR);
-            _fallbackPrefab.SetActive(!isXR);
         }
 
         void SpawnPrefab(GameObject prefab)
