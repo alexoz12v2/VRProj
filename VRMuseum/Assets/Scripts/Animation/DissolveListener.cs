@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+//The end of all
 public class Dissolver : MonoBehaviour
 {
     public SkinnedMeshRenderer[] skinnedMeshes;
@@ -43,7 +43,7 @@ public class Dissolver : MonoBehaviour
     }
     void Start()
     {
-        //Debug.Log("I'm sub to event");
+        //Debug.Log("I'm sub to event"); 
        //I don't have EventLancher singleton EventLauncher.Instance.EventToDissolve += DissolveCo;
     }
     void DissolveCo(object sender, EventArgs args) 
