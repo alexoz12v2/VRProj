@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 2686273760213304389, guid: 74bb64260f8810448b3278834ab0d084, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 55ebd879ce82e7b41addb258d79813ff, type: 2}
+      objectReference: {fileID: 2100000, guid: fc46df2355685454fb41cbabeacf8abe, type: 2}
     - target: {fileID: 3064076952115758618, guid: 74bb64260f8810448b3278834ab0d084, type: 3}
       propertyPath: m_Name
       value: WallForDoor
@@ -19,23 +19,23 @@ PrefabInstance:
     - target: {fileID: 4042543612802022499, guid: 74bb64260f8810448b3278834ab0d084, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 55ebd879ce82e7b41addb258d79813ff, type: 2}
+      objectReference: {fileID: 2100000, guid: fc46df2355685454fb41cbabeacf8abe, type: 2}
     - target: {fileID: 4494972651467402129, guid: 74bb64260f8810448b3278834ab0d084, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 55ebd879ce82e7b41addb258d79813ff, type: 2}
+      objectReference: {fileID: 2100000, guid: fc46df2355685454fb41cbabeacf8abe, type: 2}
     - target: {fileID: 4535818938675636544, guid: 74bb64260f8810448b3278834ab0d084, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 55ebd879ce82e7b41addb258d79813ff, type: 2}
+      objectReference: {fileID: 2100000, guid: fc46df2355685454fb41cbabeacf8abe, type: 2}
     - target: {fileID: 6483203001716912026, guid: 74bb64260f8810448b3278834ab0d084, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 55ebd879ce82e7b41addb258d79813ff, type: 2}
+      objectReference: {fileID: 2100000, guid: fc46df2355685454fb41cbabeacf8abe, type: 2}
     - target: {fileID: 7954159335421373840, guid: 74bb64260f8810448b3278834ab0d084, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 55ebd879ce82e7b41addb258d79813ff, type: 2}
+      objectReference: {fileID: 2100000, guid: fc46df2355685454fb41cbabeacf8abe, type: 2}
     - target: {fileID: 8868705856766789441, guid: 74bb64260f8810448b3278834ab0d084, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10.021639
