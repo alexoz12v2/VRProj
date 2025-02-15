@@ -1,0 +1,11 @@
+Model Information:
+* title:	Wet floor sign
+* source:	https://sketchfab.com/3d-models/wet-floor-sign-e81058722ae4433db03b3d1a7c9a4a21
+* author:	GoodOldWill (https://sketchfab.com/GoodOldWill)
+
+Model License:
+* license type:	CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+* requirements:	Author must be credited. No commercial use. Modified versions must have the same license.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Wet floor sign" (https://sketchfab.com/3d-models/wet-floor-sign-e81058722ae4433db03b3d1a7c9a4a21) by GoodOldWill (https://sketchfab.com/GoodOldWill) licensed under CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
