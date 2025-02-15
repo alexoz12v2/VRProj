@@ -3,7 +3,42 @@ guid: a7762b65e64de9649a587c47565d9334
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #419
+    second: {fileID: 2100000, guid: 40a3cc08b5cded94e9d1f195b19c3885, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: medievalBricks
+    second: {fileID: 2100000, guid: 6aab9c77741b12649bd04003a86d26e8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: stoneWall
+    second: {fileID: 2100000, guid: b3ec346b0a326364184b8c2784c8388c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: woodBeam
+    second: {fileID: 2100000, guid: caad7f4fcfec3c6449fcaea1a6c10817, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: woodRibbon
+    second: {fileID: 2100000, guid: 736fcf91ce68e0d468f25bc626e1438e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: woodenDoor
+    second: {fileID: 2100000, guid: 4cd20636f585c7348b2a773aacd89045, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: woodenPlankFloor
+    second: {fileID: 2100000, guid: 5c3cc16842ad1254c94d1733528b9e18, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
