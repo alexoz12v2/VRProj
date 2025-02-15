@@ -380,6 +380,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2018440880831707901}
+  - component: {fileID: 3539851411619851174}
   m_Layer: 0
   m_Name: UISpawnTest
   m_TagString: Untagged
@@ -403,6 +404,19 @@ Transform:
   - {fileID: 4163740841276455215}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3539851411619851174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584073973614484445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eff140b25d64601aabc6ba32245d099, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _distance: 3
 --- !u!1 &1653763662098939344
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,7 +451,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00012207031}
+  m_AnchoredPosition: {x: 0, y: -0.000030517578}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3542572262427209980
@@ -651,10 +665,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697787893a599f44cb22ce1a64504632, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _followYaw: 1
-  _followPitch: 1
+  _followYaw: 0
+  _followPitch: 0
   _followRoll: 0
-  _rotationSpeed: 5
 --- !u!1 &4449145275668765463
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,6 +680,7 @@ GameObject:
   - component: {fileID: 5154847072066181468}
   - component: {fileID: 6172589024910580729}
   - component: {fileID: 2618400435025624573}
+  - component: {fileID: 303356308567767352}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: UICanvas
@@ -683,8 +697,8 @@ RectTransform:
   m_GameObject: {fileID: 4449145275668765463}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.043432, y: 0.043432, z: 0.043432}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.0012, y: 0.0012, z: 0.0012}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3343634638361307160}
   - {fileID: 7003716727445940289}
@@ -693,7 +707,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 512, y: 1024}
+  m_SizeDelta: {x: 512, y: 512}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5154847072066181468
 Canvas:
@@ -758,6 +772,25 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &303356308567767352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4449145275668765463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7951c64acb0fa62458bf30a60089fe2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 0
+  m_CheckFor2DOcclusion: 0
+  m_CheckFor3DOcclusion: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RaycastTriggerInteraction: 1
 --- !u!1 &4562535349956198266
 GameObject:
   m_ObjectHideFlags: 0
@@ -1105,7 +1138,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6864677174503250524}
   m_HandleRect: {fileID: 6400065258656415212}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

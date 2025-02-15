@@ -11,70 +11,17 @@ namespace vrm
 {
     public class UITest_ClickMeTest : MonoBehaviour
     {
-        private GUIEvents _events = null;
         [SerializeField] private float _heightOffset = 10f;
 
         [Header("Raycast Configuration")]
         [SerializeField] private float _centerRadius = 100f;  // Radius of the circle around the screen center where raycast is valid
         [SerializeField] private bool showDebugLines = true;  // Flag to enable/disable debug line rendering
+        [SerializeField] private string _key;
 
         private bool _uiSelected = false;
 
-        private static string cleanStr(string input)
-        {
-            // Step 1: Remove excess whitespace and literal newlines
-            string cleaned = Regex.Replace(input, @"\s+", " ").Trim();
-            // Step 2: Insert newlines wherever \n is present
-            string result = cleaned.Replace(@"\n", Environment.NewLine);
-            return result;
-        }
-
         // https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/
-        private CanvasData _canvas = new CanvasData
-        {
-            MaxWidth = 2,
-            MaxHeight = 3,
-            Title = "Fiat Revelli Mod. 1914",
-            Paragraphs = new List<ParagraphData> {
-                new(cleanStr(@"
-                    La <b>Fiat-Revelli Mod. 1914<b> e' stata una mitragliatrice media,
-                    adottata dal Regio Esercito Italiano nella prima guerra mondiale.
-                "))
-                {
-                    Audio = "test.wav",
-                    Title = "Introduzione"
-                },
-                new(cleanStr(@"
-                    La <b>Fiat-Revelli Mod. 1914<b> e' stata una mitragliatrice media,
-                    adottata dal Regio Esercito Italiano nella prima guerra mondiale.
-                "))
-                {
-                    Audio = "test.wav",
-                    Title = "Introduzione"
-                }
-            }
-        };
-
-        private Texture2D _circleTexture = null;
-        void Start()
-        {
-            _events = GUIEvents.Instance;
-
-            // TODO remove
-            _circleTexture = new Texture2D((int)(_centerRadius * 2), (int)(_centerRadius * 2));
-
-            // Fill the texture with white color and alpha for transparency
-            for (int y = 0; y < _circleTexture.height; y++)
-            {
-                for (int x = 0; x < _circleTexture.width; x++)
-                {
-                    float distance = Vector2.Distance(new Vector2(x, y), new Vector2(_circleTexture.width / 2, _circleTexture.height / 2));
-                    // If inside the circle radius, color the pixel
-                    _circleTexture.SetPixel(x, y, distance <= _centerRadius ? new Color(1, 1, 1, 0.5f) : new Color(0, 0, 0, 0));  // Transparent for outside
-                }
-            }
-            _circleTexture.Apply();  // Apply the changes to the texture
-        }
+ 
 
         void Update()
         {
@@ -96,7 +43,7 @@ namespace vrm
                 Ray ray = Camera.main.ScreenPointToRay(screenCenter);
                 if (Vector2.Distance(new Vector2(objectScreenPosition.x, objectScreenPosition.y), screenCenter) <= _centerRadius)
                 {
-                    Func<RaycastHit, Vector3> position = hit => hit.transform.position + Vector3.up * _canvas.MaxHeight;
+                    Func<RaycastHit, Vector3> position = hit => hit.transform.position + Vector3.up;
                     Func<RaycastHit, Quaternion> rotation = hit => Quaternion.Inverse(Camera.main.transform.rotation);
                     castRayAndDispatchCanvasEvent(mouseDown, ray, position, rotation);
 
@@ -111,6 +58,7 @@ namespace vrm
         // TODO: (Desktop) Somehow the raycast hits something when the camera points in the opposite direction
         private void castRayAndDispatchCanvasEvent(bool mouseDown, Ray ray, Func<RaycastHit, Vector3> positionFromHit, Func<RaycastHit, Quaternion> rotationFromHit)
         {
+            
             // Raycast from mouse position on the screen
             if (Physics.Raycast(ray, out RaycastHit hit, 30))
             {
@@ -121,7 +69,7 @@ namespace vrm
 
                 if (mouseDown)
                 {
-                    _events.OnGUIDisplayRequest.Invoke(_canvas, position, rotation);
+                    GUIEvents.Instance.OnGUIDisplayRequest.Invoke(GUIDictionary.Instance.GetCanvasDataByKey(_key), position, rotation);
                     _uiSelected = true;
                 }
             }
@@ -134,18 +82,6 @@ namespace vrm
             if (showDebugLines)
             {
                 Debug.DrawRay(ray.origin, ray.direction * 10f, Color.red, 0.1f); // Draw a red ray for 0.1 seconds
-            }
-        }
-
-        private void OnGUI()
-        {
-            if (showDebugLines)
-            {
-                // Draw a circle at the center of the screen
-                float centerX = Screen.width / 2f;
-                float centerY = Screen.height / 2f;
-
-                GUI.DrawTexture(new Rect(centerX - _centerRadius, centerY - _centerRadius, _centerRadius * 2, _centerRadius * 2), _circleTexture);
             }
         }
 
@@ -176,9 +112,9 @@ namespace vrm
             Ray ray = new Ray(args.interactorObject.transform.position, args.interactorObject.transform.forward);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                Vector3 position = hit.transform.position + Vector3.up * _heightOffset * _canvas.MaxHeight;
+                Vector3 position = hit.transform.position + Vector3.up * _heightOffset;
                 Quaternion rotation = Quaternion.Inverse(Camera.main.transform.rotation);
-                _events.OnGUIDisplayRequest.Invoke(_canvas, position, rotation);
+                GUIEvents.Instance.OnGUIDisplayRequest.Invoke(GUIDictionary.Instance.GetCanvasDataByKey(_key), position, rotation);
             }
         }
     }

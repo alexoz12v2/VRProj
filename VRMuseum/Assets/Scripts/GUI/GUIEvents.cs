@@ -49,6 +49,7 @@ namespace vrm {
                     if (canvas == null)
                         Debug.LogError("Couldn't find canvas game object (tagged with UICanvas)");
                     Canvas canvasComponent = canvas.GetComponent<Canvas>();
+                    canvasComponent.worldCamera = Camera.main;
                     GraphicRaycaster raycasterComponent = canvas.GetComponent<GraphicRaycaster>();
 
                     if (canvasComponent == null || raycasterComponent == null)
