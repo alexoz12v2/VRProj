@@ -1,0 +1,11 @@
+Model Information:
+* title:	Coffee Station and Safety Setup
+* source:	https://sketchfab.com/3d-models/coffee-station-and-safety-setup-f3709bc66f574765886febf04747b4fb
+* author:	Cygnos (https://sketchfab.com/cygnos)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Coffee Station and Safety Setup" (https://sketchfab.com/3d-models/coffee-station-and-safety-setup-f3709bc66f574765886febf04747b4fb) by Cygnos (https://sketchfab.com/cygnos) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
