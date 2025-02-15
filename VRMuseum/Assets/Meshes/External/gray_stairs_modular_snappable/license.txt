@@ -1,0 +1,11 @@
+Model Information:
+* title:	Gray stairs (Modular, snappable)
+* source:	https://sketchfab.com/3d-models/gray-stairs-modular-snappable-3f25551a652c4ac19b554070a0798390
+* author:	Danylo Tyupa (https://sketchfab.com/danzl0)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Gray stairs (Modular, snappable)" (https://sketchfab.com/3d-models/gray-stairs-modular-snappable-3f25551a652c4ac19b554070a0798390) by Danylo Tyupa (https://sketchfab.com/danzl0) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
