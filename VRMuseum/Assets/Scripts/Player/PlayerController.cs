@@ -7,6 +7,7 @@ using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.XR;
+using FMOD.Studio;
 using vrm;
 
 public class PlayerController : MonoBehaviour
@@ -19,6 +20,8 @@ public class PlayerController : MonoBehaviour
     public float movementSmoothingSpeed = 1f;
     private Vector3 rawInputMovement = Vector3.zero;
     private Vector3 smoothInputMovement = Vector3.zero;
+
+    private EventInstance _playerFootsteps;
 
     // Input Actions Asset must contain these maps!
     const string actionMapPlayerControls = "Player Controls";
@@ -87,6 +90,7 @@ public class PlayerController : MonoBehaviour
         {
             GameManager.Instance.GameStateChanged -= onGameModeChanged;
         };
+        _playerFootsteps = AudioManager.Instance.CreateInstance(FMODEvents.Instance.PlayerFootsteps);
     }
 
     // Input Action Event Callbacks -----------------------------------------------------------------------------------
@@ -101,6 +105,23 @@ public class PlayerController : MonoBehaviour
         {
             Vector2 inputMovement = value.ReadValue<Vector2>();
             rawInputMovement = new(inputMovement.x, 0f, inputMovement.y);
+            
+            
+            if (!rawInputMovement.Equals(Vector3.zero))
+            {
+                Debug.Log($"Play sound");
+                PLAYBACK_STATE playbackState;
+                _playerFootsteps.getPlaybackState(out playbackState);
+                if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
+                {
+                    _playerFootsteps.start();
+                }
+
+            }
+            else
+            {
+                _playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
+            }
         }
     }
 
