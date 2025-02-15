@@ -6510,7 +6510,8 @@ PrefabInstance:
       value: Light Switch
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: -2845779275431937956, guid: ac7fdc68226a9104fbda18e58ea68632, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac7fdc68226a9104fbda18e58ea68632, type: 3}
