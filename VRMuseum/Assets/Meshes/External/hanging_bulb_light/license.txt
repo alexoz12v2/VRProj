@@ -1,0 +1,11 @@
+Model Information:
+* title:	Hanging Bulb Light
+* source:	https://sketchfab.com/3d-models/hanging-bulb-light-6472a85d29e146218c8260b727985a81
+* author:	zelmore402 (https://sketchfab.com/zelmore402)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Hanging Bulb Light" (https://sketchfab.com/3d-models/hanging-bulb-light-6472a85d29e146218c8260b727985a81) by zelmore402 (https://sketchfab.com/zelmore402) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -3,7 +3,22 @@ guid: 7b87d4313db7a2449b3a05f9e387aa3a
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_FlashLightBody
+    second: {fileID: 2100000, guid: d69bec53cffc5184ea7c05c52f2858db, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_FlashLightInnerLense
+    second: {fileID: 2100000, guid: 4f395795ae111ed4c8fc8874c3d238b2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_FlashLightOuterLense
+    second: {fileID: 2100000, guid: 9f69082fe91c42146b2d77eb018a5ee4, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
