@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem.XR;
 using System;
 using FMODUnity;
+using UnityEngine.SceneManagement;
 
 namespace vrm
 {
@@ -178,6 +179,28 @@ namespace vrm
             GameDestroy?.Invoke();
         }
 
-        // Manual Cursor Management ---------------------------------
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void EnsureSceneIsLoaded()
+        {
+            string sceneName = "Shared";
+
+            if (!IsSceneLoaded(sceneName))
+            {
+                SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+            }
+        }
+
+        private static bool IsSceneLoaded(string sceneName)
+        {
+            for (int i = 0; i < SceneManager.sceneCount; i++)
+            {
+                Scene scene = SceneManager.GetSceneAt(i);
+                if (scene.name == sceneName)
+                {
+                    return true; // Scene is already loaded
+                }
+            }
+            return false; // Scene is not loaded
+        }
     }
 }
