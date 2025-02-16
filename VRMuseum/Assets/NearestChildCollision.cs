@@ -32,6 +32,7 @@ namespace vrm
         private void OnEnable()
         {
             Actions.Interact().performed += OnInteract;
+            Actions.Deselect().performed += OnDeselect;
             PauseManager.Instance.OnPaused += OnPaused;
             PauseManager.Instance.OnUnpaused += OnUnpaused;
         }
@@ -39,6 +40,7 @@ namespace vrm
         private void OnDisable()
         {
             Actions.Interact().performed -= OnInteract;
+            Actions.Deselect().performed -= OnDeselect;
             PauseManager.Instance.OnPaused -= OnPaused;
             PauseManager.Instance.OnUnpaused -= OnUnpaused;
         }
@@ -46,11 +48,19 @@ namespace vrm
         private void OnPaused()
         {
             Actions.Interact().performed -= OnInteract;
+            if (m_audioInstance.HasValue && m_audioInstance.Value.isValid())
+            {
+                m_audioInstance.Value.getPlaybackState(out PLAYBACK_STATE state); 
+                if (state == PLAYBACK_STATE.PLAYING)
+                    m_audioInstance.Value.setPaused(true);
+            }
         }
 
         private void OnUnpaused()
         {
             Actions.Interact().performed += OnInteract;
+            if (m_audioInstance.HasValue && m_audioInstance.Value.isValid())
+                m_audioInstance.Value.setPaused(false);
         }
 
         private void Update()
@@ -68,7 +78,7 @@ namespace vrm
                         return (float.PositiveInfinity, bundle);
                 })
                 .OrderBy(tuple => tuple.Item1)
-                .Select(tuple => tuple.Item2)
+                .Select(tuple => tuple.bundle)
                 .ToList();
             if (list.Count > 0)
             {
@@ -98,6 +108,12 @@ namespace vrm
             }
 
             m_audioInstance = AudioManager.Instance.PlaySound2D(bundle.AudioEventRef);
+        }
+
+        private void OnDeselect(InputAction.CallbackContext context)
+        {
+            if (m_audioInstance.HasValue && m_audioInstance.Value.isValid())
+                AudioManager.Instance.StopSound(m_audioInstance.Value);
         }
     }
 }
