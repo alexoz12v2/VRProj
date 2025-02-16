@@ -32,7 +32,6 @@ namespace vrm
         private void OnEnable()
         {
             Actions.Interact().performed += OnInteract;
-            Actions.Deselect().performed += OnDeselect;
             PauseManager.Instance.OnPaused += OnPaused;
             PauseManager.Instance.OnUnpaused += OnUnpaused;
         }
@@ -40,7 +39,6 @@ namespace vrm
         private void OnDisable()
         {
             Actions.Interact().performed -= OnInteract;
-            Actions.Deselect().performed -= OnDeselect;
             PauseManager.Instance.OnPaused -= OnPaused;
             PauseManager.Instance.OnUnpaused -= OnUnpaused;
         }
@@ -110,7 +108,8 @@ namespace vrm
             m_audioInstance = AudioManager.Instance.PlaySound2D(bundle.AudioEventRef);
         }
 
-        private void OnDeselect(InputAction.CallbackContext context)
+        // called by InsepctableObject or by any other logic which needs the audio to be stopped
+        public void Cleanup()
         {
             if (m_audioInstance.HasValue && m_audioInstance.Value.isValid())
                 AudioManager.Instance.StopSound(m_audioInstance.Value);
