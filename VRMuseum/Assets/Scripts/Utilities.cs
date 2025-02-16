@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -616,7 +617,6 @@ namespace vrm
         {
             return "<XRController>{" + (interactor.CompareTag(Tags.LeftXRControllerChild) ? "Left" : "Right") + "Hand}/{Primary2DAxis}";
         }
-
     }
 
     public class Actions
