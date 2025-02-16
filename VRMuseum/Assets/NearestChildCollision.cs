@@ -32,11 +32,25 @@ namespace vrm
         private void OnEnable()
         {
             Actions.Interact().performed += OnInteract;
+            PauseManager.Instance.OnPaused += OnPaused;
+            PauseManager.Instance.OnUnpaused += OnUnpaused;
         }
 
         private void OnDisable()
         {
             Actions.Interact().performed -= OnInteract;
+            PauseManager.Instance.OnPaused -= OnPaused;
+            PauseManager.Instance.OnUnpaused -= OnUnpaused;
+        }
+
+        private void OnPaused()
+        {
+            Actions.Interact().performed -= OnInteract;
+        }
+
+        private void OnUnpaused()
+        {
+            Actions.Interact().performed += OnInteract;
         }
 
         private void Update()
