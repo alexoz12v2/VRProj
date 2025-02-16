@@ -108,6 +108,7 @@ namespace vrm
 
         private void Deselect()
         {
+            m_Images.GetComponent<NearestChildCollision>().Cleanup();
             m_Images.SetActive(false);
             gameObject.SetLayerRecursively(m_StartRenderLayer);
             m_Selected = false;
