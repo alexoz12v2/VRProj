@@ -38,7 +38,9 @@ namespace vrm
 
         private void OnDisable()
         {
-            Actions.Interact().performed -= OnInteract;
+            InputAction interact = Actions.Interact();
+            if (interact != null) // check needed for when the application shuts down
+                interact.performed -= OnInteract;
             PauseManager.Instance.OnPaused -= OnPaused;
             PauseManager.Instance.OnUnpaused -= OnUnpaused;
         }
@@ -48,7 +50,7 @@ namespace vrm
             Actions.Interact().performed -= OnInteract;
             if (m_audioInstance.HasValue && m_audioInstance.Value.isValid())
             {
-                m_audioInstance.Value.getPlaybackState(out PLAYBACK_STATE state); 
+                m_audioInstance.Value.getPlaybackState(out PLAYBACK_STATE state);
                 if (state == PLAYBACK_STATE.PLAYING)
                     m_audioInstance.Value.setPaused(true);
             }
@@ -66,6 +68,20 @@ namespace vrm
             if (m_ImageBundles.Count == 0 || PauseManager.Instance.Paused)
                 return;
 
+            UpdateSelectedBundle();
+
+            if (m_audioInstance.HasValue && m_audioInstance.Value.isValid())
+            {
+                float perc = AudioManager.Instance.GetPlaybackPercentage(m_audioInstance.Value);
+                // TODO REMOVE
+                gameObject.GetComponent<ImGUIProgressBar>().Progress = perc;
+                if (perc >= 1f)
+                    Methods.RemoveComponent<ImGUIProgressBar>(gameObject);
+            }
+        }
+
+        private void UpdateSelectedBundle()
+        {
             Ray ray = new(Camera.main.transform.position, Camera.main.transform.forward);
             var list = m_ImageBundles
                 .Select(bundle =>
@@ -103,9 +119,13 @@ namespace vrm
             {
                 AudioManager.Instance.StopSound(m_audioInstance.Value);
                 m_audioInstance = null;
+                // TODO REMOVE
+                Methods.RemoveComponent<ImGUIProgressBar>(gameObject);
             }
 
             m_audioInstance = AudioManager.Instance.PlaySound2D(bundle.AudioEventRef);
+            // TODO REMOVE
+            gameObject.AddComponent<ImGUIProgressBar>();
         }
 
         // called by InsepctableObject or by any other logic which needs the audio to be stopped
@@ -113,6 +133,8 @@ namespace vrm
         {
             if (m_audioInstance.HasValue && m_audioInstance.Value.isValid())
                 AudioManager.Instance.StopSound(m_audioInstance.Value);
+            // TODO REMOVE
+            Methods.RemoveComponent<ImGUIProgressBar>(gameObject);
         }
     }
 }
