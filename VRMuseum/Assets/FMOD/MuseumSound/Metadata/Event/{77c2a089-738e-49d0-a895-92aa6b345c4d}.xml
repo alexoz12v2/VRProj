@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.02.02.00">
+<objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{77c2a089-738e-49d0-a895-92aa6b345c4d}">
 		<property name="name">
 			<value>UIBackgroundMusic</value>

@@ -18,6 +18,11 @@ public class FMODEvents : Singleton<FMODEvents>
     [field: SerializeField] public EventReference BackgroundUI { get; private set; }
     [field: Header("UI")]
     [field: SerializeField] public EventReference ClickUI { get; private set; }
+    [field: Header("UI/Interactions/FiatRevelli")]
+    [field: SerializeField] public EventReference FiatRevelliOnLancia1z { get; private set; }
+    [field: SerializeField] public EventReference FiatRevelliOnForest { get; private set; }
+    [field: SerializeField] public EventReference FiatRevelliWithSoldiers { get; private set; }
+    [field: SerializeField] public EventReference FiatRevelliRiconquistaLibia { get; private set; }
 
     protected override void OnDestroyCallback()
     {

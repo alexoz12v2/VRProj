@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.02.02.00">
+<objects serializationModel="Studio.02.03.00">
 	<object class="AudioFile" id="{0d35a00c-c6d0-49be-89b9-297c2164fb0d}">
 		<property name="assetPath">
 			<value>SFX/Dissolve/deconstruction-set_thefinalcrash02.wav</value>
