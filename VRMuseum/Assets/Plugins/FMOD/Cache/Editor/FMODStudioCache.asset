@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638753371887660683
+  lastModified: 638753394062534530
   FileSizes:
   - Name: Desktop
-    Value: 1632
+    Value: 1778
   Exists: 1
 --- !u!114 &-7482656149067244905
 MonoBehaviour:
@@ -55,10 +55,10 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638753371887670732
+  lastModified: 638753394062534530
   FileSizes:
   - Name: Desktop
-    Value: 1576
+    Value: 1618
   Exists: 1
 --- !u!114 &-4155826722424824534
 MonoBehaviour:
@@ -130,7 +130,7 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 638753371887870681
+  lastModified: 638753394062734663
   FileSizes:
   - Name: Desktop
     Value: 2880
@@ -177,7 +177,7 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Voice.bank
   Name: Voice
   StudioPath: bank:/Voice
-  lastModified: 638753371888070681
+  lastModified: 638753394062954796
   FileSizes:
   - Name: Desktop
     Value: 1573152
@@ -241,7 +241,7 @@ MonoBehaviour:
   - {fileID: -7729416478897867117}
   StringsBanks:
   - {fileID: -6004531602806198044}
-  cacheTime: 638753371888070681
+  cacheTime: 638753394062954796
   cacheVersion: 131622
 --- !u!114 &72039294544948279
 MonoBehaviour:

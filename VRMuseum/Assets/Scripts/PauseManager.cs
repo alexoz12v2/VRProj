@@ -15,12 +15,7 @@ namespace vrm
         public System.Action OnPaused;
         public System.Action OnUnpaused;
 
-        private void Start()
-        {
-            GameManager.Instance.GameStartStarted += Register;
-        }
-
-        private void Register()
+        public void Register()
         {
             Actions.Pause().performed += OnPause;
         }

@@ -118,6 +118,7 @@ namespace vrm
             spawnPlayer();
             setupPlayer();
             AudioManager.Instance.Initialize();
+            PauseManager.Instance.Register();
 
             Transform t = null;
             if (DeviceCheckAndSpawn.Instance.isXR)

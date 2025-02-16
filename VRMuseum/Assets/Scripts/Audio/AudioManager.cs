@@ -46,7 +46,7 @@ namespace vrm
             _sfxBus = RuntimeManager.GetBus("bus:/SFX");
             _UIBus = RuntimeManager.GetBus("bus:/UI");
             _musicBus = RuntimeManager.GetBus("bus:/Music");
-            _VoiceBus = RuntimeManager.GetBus("bus:/Voice");
+            _VoiceBus = RuntimeManager.GetBus("bus:/VoiceGroup");
         }
 
         private void Update()
