@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using FMODUnity;
 using FMOD.Studio;
+using System.Runtime.CompilerServices;
+using UnityEngine.UIElements;
 
 namespace vrm
 {
@@ -20,9 +22,10 @@ namespace vrm
         public float MusicVolume = 1;
         [Range(0, 1)]
         public float UIVolume = 1;
+        [Range(0, 1)]
+        public float VoiceVolume = 1;
 
-
-        private List<EventInstance> _eventInstances = new();
+        private HashSet<EventInstance> _eventInstances = new();
         private List<StudioEventEmitter> _eventEmitters = new();
         private EventInstance _background;
         private EventInstance _ambientEventInstance;
@@ -32,15 +35,54 @@ namespace vrm
         private Bus _sfxBus;
         private Bus _musicBus;
         private Bus _UIBus;
+        private Bus _VoiceBus;
 
-        public void Awake()
+        // Unity MonoBehaviour Lifecycle ------------------------------------------------------------------------------
+        private void Awake()
         {
+            // get ha handle to all buses
             _masterBus = RuntimeManager.GetBus("bus:/");
             _ambientBus = RuntimeManager.GetBus("bus:/Ambient");
             _sfxBus = RuntimeManager.GetBus("bus:/SFX");
             _UIBus = RuntimeManager.GetBus("bus:/UI");
             _musicBus = RuntimeManager.GetBus("bus:/Music");
+            _VoiceBus = RuntimeManager.GetBus("bus:/Voice");
         }
+
+        private void Update()
+        {
+            // set current volume
+            _masterBus.setVolume(MasterVolume);
+            _ambientBus.setVolume(AmbientVolume);
+            _sfxBus.setVolume(SFXVolume);
+            _UIBus.setVolume(UIVolume);
+            _musicBus.setVolume(MusicVolume);
+            _VoiceBus.setVolume(VoiceVolume);
+
+            // check for in flight event instances which should be terminated
+            List<EventInstance> toRemove = new();
+            foreach (var eventInstance in _eventInstances)
+            {
+                if (!eventInstance.isValid())
+                {
+                    toRemove.Add(eventInstance);
+                }
+                else
+                {
+                    eventInstance.getPlaybackState(out PLAYBACK_STATE state);
+                    if (state == PLAYBACK_STATE.STOPPED)
+                        toRemove.Add(eventInstance);
+                }
+            }
+
+            foreach (var eventInstance in toRemove)
+            {
+                _eventInstances.Remove(eventInstance);
+                eventInstance.release();
+            }
+        }
+
+        // public Methods ---------------------------------------------------------------------------------------------
         public void Initialize()
         {
             //InitializeBackground(FMODEvents.Instance.background);
@@ -92,7 +134,39 @@ namespace vrm
             _background.setParameterByName(parameterName, parameterValue);
         }
 
+        public EventInstance PlaySound3D(EventReference sound, Vector3 position)
+        {
+            EventInstance eventInstance = RuntimeManager.CreateInstance(sound);
+            eventInstance.set3DAttributes(RuntimeUtils.To3DAttributes(position));
+            eventInstance.start();
 
+            _eventInstances.Add(eventInstance);
+
+            return eventInstance;
+        }
+
+        public EventInstance PlaySound2D(EventReference sound)
+        {
+            EventInstance eventInstance = RuntimeManager.CreateInstance(sound);
+
+            eventInstance.set3DAttributes(new FMOD.ATTRIBUTES_3D { position = new FMOD.VECTOR { x = 0, y = 0, z = 0 } });
+            eventInstance.start();
+            _eventInstances.Add(eventInstance);
+
+            return eventInstance;
+        }
+
+        public void StopSound(EventInstance eventInstance)
+        {
+            if (_eventInstances.Contains(eventInstance))
+            {
+                eventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                eventInstance.release();
+                _eventInstances.Remove(eventInstance);
+            }
+        }
+
+        // Private/Protected Methods ----------------------------------------------------------------------------------
 
         private void CleanUp()
         {
@@ -107,17 +181,12 @@ namespace vrm
                 emitter.Stop();
             }
         }
-        private void Update()
-        {
-            _masterBus.setVolume(MasterVolume);
-            _ambientBus.setVolume(AmbientVolume);
-            _sfxBus.setVolume(SFXVolume);
-            _UIBus.setVolume(UIVolume);
-            _musicBus.setVolume(MusicVolume);
-        }
+
         protected override void OnDestroyCallback()
         {
             CleanUp();
         }
+
+
     }
 }

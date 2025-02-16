@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638752101671720038
+  lastModified: 638753371887660683
   FileSizes:
   - Name: Desktop
     Value: 1632
@@ -35,7 +35,7 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638752101671880039
+  lastModified: 638753318807744499
   FileSizes:
   - Name: Desktop
     Value: 102624
@@ -55,10 +55,10 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638752101671720038
+  lastModified: 638753371887670732
   FileSizes:
   - Name: Desktop
-    Value: 1312
+    Value: 1576
   Exists: 1
 --- !u!114 &-4155826722424824534
 MonoBehaviour:
@@ -130,10 +130,57 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 638752101671890036
+  lastModified: 638753371887870681
   FileSizes:
   - Name: Desktop
     Value: 2880
+  Exists: 1
+--- !u!114 &-1086806588358740838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Interactions/FiatRevelli/FiatRevelliOnLancia1z
+  m_EditorClassIdentifier: 
+  Path: event:/Interactions/FiatRevelli/FiatRevelliOnLancia1z
+  Guid:
+    Data1: 473899036
+    Data2: 1297991681
+    Data3: -28433992
+    Data4: -872151985
+  Banks:
+  - {fileID: -245851728278947669}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 24264
+--- !u!114 &-245851728278947669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voice.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD/MuseumSound/Build/Desktop/Voice.bank
+  Name: Voice
+  StudioPath: bank:/Voice
+  lastModified: 638753371888070681
+  FileSizes:
+  - Name: Desktop
+    Value: 1573152
   Exists: 1
 --- !u!114 &-67012183513436930
 MonoBehaviour:
@@ -178,18 +225,23 @@ MonoBehaviour:
   - {fileID: 4128028319592528060}
   - {fileID: 4693429333812065633}
   - {fileID: -2006654773314275379}
+  - {fileID: -245851728278947669}
   EditorEvents:
   - {fileID: 7372561274350865372}
   - {fileID: 6416122268037465533}
   - {fileID: -4155826722424824534}
   - {fileID: 72039294544948279}
   - {fileID: -3436606529102364135}
+  - {fileID: 8917193532387953436}
+  - {fileID: -1086806588358740838}
+  - {fileID: 3235833178744651596}
+  - {fileID: 2558430707894451201}
   EditorParameters: []
   MasterBanks:
   - {fileID: -7729416478897867117}
   StringsBanks:
   - {fileID: -6004531602806198044}
-  cacheTime: 638752101671890036
+  cacheTime: 638753371888070681
   cacheVersion: 131622
 --- !u!114 &72039294544948279
 MonoBehaviour:
@@ -218,6 +270,60 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 199575
+--- !u!114 &2558430707894451201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Interactions/FiatRevelli/FiatRevelliOnForest
+  m_EditorClassIdentifier: 
+  Path: event:/Interactions/FiatRevelli/FiatRevelliOnForest
+  Guid:
+    Data1: 1672557277
+    Data2: 1101653078
+    Data3: -904935236
+    Data4: -1666597196
+  Banks:
+  - {fileID: -245851728278947669}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 29856
+--- !u!114 &3235833178744651596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Interactions/FiatRevelli/FiatRevelliRiconquistaLibia
+  m_EditorClassIdentifier: 
+  Path: event:/Interactions/FiatRevelli/FiatRevelliRiconquistaLibia
+  Guid:
+    Data1: 1519596759
+    Data2: 1106997398
+    Data3: 1182718639
+    Data4: -1968932009
+  Banks:
+  - {fileID: -245851728278947669}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 77112
 --- !u!114 &4128028319592528060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,10 +339,10 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Ambient.bank
   Name: Ambient
   StudioPath: bank:/Ambient
-  lastModified: 638752101671710041
+  lastModified: 638753318806955438
   FileSizes:
   - Name: Desktop
-    Value: 6198048
+    Value: 6198112
   Exists: 1
 --- !u!114 &4693429333812065633
 MonoBehaviour:
@@ -253,7 +359,7 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638752101671870031
+  lastModified: 638753318807358490
   FileSizes:
   - Name: Desktop
     Value: 2254048
@@ -312,3 +418,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 495
+--- !u!114 &8917193532387953436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Interactions/FiatRevelli/FiatRevelliWithSoldiers
+  m_EditorClassIdentifier: 
+  Path: event:/Interactions/FiatRevelli/FiatRevelliWithSoldiers
+  Guid:
+    Data1: -1156849906
+    Data2: 1103128736
+    Data3: -1181084287
+    Data4: -874825101
+  Banks:
+  - {fileID: -245851728278947669}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 46656

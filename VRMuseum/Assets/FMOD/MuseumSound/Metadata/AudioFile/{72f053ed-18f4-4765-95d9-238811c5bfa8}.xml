@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.02.02.00">
+<objects serializationModel="Studio.02.03.00">
 	<object class="AudioFile" id="{72f053ed-18f4-4765-95d9-238811c5bfa8}">
 		<property name="assetPath">
 			<value>SFX/Arm/Carcano/CarcanoFire02.ogg</value>

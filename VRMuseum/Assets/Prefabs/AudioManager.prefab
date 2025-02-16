@@ -48,6 +48,8 @@ MonoBehaviour:
   MasterVolume: 1
   AmbientVolume: 1
   SFXVolume: 1
+  MusicVolume: 1
+  UIVolume: 1
 --- !u!1 &8278278410884864369
 GameObject:
   m_ObjectHideFlags: 0
@@ -113,3 +115,45 @@ MonoBehaviour:
       Data3: 1690907057
       Data4: -1429673121
     Path: event:/AmbientSound
+  <BackgroundUI>k__BackingField:
+    Guid:
+      Data1: 2009243785
+      Data2: 1238397838
+      Data3: -1433234008
+      Data4: 1297888363
+    Path: event:/UIBackgroundMusic
+  <ClickUI>k__BackingField:
+    Guid:
+      Data1: 2056856734
+      Data2: 1074791842
+      Data3: 353261971
+      Data4: 2086582719
+    Path: event:/UIClick
+  <FiatRevelliOnLancia1z>k__BackingField:
+    Guid:
+      Data1: 473899036
+      Data2: 1297991681
+      Data3: -28433992
+      Data4: -872151985
+    Path: event:/Interactions/FiatRevelli/FiatRevelliOnLancia1z
+  <FiatRevelliOnForest>k__BackingField:
+    Guid:
+      Data1: 1672557277
+      Data2: 1101653078
+      Data3: -904935236
+      Data4: -1666597196
+    Path: event:/Interactions/FiatRevelli/FiatRevelliOnForest
+  <FiatRevelliWithSoldiers>k__BackingField:
+    Guid:
+      Data1: -1156849906
+      Data2: 1103128736
+      Data3: -1181084287
+      Data4: -874825101
+    Path: event:/Interactions/FiatRevelli/FiatRevelliWithSoldiers
+  <FiatRevelliRiconquistaLibia>k__BackingField:
+    Guid:
+      Data1: 1519596759
+      Data2: 1106997398
+      Data3: 1182718639
+      Data4: -1968932009
+    Path: event:/Interactions/FiatRevelli/FiatRevelliRiconquistaLibia
