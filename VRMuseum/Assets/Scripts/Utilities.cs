@@ -622,7 +622,7 @@ namespace vrm
     public class Actions
     {
         private Actions() { }
-       
+
         static public InputAction Interact()
         {
             return GameManager.Instance.player.playerInput.currentActionMap["Interact"];
@@ -747,6 +747,44 @@ namespace vrm
                 m_RigidBody.isKinematic = false;  // Restore original physics settings
                 m_RigidBody.useGravity = true;
             }
+        }
+    }
+
+    public struct ProgressBarSpec
+    {
+        public ProgressBarSpec(float x, float y, float width, float height)
+        {
+            X = x;
+            Y = y;
+            Width = width;
+            Height = height;
+        }
+
+        public float X;
+        public float Y;
+        public float Width;
+        public float Height;
+    }
+
+    public class ImGUIProgressBar : MonoBehaviour
+    {
+        [Range(0f, 1f)]
+        public float Progress = 0f;
+        public ProgressBarSpec? Spec;
+
+        private void OnGUI()
+        {
+            // Set progress bar position and size
+            float barWidth = Spec.HasValue ? Spec.Value.Width : 300f;
+            float barHeight = Spec.HasValue ? Spec.Value.Height : 25f;
+            float barX = Spec.HasValue ? Spec.Value.X : (Screen.width - barWidth) / 2;
+            float barY = Spec.HasValue ? Spec.Value.Y : Screen.height - 50f;
+
+            // Draw background bar
+            GUI.Box(new Rect(barX, barY, barWidth, barHeight), "");
+
+            // Draw progress bar
+            GUI.Box(new Rect(barX, barY, barWidth * Progress, barHeight), "Progress");
         }
     }
 }

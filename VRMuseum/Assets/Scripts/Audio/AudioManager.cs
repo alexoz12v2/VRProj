@@ -166,6 +166,28 @@ namespace vrm
             }
         }
 
+        public float GetPlaybackPercentage(EventInstance eventInstance)
+        {
+            if (!eventInstance.isValid())
+                return 0f;
+
+            // Get current position in milliseconds
+            eventInstance.getTimelinePosition(out int currentPositionMs);
+
+            // Get event description
+            eventInstance.getDescription(out EventDescription eventDescription);
+
+            // Get total length in milliseconds
+            eventDescription.getLength(out int totalLengthMs);
+
+            if (totalLengthMs > 0)
+            {
+                return (float)currentPositionMs / totalLengthMs;
+            }
+
+            return 0f;
+        }
+
         // Private/Protected Methods ----------------------------------------------------------------------------------
 
         private void CleanUp()
