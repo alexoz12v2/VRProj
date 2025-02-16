@@ -74,9 +74,13 @@ namespace vrm
             {
                 float perc = AudioManager.Instance.GetPlaybackPercentage(m_audioInstance.Value);
                 // TODO REMOVE
-                gameObject.GetComponent<ImGUIProgressBar>().Progress = perc;
-                if (perc >= 1f)
-                    Methods.RemoveComponent<ImGUIProgressBar>(gameObject);
+                var comp = gameObject.GetComponent<ImGUIProgressBar>();
+                if (comp != null)
+                {
+                    comp.Progress = perc;
+                    if (perc >= 1f)
+                        Methods.RemoveComponent<ImGUIProgressBar>(gameObject);
+                }
             }
         }
 
