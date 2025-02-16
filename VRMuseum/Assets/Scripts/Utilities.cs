@@ -42,6 +42,7 @@ namespace vrm
         GrabbedOutline = 11,
         Hidden = 12,
         Object = 13,
+        OutlineObject = 14,
     }
 
     [Flags]
@@ -614,6 +615,27 @@ namespace vrm
         static public string XRPrimaryAxisPathHand(GameObject interactor)
         {
             return "<XRController>{" + (interactor.CompareTag(Tags.LeftXRControllerChild) ? "Left" : "Right") + "Hand}/{Primary2DAxis}";
+        }
+
+    }
+
+    public class Actions
+    {
+        private Actions() { }
+       
+        static public InputAction Interact()
+        {
+            return GameManager.Instance.player.playerInput.currentActionMap["Interact"];
+        }
+
+        static public InputAction Deselect()
+        {
+            return GameManager.Instance.player.playerInput.currentActionMap["Deselect"];
+        }
+
+        static public InputAction Pause()
+        {
+            return GameManager.Instance.player.playerInput.currentActionMap["Pause"];
         }
     }
 

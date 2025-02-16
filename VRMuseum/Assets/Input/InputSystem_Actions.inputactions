@@ -29,7 +29,7 @@
                     "id": "57263d8b-6e73-46a6-bfb8-c2cc992d24b4",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Press(behavior=2)",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -63,6 +63,24 @@
                     "name": "Lower",
                     "type": "Button",
                     "id": "bd3260b5-b06a-4835-ad34-fa68c2bcfbd8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Deselect",
+                    "type": "Button",
+                    "id": "3bf3a878-9483-4797-858b-1402d9b2c8fe",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "e4eae8d8-6695-4327-b939-d346600ae9c0",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -276,6 +294,28 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Lower",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8b2ceed3-0286-49b7-a642-d1cb51c8a087",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Deselect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d98de213-07af-4049-9ee5-ff25bdffe02c",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
