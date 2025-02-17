@@ -207,3 +207,38 @@ MonoBehaviour:
       Data3: -617920578
       Data4: -442532792
     Path: event:/Interactions/Bomba/BombaTrincea
+  <HelmetIntro>k__BackingField:
+    Guid:
+      Data1: -1077155488
+      Data2: 1313567302
+      Data3: 2001430171
+      Data4: 1404991970
+    Path: event:/Interactions/Helmet/HelmetIntro
+  <HelmetAlpini>k__BackingField:
+    Guid:
+      Data1: 355496157
+      Data2: 1292237461
+      Data3: -1298414150
+      Data4: -219403020
+    Path: event:/Interactions/Helmet/HelmetAlpini
+  <HelmetPettinengo>k__BackingField:
+    Guid:
+      Data1: -1936785626
+      Data2: 1105293053
+      Data3: 1797281936
+      Data4: -1773368644
+    Path: event:/Interactions/Helmet/HelmetPettinengo
+  <PugnaleAccoppati>k__BackingField:
+    Guid:
+      Data1: -914160982
+      Data2: 1277333925
+      Data3: 964963504
+      Data4: 129293905
+    Path: event:/Interactions/Pugnale/PugnaleAccoppati
+  <PugnaleArditi>k__BackingField:
+    Guid:
+      Data1: -365753424
+      Data2: 1103564399
+      Data3: 744067506
+      Data4: -1015640226
+    Path: event:/Interactions/Pugnale/PugnaleArditi
