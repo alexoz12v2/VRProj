@@ -42,7 +42,7 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638754233189127416
+  lastModified: 638754263606859547
   FileSizes:
   - Name: Desktop
     Value: 1778
@@ -82,10 +82,10 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638754233189127416
+  lastModified: 638754263606869549
   FileSizes:
   - Name: Desktop
-    Value: 2190
+    Value: 2292
   Exists: 1
 --- !u!114 &-4972672428191179370
 MonoBehaviour:
@@ -114,6 +114,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 25800
+--- !u!114 &-4652194822707411810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Interactions/Mask/MaskPolivalente
+  m_EditorClassIdentifier: 
+  Path: event:/Interactions/Mask/MaskPolivalente
+  Guid:
+    Data1: -28787382
+    Data2: 1197522719
+    Data3: 190123402
+    Data4: 1985090927
+  Banks:
+  - {fileID: -245851728278947669}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 51768
 --- !u!114 &-4212949499591781399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,6 +378,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 24264
+--- !u!114 &-1070410013506259550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Interactions/Mask/MaskChimica
+  m_EditorClassIdentifier: 
+  Path: event:/Interactions/Mask/MaskChimica
+  Guid:
+    Data1: 1084423548
+    Data2: 1240432746
+    Data3: -279004233
+    Data4: -97041261
+  Banks:
+  - {fileID: -245851728278947669}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 22584
 --- !u!114 &-668758468304416098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,10 +447,10 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Voice.bank
   Name: Voice
   StudioPath: bank:/Voice
-  lastModified: 638754233194218892
+  lastModified: 638754263611839781
   FileSizes:
   - Name: Desktop
-    Value: 4739360
+    Value: 5394656
   Exists: 1
 --- !u!114 &-67012183513436930
 MonoBehaviour:
@@ -464,12 +518,14 @@ MonoBehaviour:
   - {fileID: -8193738714961137179}
   - {fileID: -1416637082038075710}
   - {fileID: -3225745306824736923}
+  - {fileID: -4652194822707411810}
+  - {fileID: -1070410013506259550}
   EditorParameters: []
   MasterBanks:
   - {fileID: -7729416478897867117}
   StringsBanks:
   - {fileID: -6004531602806198044}
-  cacheTime: 638754233194218892
+  cacheTime: 638754263611839781
   cacheVersion: 131622
 --- !u!114 &72039294544948279
 MonoBehaviour:
