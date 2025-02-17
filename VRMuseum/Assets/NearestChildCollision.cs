@@ -95,18 +95,26 @@ namespace vrm
                         return (float.PositiveInfinity, bundle);
                 })
                 .OrderBy(tuple => tuple.Item1)
-                .Select(tuple => tuple.bundle)
                 .ToList();
-            if (list.Count > 0)
+            if (float.IsFinite(list[0].Item1))
             {
-                GameObject go = list[0].Collider.gameObject;
+                GameObject go = list[0].bundle.Collider.gameObject;
                 go.layer = (int)Layers.OutlineObject;
-                list[0].Selected = true;
+                list[0].bundle.Selected = true;
                 for (int i = 1; i < list.Count; ++i)
                 {
-                    go = list[i].Collider.gameObject;
+                    go = list[i].bundle.Collider.gameObject;
                     go.layer = (int)Layers.Default;
-                    list[i].Selected = false;
+                    list[i].bundle.Selected = false;
+                }
+            }
+            else 
+            {
+                for (int i = 0; i < list.Count; ++i)
+                {
+                    GameObject go = list[i].bundle.Collider.gameObject;
+                    go.layer = (int)Layers.Default;
+                    list[i].bundle.Selected = false;
                 }
             }
         }
@@ -135,7 +143,10 @@ namespace vrm
         public void Cleanup()
         {
             if (m_audioInstance.HasValue && m_audioInstance.Value.isValid())
+            {
+                Debug.Log($"Stopping sound {m_audioInstance.Value}");
                 AudioManager.Instance.StopSound(m_audioInstance.Value);
+            }
             // TODO REMOVE
             Methods.RemoveComponent<ImGUIProgressBar>(gameObject);
         }

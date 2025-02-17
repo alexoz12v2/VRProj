@@ -45,6 +45,10 @@ public class FMODEvents : Singleton<FMODEvents>
     [field: SerializeField] public EventReference PugnaleAccoppati { get; private set; }
     [field: SerializeField] public EventReference PugnaleArditi { get; private set; }
 
+    [field: Header("Voice/Interactions/Mask")]
+    [field: SerializeField] public EventReference MaskChimica { get; private set; }
+    [field: SerializeField] public EventReference MaskPolivalente { get; private set; }
+
     protected override void OnDestroyCallback()
     {
     }

@@ -3,7 +3,22 @@ guid: a09f7cad98f4c2a47b95bc188d069edd
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: face
+    second: {fileID: 2100000, guid: 0cd0fa631c8acef4eb200c69212e4957, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gas mask 22
+    second: {fileID: 2100000, guid: 6b1602d43481344479cf6d730f3e0621, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gasmask 1
+    second: {fileID: 2100000, guid: 0e555b11f1f6efa42af06236c47ec451, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="EncodableAsset" id="{fced312c-5947-48cb-8f18-868c693689d9}">
+		<property name="assetPath">
+			<value>Interactions/Mask/</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{ba1157a2-665a-4d29-8673-38a9d4cd6fe0}</destination>
+		</relationship>
+	</object>
+</objects>

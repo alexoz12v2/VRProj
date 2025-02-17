@@ -242,3 +242,17 @@ MonoBehaviour:
       Data3: 744067506
       Data4: -1015640226
     Path: event:/Interactions/Pugnale/PugnaleArditi
+  <MaskChimica>k__BackingField:
+    Guid:
+      Data1: 1084423548
+      Data2: 1240432746
+      Data3: -279004233
+      Data4: -97041261
+    Path: event:/Interactions/Mask/MaskChimica
+  <MaskPolivalente>k__BackingField:
+    Guid:
+      Data1: -28787382
+      Data2: 1197522719
+      Data3: 190123402
+      Data4: 1985090927
+    Path: event:/Interactions/Mask/MaskPolivalente
