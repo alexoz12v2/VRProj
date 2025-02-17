@@ -94,6 +94,8 @@ namespace vrm
         public GameObject inScenePlayer = null;
         [HideInInspector]
         public PlayerController player = null;
+        [HideInInspector]
+        public InspectableObject SelectedObject = null; 
 
         public event Action GameStartStarted;
         public event Action GameDestroy;

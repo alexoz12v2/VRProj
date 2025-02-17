@@ -1,6 +1,9 @@
+using FMOD;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.XR.CoreUtils;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,7 +23,7 @@ namespace vrm
             GameManager.Instance.GameStartStarted += Registar;
             m_StartRenderLayer = gameObject.layer;
             if (m_Images == null)
-                Debug.LogError($"Expected at least one bundle on {gameObject.name}");
+                UnityEngine.Debug.LogError($"Expected at least one bundle on {gameObject.name}");
         }
 
         private void OnPaused()
@@ -69,8 +72,7 @@ namespace vrm
                 if (!m_Selected)
                 {
                     Ray ray = new(Camera.main.transform.position, Camera.main.transform.forward);
-                    Collider collider = GetComponent<Collider>();
-                    if (collider.Raycast(ray, out RaycastHit hit, m_MaxInteractionDistance))
+                    if (AtLeastOneColliderRaycast(ray, GetColliders()))
                     {
                         gameObject.SetLayerRecursively((int)Layers.OutlineObject);
                     }
@@ -89,15 +91,21 @@ namespace vrm
         private void OnInteract(InputAction.CallbackContext context)
         {
             Ray ray = new(Camera.main.transform.position, Camera.main.transform.forward);
-            Collider collider = GetComponent<Collider>();
-            if (collider.Raycast(ray, out RaycastHit hit, m_MaxInteractionDistance))
+            if (AtLeastOneColliderRaycast(ray, GetColliders()))
             {
+                // deselect other object, if any
+                if (GameManager.Instance.SelectedObject != null)
+                {
+                    GameManager.Instance.SelectedObject.Deselect();
+                    GameManager.Instance.SelectedObject = null;
+                }
                 DebugPrintXRDevices.Instance.AddMessage($"Collider intersection with {gameObject.name}");
                 gameObject.SetLayerRecursively((int)Layers.OutlineObject);
                 m_Images.SetActive(true);
                 m_Selected = true;
                 Actions.Deselect().performed += OnDeselect;
                 Actions.Interact().performed -= OnInteract;
+                GameManager.Instance.SelectedObject = this;
             }
         }
 
@@ -114,6 +122,25 @@ namespace vrm
             m_Selected = false;
             Actions.Interact().performed += OnInteract;
             Actions.Deselect().performed -= OnDeselect;
+            GameManager.Instance.SelectedObject = null;
+        }
+
+        private IList<Collider> GetColliders()
+        {
+            var collider = GetComponent<Collider>();
+            if (collider != null)
+                return new SingletonList<Collider>(collider);
+            else
+            {
+                var list = new List<Collider>();
+                Methods.ForEachChildWith(gameObject, child => child.GetComponent<Collider>() != null && child.GetComponent<MeshRenderer>() != null, child => list.Add(child.GetComponent<Collider>()));
+                return list;
+            }
+        }
+
+        private bool AtLeastOneColliderRaycast(Ray ray, IList<Collider> list)
+        {
+            return list.Aggregate(false, (acc, x) => acc || x.Raycast(ray, out RaycastHit hit, m_MaxInteractionDistance));
         }
     }
 }
