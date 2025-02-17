@@ -186,3 +186,24 @@ MonoBehaviour:
       Data3: -1395567719
       Data4: 1418599393
     Path: event:/Interactions/Carcano/CarcanoDopoguerra
+  <BombaFoto>k__BackingField:
+    Guid:
+      Data1: -1164782555
+      Data2: 1267922732
+      Data3: -1747980379
+      Data4: -1578794629
+    Path: event:/Interactions/Bomba/BombaFoto
+  <BombaProietti>k__BackingField:
+    Guid:
+      Data1: -1642123313
+      Data2: 1136927255
+      Data3: -1091468866
+      Data4: -2071273506
+    Path: event:/Interactions/Bomba/BombaProietti
+  <BombaTrincea>k__BackingField:
+    Guid:
+      Data1: 164597187
+      Data2: 1241115383
+      Data3: -617920578
+      Data4: -442532792
+    Path: event:/Interactions/Bomba/BombaTrincea
