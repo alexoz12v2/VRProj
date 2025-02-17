@@ -50,6 +50,7 @@ MonoBehaviour:
   SFXVolume: 1
   MusicVolume: 1
   UIVolume: 1
+  VoiceVolume: 1
 --- !u!1 &8278278410884864369
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,3 +158,31 @@ MonoBehaviour:
       Data3: 1182718639
       Data4: -1968932009
     Path: event:/Interactions/FiatRevelli/FiatRevelliRiconquistaLibia
+  <CarcanoIntro>k__BackingField:
+    Guid:
+      Data1: 1225475497
+      Data2: 1176079690
+      Data3: 466289057
+      Data4: -1899741080
+    Path: event:/Interactions/Carcano/CarcanoIntro
+  <CarcanoVerifica>k__BackingField:
+    Guid:
+      Data1: -2130438493
+      Data2: 1302850559
+      Data3: -642875230
+      Data4: -1992336455
+    Path: event:/Interactions/Carcano/CarcanoVerifica
+  <CarcanoTecnicismi>k__BackingField:
+    Guid:
+      Data1: -185781142
+      Data2: 1278220818
+      Data3: 1391155348
+      Data4: 2037719804
+    Path: event:/Interactions/Carcano/CarcanoTecnicismi
+  <CarcanoDopoguerra>k__BackingField:
+    Guid:
+      Data1: -1603581468
+      Data2: 1237612042
+      Data3: -1395567719
+      Data4: 1418599393
+    Path: event:/Interactions/Carcano/CarcanoDopoguerra

@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638753394062534530
+  lastModified: 638753864112839953
   FileSizes:
   - Name: Desktop
     Value: 1778
@@ -55,10 +55,10 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638753394062534530
+  lastModified: 638753864112849968
   FileSizes:
   - Name: Desktop
-    Value: 1618
+    Value: 1814
   Exists: 1
 --- !u!114 &-4155826722424824534
 MonoBehaviour:
@@ -135,6 +135,60 @@ MonoBehaviour:
   - Name: Desktop
     Value: 2880
   Exists: 1
+--- !u!114 &-1539996344694772169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Interactions/Carcano/CarcanoTecnicismi
+  m_EditorClassIdentifier: 
+  Path: event:/Interactions/Carcano/CarcanoTecnicismi
+  Guid:
+    Data1: -185781142
+    Data2: 1278220818
+    Data3: 1391155348
+    Data4: 2037719804
+  Banks:
+  - {fileID: -245851728278947669}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 31104
+--- !u!114 &-1095210839541247412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Interactions/Carcano/CarcanoVerifica
+  m_EditorClassIdentifier: 
+  Path: event:/Interactions/Carcano/CarcanoVerifica
+  Guid:
+    Data1: -2130438493
+    Data2: 1302850559
+    Data3: -642875230
+    Data4: -1992336455
+  Banks:
+  - {fileID: -245851728278947669}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 46032
 --- !u!114 &-1086806588358740838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,10 +231,10 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Voice.bank
   Name: Voice
   StudioPath: bank:/Voice
-  lastModified: 638753394062954796
+  lastModified: 638753864118283411
   FileSizes:
   - Name: Desktop
-    Value: 1573152
+    Value: 2879840
   Exists: 1
 --- !u!114 &-67012183513436930
 MonoBehaviour:
@@ -236,12 +290,16 @@ MonoBehaviour:
   - {fileID: -1086806588358740838}
   - {fileID: 3235833178744651596}
   - {fileID: 2558430707894451201}
+  - {fileID: -1539996344694772169}
+  - {fileID: -1095210839541247412}
+  - {fileID: 3509325292666680014}
+  - {fileID: 7392797794764193963}
   EditorParameters: []
   MasterBanks:
   - {fileID: -7729416478897867117}
   StringsBanks:
   - {fileID: -6004531602806198044}
-  cacheTime: 638753394062954796
+  cacheTime: 638753864118283411
   cacheVersion: 131622
 --- !u!114 &72039294544948279
 MonoBehaviour:
@@ -324,6 +382,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 77112
+--- !u!114 &3509325292666680014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Interactions/Carcano/CarcanoIntro
+  m_EditorClassIdentifier: 
+  Path: event:/Interactions/Carcano/CarcanoIntro
+  Guid:
+    Data1: 1225475497
+    Data2: 1176079690
+    Data3: 466289057
+    Data4: -1899741080
+  Banks:
+  - {fileID: -245851728278947669}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 47640
 --- !u!114 &4128028319592528060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,6 +503,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 495
+--- !u!114 &7392797794764193963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Interactions/Carcano/CarcanoDopoguerra
+  m_EditorClassIdentifier: 
+  Path: event:/Interactions/Carcano/CarcanoDopoguerra
+  Guid:
+    Data1: -1603581468
+    Data2: 1237612042
+    Data3: -1395567719
+    Data4: 1418599393
+  Banks:
+  - {fileID: -245851728278947669}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 23184
 --- !u!114 &8917193532387953436
 MonoBehaviour:
   m_ObjectHideFlags: 0

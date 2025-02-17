@@ -38,9 +38,8 @@ namespace vrm
 
         private void OnDisable()
         {
-            InputAction interact = Actions.Interact();
-            if (interact != null) // check needed for when the application shuts down
-                interact.performed -= OnInteract;
+            if (GameManager.Instance != null && GameManager.Instance.player != null)
+                Actions.Interact().performed -= OnInteract;
             PauseManager.Instance.OnPaused -= OnPaused;
             PauseManager.Instance.OnUnpaused -= OnUnpaused;
         }
