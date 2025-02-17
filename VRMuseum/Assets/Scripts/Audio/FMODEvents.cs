@@ -36,6 +36,15 @@ public class FMODEvents : Singleton<FMODEvents>
     [field: SerializeField] public EventReference BombaProietti { get; private set; }
     [field: SerializeField] public EventReference BombaTrincea { get; private set; }
 
+    [field: Header("Voice/Interactions/Helmet")]
+    [field: SerializeField] public EventReference HelmetIntro { get; private set; }
+    [field: SerializeField] public EventReference HelmetAlpini { get; private set; }
+    [field: SerializeField] public EventReference HelmetPettinengo { get; private set; }
+
+    [field: Header("Voice/Interactions/Pugnale")]
+    [field: SerializeField] public EventReference PugnaleAccoppati { get; private set; }
+    [field: SerializeField] public EventReference PugnaleArditi { get; private set; }
+
     protected override void OnDestroyCallback()
     {
     }

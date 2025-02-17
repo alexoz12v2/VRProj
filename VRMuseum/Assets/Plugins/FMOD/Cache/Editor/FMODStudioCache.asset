@@ -1,5 +1,32 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8193738714961137179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Interactions/Pugnale/PugnaleAccoppati
+  m_EditorClassIdentifier: 
+  Path: event:/Interactions/Pugnale/PugnaleAccoppati
+  Guid:
+    Data1: -914160982
+    Data2: 1277333925
+    Data3: 964963504
+    Data4: 129293905
+  Banks:
+  - {fileID: -245851728278947669}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 19296
 --- !u!114 &-7729416478897867117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,7 +42,7 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638753919929910888
+  lastModified: 638754233189127416
   FileSizes:
   - Name: Desktop
     Value: 1778
@@ -55,10 +82,10 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638753919929920913
+  lastModified: 638754233189127416
   FileSizes:
   - Name: Desktop
-    Value: 1948
+    Value: 2190
   Exists: 1
 --- !u!114 &-4972672428191179370
 MonoBehaviour:
@@ -87,6 +114,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 25800
+--- !u!114 &-4212949499591781399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Interactions/Helmet/HelmetIntro
+  m_EditorClassIdentifier: 
+  Path: event:/Interactions/Helmet/HelmetIntro
+  Guid:
+    Data1: -1077155488
+    Data2: 1313567302
+    Data3: 2001430171
+    Data4: 1404991970
+  Banks:
+  - {fileID: -245851728278947669}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 31800
 --- !u!114 &-4155826722424824534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,6 +196,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-3225745306824736923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Interactions/Helmet/HelmetAlpini
+  m_EditorClassIdentifier: 
+  Path: event:/Interactions/Helmet/HelmetAlpini
+  Guid:
+    Data1: 355496157
+    Data2: 1292237461
+    Data3: -1298414150
+    Data4: -219403020
+  Banks:
+  - {fileID: -245851728278947669}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 19872
 --- !u!114 &-2006654773314275379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,6 +270,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 31104
+--- !u!114 &-1416637082038075710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Interactions/Pugnale/PugnaleArditi
+  m_EditorClassIdentifier: 
+  Path: event:/Interactions/Pugnale/PugnaleArditi
+  Guid:
+    Data1: -365753424
+    Data2: 1103564399
+    Data3: 744067506
+    Data4: -1015640226
+  Banks:
+  - {fileID: -245851728278947669}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 24048
 --- !u!114 &-1095210839541247412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,10 +393,10 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Voice.bank
   Name: Voice
   StudioPath: bank:/Voice
-  lastModified: 638753919933862536
+  lastModified: 638754233194218892
   FileSizes:
   - Name: Desktop
-    Value: 3770496
+    Value: 4739360
   Exists: 1
 --- !u!114 &-67012183513436930
 MonoBehaviour:
@@ -351,12 +459,17 @@ MonoBehaviour:
   - {fileID: -4972672428191179370}
   - {fileID: 5963567724691060649}
   - {fileID: -668758468304416098}
+  - {fileID: 2870680853780077223}
+  - {fileID: -4212949499591781399}
+  - {fileID: -8193738714961137179}
+  - {fileID: -1416637082038075710}
+  - {fileID: -3225745306824736923}
   EditorParameters: []
   MasterBanks:
   - {fileID: -7729416478897867117}
   StringsBanks:
   - {fileID: -6004531602806198044}
-  cacheTime: 638753919933862536
+  cacheTime: 638754233194218892
   cacheVersion: 131622
 --- !u!114 &72039294544948279
 MonoBehaviour:
@@ -412,6 +525,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 29856
+--- !u!114 &2870680853780077223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Interactions/Helmet/HelmetPettinengo
+  m_EditorClassIdentifier: 
+  Path: event:/Interactions/Helmet/HelmetPettinengo
+  Guid:
+    Data1: -1936785626
+    Data2: 1105293053
+    Data3: 1797281936
+    Data4: -1773368644
+  Banks:
+  - {fileID: -245851728278947669}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 12984
 --- !u!114 &3235833178744651596
 MonoBehaviour:
   m_ObjectHideFlags: 0
