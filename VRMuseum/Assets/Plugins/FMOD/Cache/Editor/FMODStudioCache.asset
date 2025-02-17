@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638753864112839953
+  lastModified: 638753919929910888
   FileSizes:
   - Name: Desktop
     Value: 1778
@@ -55,11 +55,38 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638753864112849968
+  lastModified: 638753919929920913
   FileSizes:
   - Name: Desktop
-    Value: 1814
+    Value: 1948
   Exists: 1
+--- !u!114 &-4972672428191179370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Interactions/Bomba/BombaFoto
+  m_EditorClassIdentifier: 
+  Path: event:/Interactions/Bomba/BombaFoto
+  Guid:
+    Data1: -1164782555
+    Data2: 1267922732
+    Data3: -1747980379
+    Data4: -1578794629
+  Banks:
+  - {fileID: -245851728278947669}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 25800
 --- !u!114 &-4155826722424824534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,7 +157,7 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 638753394062734663
+  lastModified: 638753919930159662
   FileSizes:
   - Name: Desktop
     Value: 2880
@@ -216,6 +243,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 24264
+--- !u!114 &-668758468304416098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Interactions/Bomba/BombaProietti
+  m_EditorClassIdentifier: 
+  Path: event:/Interactions/Bomba/BombaProietti
+  Guid:
+    Data1: -1642123313
+    Data2: 1136927255
+    Data3: -1091468866
+    Data4: -2071273506
+  Banks:
+  - {fileID: -245851728278947669}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 34488
 --- !u!114 &-245851728278947669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,10 +285,10 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Voice.bank
   Name: Voice
   StudioPath: bank:/Voice
-  lastModified: 638753864118283411
+  lastModified: 638753919933862536
   FileSizes:
   - Name: Desktop
-    Value: 2879840
+    Value: 3770496
   Exists: 1
 --- !u!114 &-67012183513436930
 MonoBehaviour:
@@ -294,12 +348,15 @@ MonoBehaviour:
   - {fileID: -1095210839541247412}
   - {fileID: 3509325292666680014}
   - {fileID: 7392797794764193963}
+  - {fileID: -4972672428191179370}
+  - {fileID: 5963567724691060649}
+  - {fileID: -668758468304416098}
   EditorParameters: []
   MasterBanks:
   - {fileID: -7729416478897867117}
   StringsBanks:
   - {fileID: -6004531602806198044}
-  cacheTime: 638753864118283411
+  cacheTime: 638753919933862536
   cacheVersion: 131622
 --- !u!114 &72039294544948279
 MonoBehaviour:
@@ -449,6 +506,33 @@ MonoBehaviour:
   - Name: Desktop
     Value: 2254048
   Exists: 1
+--- !u!114 &5963567724691060649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Interactions/Bomba/BombaTrincea
+  m_EditorClassIdentifier: 
+  Path: event:/Interactions/Bomba/BombaTrincea
+  Guid:
+    Data1: 164597187
+    Data2: 1241115383
+    Data3: -617920578
+    Data4: -442532792
+  Banks:
+  - {fileID: -245851728278947669}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 39288
 --- !u!114 &6416122268037465533
 MonoBehaviour:
   m_ObjectHideFlags: 0
