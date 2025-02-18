@@ -26,6 +26,23 @@ namespace vrm
                 UnityEngine.Debug.LogError($"Expected at least one bundle on {gameObject.name}");
         }
 
+        private void OnDestroy()
+        {
+            if (m_Images.TryGetComponent<NearestChildCollision>(out var comp))
+                comp.Cleanup();
+            if (m_Selected)
+            {
+                Actions.Deselect().performed -= OnDeselect;
+            }
+            else
+            {
+                Actions.Interact().performed -= OnInteract;
+            }
+            PauseManager.Instance.OnPaused -= OnPaused;
+            PauseManager.Instance.OnUnpaused -= OnUnpaused;
+            GameManager.Instance.GameStartStarted -= Registar;
+        }
+
         private void OnPaused()
         {
             if (m_Selected)
@@ -116,7 +133,8 @@ namespace vrm
 
         private void Deselect()
         {
-            m_Images.GetComponent<NearestChildCollision>().Cleanup();
+            if (m_Images.TryGetComponent<NearestChildCollision>(out var comp))
+                comp.Cleanup();
             m_Images.SetActive(false);
             gameObject.SetLayerRecursively(m_StartRenderLayer);
             m_Selected = false;
@@ -127,19 +145,20 @@ namespace vrm
 
         private IList<Collider> GetColliders()
         {
-            var collider = GetComponent<Collider>();
-            if (collider != null)
+            if (gameObject.TryGetComponent<Collider>(out var collider))
                 return new SingletonList<Collider>(collider);
             else
             {
                 var list = new List<Collider>();
-                Methods.ForEachChildWith(gameObject, child => child.GetComponent<Collider>() != null && child.GetComponent<MeshRenderer>() != null, child => list.Add(child.GetComponent<Collider>()));
+                Methods.ForEachChildWith(gameObject, child => child.TryGetComponent<Collider>(out var x) && child.TryGetComponent<MeshRenderer>(out var y), child => list.Add(child.GetComponent<Collider>()));
                 return list;
             }
         }
 
         private bool AtLeastOneColliderRaycast(Ray ray, IList<Collider> list)
         {
+            if (list.Count == 0)
+                return false;
             return list.Aggregate(false, (acc, x) => acc || x.Raycast(ray, out RaycastHit hit, m_MaxInteractionDistance));
         }
     }
