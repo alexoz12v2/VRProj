@@ -39,7 +39,7 @@ namespace vrm
             if (hasFocus)
             {
                 Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.None;  // We handle centering manually
+                Cursor.lockState = CursorLockMode.Confined;
             }
             else
             {
@@ -87,8 +87,7 @@ namespace vrm
 
         public GameObject playerPrefab = null;
         public GameObject virtualCamera = null;
-        public Vector3 startPosition = new(0, 0, 0);
-        public Quaternion startRotation = Quaternion.identity;
+        public Transform StartTransform = null;
 
         [HideInInspector]
         public GameObject inScenePlayer = null;
@@ -160,12 +159,13 @@ namespace vrm
 
         private void spawnPlayer()
         {
+            if (StartTransform == null)
+                throw new System.SystemException("Null Transform");
             inScenePlayer = Instantiate(playerPrefab);
             var controller = inScenePlayer.GetComponent<CharacterController>();
             if (controller)
                 controller.enabled = false;
-            inScenePlayer.transform.position = startPosition;
-            inScenePlayer.transform.rotation = startRotation;
+            inScenePlayer.transform.SetPositionAndRotation(StartTransform.position, StartTransform.rotation);
             if (controller)
                 controller.enabled = true;
             Debug.Log($"Spawned player in position : x ={inScenePlayer.transform.position.x}, y = {inScenePlayer.transform.position.y}, z = {inScenePlayer.transform.position.z}");
