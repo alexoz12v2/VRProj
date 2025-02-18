@@ -20,8 +20,7 @@ namespace vrm
             Actions.Pause().performed += OnPause;
         }
 
-        private void OnPause(InputAction.CallbackContext context)
-        {
+        public void TogglePause() { 
             m_Paused = !m_Paused;
             Time.timeScale = m_Paused ? 0 : 1;
 
@@ -33,6 +32,11 @@ namespace vrm
             if (pauseMenu != null)
                 pauseMenu.SetActive(m_Paused);
             Debug.Log($"Pause {(m_Paused ? "Entered" : "Exited")}");
+        }
+
+        private void OnPause(InputAction.CallbackContext context)
+        {
+            TogglePause();
         }
 
         protected override void OnDestroyCallback()

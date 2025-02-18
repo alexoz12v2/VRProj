@@ -348,6 +348,17 @@ namespace vrm
             return inside;
         }
 
+        public IList<Scene> GetLoadedScenesWith(Predicate<Scene> predicate)
+        {
+            var list = new List<Scene>();
+            for (int i = 0; i < SceneManager.sceneCount; ++i)
+            {
+                Scene scene = SceneManager.GetSceneAt(i);
+                if (predicate(scene))
+                    list.Add(scene);
+            }
+            return list;
+        }
 
         public static Bounds BoundsInChildren(Transform paremt)
         {

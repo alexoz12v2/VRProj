@@ -10675,7 +10675,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f204d3e88bbee74a9abd7db7baff4f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PlayerScene: PlayerScene
 --- !u!4 &1722293913 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 282978393027792789, guid: 377b85f54fd66434c831c9d400e07768, type: 3}
