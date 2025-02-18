@@ -25,7 +25,8 @@ public class MenuController : MonoBehaviour
 
     public void Awake()
     {
-        SceneManager.LoadScene("Shared", LoadSceneMode.Additive);
+        if (!Methods.IsSceneLoaded("Shared"))
+            SceneManager.LoadScene("Shared", LoadSceneMode.Additive);
 
     }
 

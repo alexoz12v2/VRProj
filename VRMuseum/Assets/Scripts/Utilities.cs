@@ -5,6 +5,7 @@ using System.Xml;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR.Interaction.Toolkit;
 
 namespace vrm
@@ -240,6 +241,20 @@ namespace vrm
 
             return -1f;
         }
+
+        static public bool IsSceneLoaded(string sceneName)
+        {
+            for (int i = 0; i < SceneManager.sceneCount; i++)
+            {
+                Scene scene = SceneManager.GetSceneAt(i);
+                if (scene.name == sceneName)
+                {
+                    return true; // Scene is already loaded
+                }
+            }
+            return false; // Scene is not loaded
+        }
+
         // Get all 8 corners of the bounds
         public static Vector3[] GetBoundsCorners(Bounds bounds)
         {
