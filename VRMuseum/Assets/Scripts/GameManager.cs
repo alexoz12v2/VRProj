@@ -88,6 +88,7 @@ namespace vrm
         public GameObject playerPrefab = null;
         public GameObject virtualCamera = null;
         public Transform StartTransform = null;
+        [SerializeField] private string m_PlayerSceneName;
 
         [HideInInspector]
         public GameObject inScenePlayer = null;
@@ -166,6 +167,12 @@ namespace vrm
             if (controller)
                 controller.enabled = false;
             inScenePlayer.transform.SetPositionAndRotation(StartTransform.position, StartTransform.rotation);
+
+            if (!Methods.IsSceneLoaded(m_PlayerSceneName))
+                throw new System.SystemException("shfsaf");
+            Scene playerScene = SceneManager.GetSceneByName(m_PlayerSceneName);
+
+            SceneManager.MoveGameObjectToScene(inScenePlayer, playerScene);
             if (controller)
                 controller.enabled = true;
             Debug.Log($"Spawned player in position : x ={inScenePlayer.transform.position.x}, y = {inScenePlayer.transform.position.y}, z = {inScenePlayer.transform.position.z}");
