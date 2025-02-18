@@ -187,23 +187,10 @@ namespace vrm
         {
             string sceneName = "Shared";
 
-            if (!IsSceneLoaded(sceneName))
+            if (!Methods.IsSceneLoaded(sceneName))
             {
                 SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
             }
-        }
-
-        private static bool IsSceneLoaded(string sceneName)
-        {
-            for (int i = 0; i < SceneManager.sceneCount; i++)
-            {
-                Scene scene = SceneManager.GetSceneAt(i);
-                if (scene.name == sceneName)
-                {
-                    return true; // Scene is already loaded
-                }
-            }
-            return false; // Scene is not loaded
         }
     }
 }
