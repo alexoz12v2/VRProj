@@ -31,17 +31,24 @@ namespace vrm
             if (m_Images.TryGetComponent<NearestChildCollision>(out var comp))
                 comp.Cleanup();
             InputAction action = null;
-            if (m_Selected && (action = Actions.Deselect()) != null)
+            if (GameManager.Exists)
             {
-                action.performed -= OnDeselect;
+                GameManager.Instance.GameStartStarted -= Registar;
+                if (m_Selected && (action = Actions.Deselect()) != null)
+                {
+                    action.performed -= OnDeselect;
+                }
+                else if ((action = Actions.Interact()) != null)
+                {
+                    action.performed -= OnInteract;
+                }
             }
-            else if ((action = Actions.Interact()) != null)
+
+            if (PauseManager.Exists)
             {
-                action.performed -= OnInteract;
+                PauseManager.Instance.OnPaused -= OnPaused;
+                PauseManager.Instance.OnUnpaused -= OnUnpaused;
             }
-            PauseManager.Instance.OnPaused -= OnPaused;
-            PauseManager.Instance.OnUnpaused -= OnUnpaused;
-            GameManager.Instance.GameStartStarted -= Registar;
         }
 
         private void OnPaused()

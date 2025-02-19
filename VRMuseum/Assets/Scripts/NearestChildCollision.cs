@@ -38,10 +38,13 @@ namespace vrm
 
         private void OnDisable()
         {
-            if (GameManager.Instance != null && GameManager.Instance.player != null)
+            if (GameManager.Exists && GameManager.Instance.player != null)
                 Actions.Interact().performed -= OnInteract;
-            PauseManager.Instance.OnPaused -= OnPaused;
-            PauseManager.Instance.OnUnpaused -= OnUnpaused;
+            if (GameManager.Exists)
+            {
+                PauseManager.Instance.OnPaused -= OnPaused;
+                PauseManager.Instance.OnUnpaused -= OnUnpaused;
+            }
         }
 
         private void OnPaused()
