@@ -30,13 +30,14 @@ namespace vrm
         {
             if (m_Images.TryGetComponent<NearestChildCollision>(out var comp))
                 comp.Cleanup();
-            if (m_Selected)
+            InputAction action = null;
+            if (m_Selected && (action = Actions.Deselect()) != null)
             {
-                Actions.Deselect().performed -= OnDeselect;
+                action.performed -= OnDeselect;
             }
-            else
+            else if ((action = Actions.Interact()) != null)
             {
-                Actions.Interact().performed -= OnInteract;
+                action.performed -= OnInteract;
             }
             PauseManager.Instance.OnPaused -= OnPaused;
             PauseManager.Instance.OnUnpaused -= OnUnpaused;
