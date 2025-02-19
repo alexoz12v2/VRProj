@@ -7,6 +7,7 @@ using UnityEngine.InputSystem.XR;
 using System;
 using FMODUnity;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering;
 
 namespace vrm
 {
@@ -50,7 +51,7 @@ namespace vrm
         public bool isPaused = false;
 
         public GameObject playerPrefab = null;
-        public GameObject virtualCamera = null;
+        public Cinemachine.CinemachineVirtualCamera VirtualCamera = null;
         public Transform StartTransform = null;
         [SerializeField] private string m_PlayerSceneName;
 
@@ -103,17 +104,31 @@ namespace vrm
                 gameObject.AddComponent<DesktopManualCursorManagement>();
                 t = inScenePlayer.transform;
             }
-            var virtualCamera = this.virtualCamera.GetComponent<Cinemachine.CinemachineVirtualCameraBase>();
-
             var socket = Methods.FindChildWithTag(inScenePlayer, "CameraSocket");
 
-            virtualCamera.Follow = socket.transform;
+            VirtualCamera.Follow = socket.transform;
             Debug.Log($"Spawned player in position : x ={inScenePlayer.transform.position.x}, y = {inScenePlayer.transform.position.y}, z = {inScenePlayer.transform.position.z}");
             //virtualCamera.LookAt = t;// hard lock to taget doesn't require that 
             StudioListener listenerAudio = Camera.main.GetComponent<StudioListener>();
             var field = typeof(StudioListener).GetField("attenuationObject", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
             field.SetValue(listenerAudio, socket);
+
+            PlayerSettingsManager.Instance.PlayerSettingsChanged += OnPlayerSettingsChanged;
+            OnPlayerSettingsChanged(PlayerSettingsManager.Instance.PlayerSettings);
+
             GameStartStarted?.Invoke();
+        }
+
+        private void OnPlayerSettingsChanged(PlayerSettingsScriptableObject settings)
+        {
+            var pov = VirtualCamera.GetCinemachineComponent<Cinemachine.CinemachinePOV>();
+            if (pov != null)
+            {
+                pov.m_HorizontalAxis.m_MaxSpeed = settings.MouseSensitivity.HorzSpeed;
+                pov.m_VerticalAxis.m_MaxSpeed = settings.MouseSensitivity.VertSpeed;
+            }
+
+            player.playerMovementBehaviours.movementSpeed = settings.WalkingSpeed;
         }
 
         private void OnGUI()
@@ -150,6 +165,7 @@ namespace vrm
 
         protected override void OnDestroyCallback()
         {
+            PlayerSettingsManager.Instance.PlayerSettingsChanged -= OnPlayerSettingsChanged;
             GameDestroy?.Invoke();
         }
 
