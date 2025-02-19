@@ -114,7 +114,7 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _UV_Rotation_Degrees: 90
+    - _UV_Rotation_Degrees: 270
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
