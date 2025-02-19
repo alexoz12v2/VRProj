@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using UnityEditor;
 using UnityEngine;
@@ -649,20 +650,22 @@ namespace vrm
     {
         private Actions() { }
 
-        static public InputAction Interact()
+        public static InputAction GetInputAction(string actionName)
         {
-            return GameManager.Instance.player.playerInput.currentActionMap["Interact"];
+            var player = GameManager.Instance != null ? GameManager.Instance.player : null;
+            var actionMap = (player != null && player.playerInput != null) ? player.playerInput.currentActionMap : null;
+
+            if (actionMap != null)
+            {
+                return actionMap.FindAction(actionName);
+            }
+
+            return null;
         }
 
-        static public InputAction Deselect()
-        {
-            return GameManager.Instance.player.playerInput.currentActionMap["Deselect"];
-        }
-
-        static public InputAction Pause()
-        {
-            return GameManager.Instance.player.playerInput.currentActionMap["Pause"];
-        }
+        public static InputAction Interact() => GetInputAction("Interact");
+        public static InputAction Deselect() => GetInputAction("Deselect");
+        public static InputAction Pause() => GetInputAction("Pause");
     }
 
     public class FollowTargetPosition : MonoBehaviour

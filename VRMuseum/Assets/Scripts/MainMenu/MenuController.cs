@@ -8,6 +8,7 @@ using vrm;
 using FMOD.Studio;
 using FMOD;
 using FMODUnity;
+using UnityEditor;
 
 public class MenuController : MonoBehaviour
 {
@@ -50,7 +51,11 @@ public class MenuController : MonoBehaviour
 
     public void ExitButton()
     {
-        Application.Quit();
+#if UNITY_EDITOR
+        EditorApplication.isPlaying = false;
+#else
+        Application.Quit(); // Works in a built application
+#endif    
     }
 
     public void SetVolume(float volume)

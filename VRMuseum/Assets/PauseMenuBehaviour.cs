@@ -18,11 +18,13 @@ namespace vrm
 
         public void OnClickResume()
         {
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ClickUI);
             PauseManager.Instance.TogglePause();
         }
 
         public void OnClickMainMenu()
         {
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ClickUI);
             Debug.Log("Menu");
             var op1 = SceneManager.UnloadSceneAsync(GetPlaygroundSceneName());
             GameManager.Instance.SelectedObject = null;
