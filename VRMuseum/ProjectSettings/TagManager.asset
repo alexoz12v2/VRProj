@@ -2,8 +2,20 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 3
-  tags: []
+  serializedVersion: 2
+  tags:
+  - UIContent
+  - UIParagraphTitle
+  - UIParagraphButton
+  - UIParagraphContent
+  - UICanvas
+  - CameraSocket
+  - ExplosionBarrier
+  - Component
+  - LeftXRController
+  - RightXRController
+  - LeftXRControllerChild
+  - RightXRControllerChild
   layers:
   - Default
   - TransparentFX
@@ -13,12 +25,12 @@ TagManager:
   - UI
   - UIStageTest
   - UISpawnTest
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Outlined
+  - PlayerGeometry
+  - Grabbed
+  - GrabbedOutlined
+  - Hidden
+  - Object
   - 
   - 
   - 
@@ -41,5 +53,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  m_RenderingLayers:
-  - Default
+  - name: Layer1
+    uniqueID: 222018681
+    locked: 0
