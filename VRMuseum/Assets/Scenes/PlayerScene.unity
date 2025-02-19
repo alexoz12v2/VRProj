@@ -179,11 +179,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1968535daa3df5f44aa7936f47bed342, type: 3}
---- !u!1 &215077348 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5121601719128185999, guid: 1968535daa3df5f44aa7936f47bed342, type: 3}
+--- !u!114 &215077348 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8855390005967048637, guid: 1968535daa3df5f44aa7936f47bed342, type: 3}
   m_PrefabInstance: {fileID: 215077347}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &387678265
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,7 +236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaused: 0
   playerPrefab: {fileID: 8352725871187012287, guid: 12a2bf88707ca5d479c60cc941982430, type: 3}
-  virtualCamera: {fileID: 215077348}
+  VirtualCamera: {fileID: 215077348}
   StartTransform: {fileID: 1406145953}
   m_PlayerSceneName: PlayerScene
   inScenePlayer: {fileID: 0}

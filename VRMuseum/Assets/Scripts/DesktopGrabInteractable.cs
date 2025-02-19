@@ -426,7 +426,7 @@ namespace vrm
         private static CinemachinePOV getCinemachineCameraPOV()
         {
 
-            var camera = GameManager.Instance.virtualCamera.GetComponent<CinemachineVirtualCamera>();
+            var camera = GameManager.Instance.VirtualCamera;
             if (camera)
                 return camera.GetCinemachineComponent<CinemachinePOV>();
             return null;
