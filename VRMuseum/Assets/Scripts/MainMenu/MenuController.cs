@@ -17,6 +17,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Slider _volumeSlider = null;
     [SerializeField] private GameObject _confirmationPrompt = null;
     [SerializeField] private float _defaultVolume = 1.0f;
+    [SerializeField] private bool m_StartMusic = true;
 
 
     private float _volumeValue;
@@ -34,8 +35,11 @@ public class MenuController : MonoBehaviour
     public void Start()
     {
         _volumeValue = AudioManager.Instance.MasterVolume;
-        _backgroundMusic = AudioManager.Instance.CreateInstance(FMODEvents.Instance.BackgroundUI);
-        _backgroundMusic.start();
+        if (m_StartMusic)
+        {
+            _backgroundMusic = AudioManager.Instance.CreateInstance(FMODEvents.Instance.BackgroundUI);
+            _backgroundMusic.start();
+        }
     }
     public void NewGameDialogSi()
     {
@@ -98,8 +102,12 @@ public class MenuController : MonoBehaviour
         yield return new WaitForSeconds(2);
         _confirmationPrompt.SetActive(false);
     }
+
     public void OnDestroy()
     {
-        _backgroundMusic.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        if (m_StartMusic)
+        {
+            _backgroundMusic.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        }
     }
 }

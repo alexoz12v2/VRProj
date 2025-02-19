@@ -12,62 +12,26 @@ namespace vrm
 {
     public class DesktopManualCursorManagement : MonoBehaviour
     {
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetActiveWindow();
-
-        [DllImport("user32.dll")]
-        private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
-
-        [DllImport("user32.dll")]
-        private static extern bool SetCursorPos(int X, int Y);
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct RECT
+        private void Start()
         {
-            public int Left;    // X position of upper-left corner
-            public int Top;     // Y position of upper-left corner
-            public int Right;   // X position of lower-right corner
-            public int Bottom;  // Y position of lower-right corner
+            OnApplicationFocus(true);
         }
 
-        private bool isFocused = true;
-
-        void OnApplicationFocus(bool hasFocus)
+        private void OnApplicationFocus(bool hasFocus)
         {
-            isFocused = hasFocus;
-
             if (hasFocus)
             {
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Confined;
+                Methods.SetCursorFPSBehaviour();
             }
             else
             {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
+                Methods.ResetCursor();
             }
         }
 
-        void LateUpdate()
+        private void OnDestroy()
         {
-            if (isFocused)
-            {
-                //CenterCursorInGameWindow();
-            }
-        }
-
-        private void CenterCursorInGameWindow()
-        {
-            IntPtr windowHandle = GetActiveWindow();
-
-            if (GetWindowRect(windowHandle, out RECT rect)) // not client area, but whatever
-            {
-                // Calculate the center of the game window
-                int centerX = (rect.Left + rect.Right) / 2;
-                int centerY = (rect.Top + rect.Bottom) / 2;
-
-                SetCursorPos(centerX, centerY);
-            }
+            Methods.ResetCursor();
         }
     }
 
@@ -95,7 +59,7 @@ namespace vrm
         [HideInInspector]
         public PlayerController player = null;
         [HideInInspector]
-        public InspectableObject SelectedObject = null; 
+        public InspectableObject SelectedObject = null;
 
         public event Action GameStartStarted;
         public event Action GameDestroy;
@@ -147,7 +111,7 @@ namespace vrm
             Debug.Log($"Spawned player in position : x ={inScenePlayer.transform.position.x}, y = {inScenePlayer.transform.position.y}, z = {inScenePlayer.transform.position.z}");
             //virtualCamera.LookAt = t;// hard lock to taget doesn't require that 
             StudioListener listenerAudio = Camera.main.GetComponent<StudioListener>();
-            var field = typeof(StudioListener).GetField("attenuationObject", System.Reflection.BindingFlags.Instance |System.Reflection.BindingFlags.NonPublic);
+            var field = typeof(StudioListener).GetField("attenuationObject", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
             field.SetValue(listenerAudio, socket);
             GameStartStarted?.Invoke();
         }

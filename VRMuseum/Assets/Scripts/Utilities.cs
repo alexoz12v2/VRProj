@@ -593,6 +593,12 @@ namespace vrm
             }
         }
 
+        public static void SetCursorFPSBehaviour()
+        {
+            Cursor.visible = PauseManager.Exists && PauseManager.Instance.Paused;
+            Cursor.lockState = CursorLockMode.Confined;
+        }
+
         // To be used with startsWith
         static public string PathRegexFromTag(GameObject gameObject)
         {
@@ -630,6 +636,12 @@ namespace vrm
             }
         }
 
+        static public void ResetCursor()
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+
         static public Hand HandFromInteractor(GameObject interactor)
         {
             if (interactor.CompareTag(Tags.LeftXRControllerChild))
@@ -640,6 +652,10 @@ namespace vrm
                 throw new SystemException("Unexpected gameobject");
         }
 
+        static public IEnumerator WaitFor(float seconds)
+        {
+            yield return new WaitForSeconds(seconds);
+        }
         static public string XRPrimaryAxisPathHand(GameObject interactor)
         {
             return "<XRController>{" + (interactor.CompareTag(Tags.LeftXRControllerChild) ? "Left" : "Right") + "Hand}/{Primary2DAxis}";
@@ -652,7 +668,7 @@ namespace vrm
 
         public static InputAction GetInputAction(string actionName)
         {
-            var player = GameManager.Instance != null ? GameManager.Instance.player : null;
+            var player = GameManager.Exists ? GameManager.Instance.player : null;
             var actionMap = (player != null && player.playerInput != null) ? player.playerInput.currentActionMap : null;
 
             if (actionMap != null)
