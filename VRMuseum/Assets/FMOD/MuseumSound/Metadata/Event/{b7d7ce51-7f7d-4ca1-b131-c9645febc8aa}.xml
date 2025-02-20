@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.02.03.00">
+<objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{b7d7ce51-7f7d-4ca1-b131-c9645febc8aa}">
 		<property name="name">
 			<value>AmbientSound</value>
@@ -104,7 +104,7 @@
 			<value>502.65600000000001</value>
 		</property>
 		<relationship name="audioFile">
-			<destination>{d350024c-c76e-44e3-bcf7-e329519f2511}</destination>
+			<destination>{a165332a-a751-4295-bb9a-ec7d36c63b65}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{31b07743-d977-40f8-8ce3-c4256f7295cf}">

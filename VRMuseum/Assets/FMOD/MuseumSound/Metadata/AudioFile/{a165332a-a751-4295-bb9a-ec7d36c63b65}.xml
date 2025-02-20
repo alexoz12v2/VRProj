@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{a165332a-a751-4295-bb9a-ec7d36c63b65}">
+		<property name="assetPath">
+			<value>Ambient/museum-hall-big-echo-group.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>24</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>502.65600000000001</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{ba1157a2-665a-4d29-8673-38a9d4cd6fe0}</destination>
+		</relationship>
+	</object>
+</objects>

@@ -165,7 +165,8 @@ namespace vrm
 
         protected override void OnDestroyCallback()
         {
-            PlayerSettingsManager.Instance.PlayerSettingsChanged -= OnPlayerSettingsChanged;
+            if (PlayerSettingsManager.Exists)
+                PlayerSettingsManager.Instance.PlayerSettingsChanged -= OnPlayerSettingsChanged;
             GameDestroy?.Invoke();
         }
 

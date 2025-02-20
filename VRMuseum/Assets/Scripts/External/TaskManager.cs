@@ -1,7 +1,6 @@
 // original source: https://raw.githubusercontent.com/krockot/Unity-TaskManager/master/TaskManager.cs
 using UnityEngine;
 using System.Collections;
-using System;
 
 namespace vrm
 {
@@ -13,8 +12,6 @@ namespace vrm
 
         /// Returns true if and only if the coroutine is currently paused.
         public bool Paused { get { return task.Paused; } }
-
-        public Action Value { get; }
 
         /// Delegate for termination subscribers.  manual is true if and only if
         /// the coroutine was stopped with an explicit call to Stop().
@@ -33,11 +30,6 @@ namespace vrm
             task.Finished += TaskFinished;
             if (autoStart)
                 Start();
-        }
-
-        public Task(Action value)
-        {
-            Value = value;
         }
 
         /// Begins execution of the coroutine

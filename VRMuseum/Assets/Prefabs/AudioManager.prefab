@@ -109,6 +109,13 @@ MonoBehaviour:
       Data3: 995909765
       Data4: 90396709
     Path: event:/CarcanoFire
+  <Explosion>k__BackingField:
+    Guid:
+      Data1: 830936456
+      Data2: 1236509460
+      Data3: -1186741368
+      Data4: -975653335
+    Path: event:/Explosion
   <AmbientSound>k__BackingField:
     Guid:
       Data1: -1210593711
@@ -116,6 +123,13 @@ MonoBehaviour:
       Data3: 1690907057
       Data4: -1429673121
     Path: event:/AmbientSound
+  <AmbientForest>k__BackingField:
+    Guid:
+      Data1: 98985086
+      Data2: 1128005280
+      Data3: 2145861304
+      Data4: -1260812779
+    Path: event:/Forest
   <BackgroundUI>k__BackingField:
     Guid:
       Data1: 2009243785

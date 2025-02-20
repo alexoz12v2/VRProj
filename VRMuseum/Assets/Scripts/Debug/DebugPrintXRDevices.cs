@@ -70,6 +70,11 @@ namespace vrm
             }
         }
 
+        private IEnumerator waitFor(float seconds)
+        {
+            yield return new WaitForSeconds(seconds);
+        }
+
         private void OnDeviceChange(UnityEngine.InputSystem.InputDevice device, UnityEngine.InputSystem.InputDeviceChange change)
         {
             string msg = change switch

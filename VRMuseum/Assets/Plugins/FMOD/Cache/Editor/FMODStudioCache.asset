@@ -42,7 +42,7 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638754263606859547
+  lastModified: 638756428503412918
   FileSizes:
   - Name: Desktop
     Value: 1778
@@ -62,11 +62,38 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638753318807744499
+  lastModified: 638756428504976652
   FileSizes:
   - Name: Desktop
-    Value: 102624
+    Value: 172064
   Exists: 1
+--- !u!114 &-7186344460886021570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Explosion
+  m_EditorClassIdentifier: 
+  Path: event:/Explosion
+  Guid:
+    Data1: 830936456
+    Data2: 1236509460
+    Data3: -1186741368
+    Data4: -975653335
+  Banks:
+  - {fileID: -7482656149067244905}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-6004531602806198044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,11 +109,38 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638754263606869549
+  lastModified: 638756428503422914
   FileSizes:
   - Name: Desktop
-    Value: 2292
+    Value: 2378
   Exists: 1
+--- !u!114 &-5439762895403340467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Forest
+  m_EditorClassIdentifier: 
+  Path: event:/Forest
+  Guid:
+    Data1: 98985086
+    Data2: 1128005280
+    Data3: 2145861304
+    Data4: -1260812779
+  Banks:
+  - {fileID: 4128028319592528060}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 25153
 --- !u!114 &-4972672428191179370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,7 +319,7 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 638753919930159662
+  lastModified: 638756417090250827
   FileSizes:
   - Name: Desktop
     Value: 2880
@@ -447,10 +501,10 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Voice.bank
   Name: Voice
   StudioPath: bank:/Voice
-  lastModified: 638754263611839781
+  lastModified: 638756417100266232
   FileSizes:
   - Name: Desktop
-    Value: 5394656
+    Value: 5394688
   Exists: 1
 --- !u!114 &-67012183513436930
 MonoBehaviour:
@@ -520,12 +574,14 @@ MonoBehaviour:
   - {fileID: -3225745306824736923}
   - {fileID: -4652194822707411810}
   - {fileID: -1070410013506259550}
+  - {fileID: -5439762895403340467}
+  - {fileID: -7186344460886021570}
   EditorParameters: []
   MasterBanks:
   - {fileID: -7729416478897867117}
   StringsBanks:
   - {fileID: -6004531602806198044}
-  cacheTime: 638754263611839781
+  cacheTime: 638756428504976652
   cacheVersion: 131622
 --- !u!114 &72039294544948279
 MonoBehaviour:
@@ -677,10 +733,10 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Ambient.bank
   Name: Ambient
   StudioPath: bank:/Ambient
-  lastModified: 638753318806955438
+  lastModified: 638756428503300280
   FileSizes:
   - Name: Desktop
-    Value: 6198112
+    Value: 6513152
   Exists: 1
 --- !u!114 &4693429333812065633
 MonoBehaviour:
@@ -697,7 +753,7 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638753318807358490
+  lastModified: 638756417088409616
   FileSizes:
   - Name: Desktop
     Value: 2254048

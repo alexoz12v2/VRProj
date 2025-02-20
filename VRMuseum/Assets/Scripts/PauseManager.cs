@@ -20,7 +20,8 @@ namespace vrm
             Actions.Pause().performed += OnPause;
         }
 
-        public void TogglePause() { 
+        public void TogglePause()
+        {
             m_Paused = !m_Paused;
             Time.timeScale = m_Paused ? 0 : 1;
 
@@ -54,3 +55,4 @@ namespace vrm
         }
     }
 }
+

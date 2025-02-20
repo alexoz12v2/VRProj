@@ -24,7 +24,7 @@ namespace vrm
         private void Awake()
         {
             // TODO load JSON from disk?
-            m_PlayerSettings = new();
+            m_PlayerSettings = ScriptableObject.CreateInstance<PlayerSettingsScriptableObject>();
             PlayerSettingsChanged = null;
             m_PlayerSettings.MouseSensitivity.VertSpeed = 100f;
             m_PlayerSettings.MouseSensitivity.HorzSpeed = 100f;
