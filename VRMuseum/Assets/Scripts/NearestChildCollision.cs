@@ -40,7 +40,7 @@ namespace vrm
         {
             if (GameManager.Exists && GameManager.Instance.player != null)
                 Actions.Interact().performed -= OnInteract;
-            if (GameManager.Exists)
+            if (GameManager.Exists && PauseManager.Exists)
             {
                 PauseManager.Instance.OnPaused -= OnPaused;
                 PauseManager.Instance.OnUnpaused -= OnUnpaused;
