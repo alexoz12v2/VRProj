@@ -16,6 +16,7 @@ TagManager:
   - RightXRController
   - LeftXRControllerChild
   - RightXRControllerChild
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX

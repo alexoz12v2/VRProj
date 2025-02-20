@@ -256,6 +256,22 @@ namespace vrm
             return false; // Scene is not loaded
         }
 
+        static public bool IsSceneLoaded(string sceneName, out Scene outScene)
+        {
+            outScene = SceneManager.GetSceneAt(0);
+            for (int i = 0; i < SceneManager.sceneCount; i++)
+            {
+                Scene scene = SceneManager.GetSceneAt(i);
+                if (scene.name == sceneName)
+                {
+                    outScene = scene;
+                    return true; // Scene is already loaded
+                }
+            }
+
+            return false; // Scene is not loaded
+        }
+
         // Get all 8 corners of the bounds
         public static Vector3[] GetBoundsCorners(Bounds bounds)
         {

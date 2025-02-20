@@ -288,6 +288,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: bd3260b5-b06a-4835-ad34-fa68c2bcfbd8
     m_ActionName: Player Controls/Lower[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3bf3a878-9483-4797-858b-1402d9b2c8fe
+    m_ActionName: Player Controls/Deselect[/Keyboard/x]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e4eae8d8-6695-4327-b939-d346600ae9c0
+    m_ActionName: Player Controls/Pause[/Keyboard/escape,/Keyboard/backspace]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player Controls
@@ -344,7 +352,7 @@ CharacterController:
   serializedVersion: 3
   m_Height: 1
   m_Radius: 0.5
-  m_SlopeLimit: 45
+  m_SlopeLimit: 20
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001

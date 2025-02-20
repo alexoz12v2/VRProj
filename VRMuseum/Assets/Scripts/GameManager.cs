@@ -8,6 +8,7 @@ using System;
 using FMODUnity;
 using UnityEngine.SceneManagement;
 using UnityEngine.Rendering;
+using System.Linq;
 
 namespace vrm
 {
@@ -145,7 +146,17 @@ namespace vrm
             var controller = inScenePlayer.GetComponent<CharacterController>();
             if (controller)
                 controller.enabled = false;
-            inScenePlayer.transform.SetPositionAndRotation(StartTransform.position, StartTransform.rotation);
+
+            if (Methods.IsSceneLoaded("Museum", out Scene scene))
+            {
+                Transform t = scene.GetRootGameObjects().Where(obj => obj.CompareTag("SpawnPoint")).First().transform;
+                inScenePlayer.transform.SetPositionAndRotation(t.position, t.rotation);
+            }
+            else if (Methods.IsSceneLoaded("TrenchScene", out scene))
+            { 
+                Transform t = scene.GetRootGameObjects().Where(obj => obj.CompareTag("SpawnPoint")).First().transform;
+                inScenePlayer.transform.SetPositionAndRotation(t.position, t.rotation);
+            }
 
             if (!Methods.IsSceneLoaded(m_PlayerSceneName))
                 throw new System.SystemException("shfsaf");
