@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="AudioFile" id="{d350024c-c76e-44e3-bcf7-e329519f2511}">
 		<property name="assetPath">
-			<value>Ambient/museum-hall-big-echo-group.mp3</value>
+			<value>Ambient/Museum/museum-hall-big-echo-group.mp3</value>
 		</property>
 		<property name="isStreaming">
 			<value>true</value>

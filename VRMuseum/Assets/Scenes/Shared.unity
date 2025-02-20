@@ -236,8 +236,16 @@ PrefabInstance:
       value: event:/UIClick
       objectReference: {fileID: 0}
     - target: {fileID: 1299317278643196239, guid: 90fa88f485c2a4741966c997f1c27c34, type: 3}
+      propertyPath: <Explosion>k__BackingField.Path
+      value: event:/Explosion
+      objectReference: {fileID: 0}
+    - target: {fileID: 1299317278643196239, guid: 90fa88f485c2a4741966c997f1c27c34, type: 3}
       propertyPath: <BackgroundUI>k__BackingField.Path
       value: event:/UIBackgroundMusic
+      objectReference: {fileID: 0}
+    - target: {fileID: 1299317278643196239, guid: 90fa88f485c2a4741966c997f1c27c34, type: 3}
+      propertyPath: <AmbientForest>k__BackingField.Path
+      value: event:/AmbientForest
       objectReference: {fileID: 0}
     - target: {fileID: 1299317278643196239, guid: 90fa88f485c2a4741966c997f1c27c34, type: 3}
       propertyPath: <ClickUI>k__BackingField.Guid.Data1
@@ -256,6 +264,22 @@ PrefabInstance:
       value: 2086582719
       objectReference: {fileID: 0}
     - target: {fileID: 1299317278643196239, guid: 90fa88f485c2a4741966c997f1c27c34, type: 3}
+      propertyPath: <Explosion>k__BackingField.Guid.Data1
+      value: 950780407
+      objectReference: {fileID: 0}
+    - target: {fileID: 1299317278643196239, guid: 90fa88f485c2a4741966c997f1c27c34, type: 3}
+      propertyPath: <Explosion>k__BackingField.Guid.Data2
+      value: 1305989339
+      objectReference: {fileID: 0}
+    - target: {fileID: 1299317278643196239, guid: 90fa88f485c2a4741966c997f1c27c34, type: 3}
+      propertyPath: <Explosion>k__BackingField.Guid.Data3
+      value: -858872440
+      objectReference: {fileID: 0}
+    - target: {fileID: 1299317278643196239, guid: 90fa88f485c2a4741966c997f1c27c34, type: 3}
+      propertyPath: <Explosion>k__BackingField.Guid.Data4
+      value: -796810675
+      objectReference: {fileID: 0}
+    - target: {fileID: 1299317278643196239, guid: 90fa88f485c2a4741966c997f1c27c34, type: 3}
       propertyPath: <BackgroundUI>k__BackingField.Guid.Data1
       value: 2009243785
       objectReference: {fileID: 0}
@@ -270,6 +294,22 @@ PrefabInstance:
     - target: {fileID: 1299317278643196239, guid: 90fa88f485c2a4741966c997f1c27c34, type: 3}
       propertyPath: <BackgroundUI>k__BackingField.Guid.Data4
       value: 1297888363
+      objectReference: {fileID: 0}
+    - target: {fileID: 1299317278643196239, guid: 90fa88f485c2a4741966c997f1c27c34, type: 3}
+      propertyPath: <AmbientForest>k__BackingField.Guid.Data1
+      value: 1734329141
+      objectReference: {fileID: 0}
+    - target: {fileID: 1299317278643196239, guid: 90fa88f485c2a4741966c997f1c27c34, type: 3}
+      propertyPath: <AmbientForest>k__BackingField.Guid.Data2
+      value: 1330341419
+      objectReference: {fileID: 0}
+    - target: {fileID: 1299317278643196239, guid: 90fa88f485c2a4741966c997f1c27c34, type: 3}
+      propertyPath: <AmbientForest>k__BackingField.Guid.Data3
+      value: 1145158278
+      objectReference: {fileID: 0}
+    - target: {fileID: 1299317278643196239, guid: 90fa88f485c2a4741966c997f1c27c34, type: 3}
+      propertyPath: <AmbientForest>k__BackingField.Guid.Data4
+      value: -1497093064
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
