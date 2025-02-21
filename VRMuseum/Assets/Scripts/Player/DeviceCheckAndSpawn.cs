@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.tvOS;
+
 
 // https://discussions.unity.com/t/how-to-detect-if-headset-is-available-and-initialize-xr-only-if-true/799147/2
 namespace vrm

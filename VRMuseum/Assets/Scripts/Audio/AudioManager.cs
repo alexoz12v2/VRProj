@@ -29,6 +29,7 @@ namespace vrm
         private List<StudioEventEmitter> _eventEmitters = new();
         private EventInstance _background;
         private EventInstance _ambientEventInstance;
+        private EventInstance _forestEventInstance;
 
         private Bus _masterBus;
         private Bus _ambientBus;
@@ -124,7 +125,61 @@ namespace vrm
         {
             _ambientEventInstance = CreateInstance(ambient);
             _ambientEventInstance.start();
+            
         }
+        public void StopAmbient()
+        {
+
+            var result =  _ambientEventInstance.stop(STOP_MODE.IMMEDIATE);
+            if (result != FMOD.RESULT.OK)
+            {
+                Debug.Log($"Failed to stop event with result: {result}");
+            }
+            _ambientEventInstance.release();
+            /*
+            result = musicEventInstance.release();
+            if (result != FMOD.RESULT.OK)
+            {
+                Debug.Log($"Failed to stop event with result: {result}");
+            }*/
+        }
+
+        public void StartAmbient()
+        {
+
+            InitializeAmbient(FMODEvents.Instance.AmbientSound);
+
+        }
+
+        public void InitializeForest(EventReference ambient)
+        {
+            _forestEventInstance = CreateInstance(ambient);
+
+            if (!_forestEventInstance.isValid())
+            {
+                Debug.LogError("Forest event instance is not valid.");
+            }
+            _forestEventInstance.start();
+
+        }
+
+        public void StartForest()
+        {
+            InitializeForest(FMODEvents.Instance.AmbientForest);
+
+        }
+
+        public void StopForest()
+        {
+
+            var result = _forestEventInstance.stop(STOP_MODE.IMMEDIATE);
+            if (result != FMOD.RESULT.OK)
+            {
+                Debug.Log($"Failed to stop event with result: {result}");
+            }
+            _forestEventInstance.release();
+        }
+
         public void SetAmbientParameter(string parameterName, float parameterValue)
         {
             _ambientEventInstance.setParameterByName(parameterName, parameterValue);

@@ -28,8 +28,8 @@ namespace vrm
             UnityEngine.XR.InputDevices.GetDevices(list);
             foreach (var device in list)
             {
-                GUILayout.Label($"XR Device: {device.GetType()} - {device.name}", EditorStyles.boldLabel);
-                GUILayout.Space(10);
+               /* GUILayout.Label($"XR Device: {device.GetType()} - {device.name}", EditorStyles.boldLabel);
+                GUILayout.Space(10);*/
             }
             if (_devShowMsg)
             {

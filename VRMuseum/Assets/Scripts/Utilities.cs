@@ -13,7 +13,7 @@ namespace vrm
 {
     public class CreatePrefab : MonoBehaviour
     {
-        [MenuItem("Extras/Create Prefab From Selection")]
+      /*  [MenuItem("Extras/Create Prefab From Selection")]
         static void DoCreatePrefab()
         {
             Transform[] transforms = Selection.transforms;
@@ -21,7 +21,7 @@ namespace vrm
             {
                 GameObject prefab = PrefabUtility.SaveAsPrefabAssetAndConnect(t.gameObject, "Assets/Prefabs/" + t.gameObject.name + ".prefab", InteractionMode.UserAction);
             }
-        }
+        }*/
     }
 
     public class HandInteractors

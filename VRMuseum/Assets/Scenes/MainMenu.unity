@@ -157,7 +157,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -545, y: -322}
+  m_AnchoredPosition: {x: -545, y: -251}
   m_SizeDelta: {x: -1564.7, y: -1000.1401}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &37681456
@@ -403,7 +403,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 1
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -1524,7 +1524,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -545, y: -50}
+  m_AnchoredPosition: {x: -545, y: 21}
   m_SizeDelta: {x: -1564.7, y: -1000.1401}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &863086031
@@ -1995,7 +1995,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1047367656
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2012,7 +2012,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -545, y: 64}
+  m_AnchoredPosition: {x: -545, y: 188}
   m_SizeDelta: {x: -1564.7, y: -1000.1401}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1047367657
@@ -2691,7 +2691,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -545, y: -179}
+  m_AnchoredPosition: {x: -545, y: -108}
   m_SizeDelta: {x: -1564.7, y: -1000.1401}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1160646679

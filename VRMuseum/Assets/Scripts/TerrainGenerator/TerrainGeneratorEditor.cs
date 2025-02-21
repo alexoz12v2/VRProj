@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-
+/*
 [CustomEditor(typeof(TerrainGen))]
 
 public class TerrainGeneratorEditor : Editor
@@ -26,3 +26,4 @@ public class TerrainGeneratorEditor : Editor
     }
 }
 
+*/
