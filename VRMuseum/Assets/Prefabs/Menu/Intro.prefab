@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.000061035156}
   m_SizeDelta: {x: 1500, y: 1600}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &637902694744350853
@@ -1123,8 +1123,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8443860683220238812}
   m_HandleRect: {fileID: 6693657163728796680}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.571374
+  m_Value: 1.0000001
+  m_Size: 0.57137406
   m_NumberOfSteps: 5
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1274,3 +1274,10 @@ MonoBehaviour:
   m_OnEnterClick:
     m_PersistentCalls:
       m_Calls: []
+  m_Benvenuto:
+    Guid:
+      Data1: 277343686
+      Data2: 1334431535
+      Data3: 123570848
+      Data4: -347820448
+    Path: event:/Interactions/Benvenuto
