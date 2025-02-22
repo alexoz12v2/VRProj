@@ -75,5 +75,8 @@ VRMuseum/[Aa]ssets/[Ss]treamingAssets/aa/*
 Stuff/
 
 # FMOD cache and log 
-VRMuseum\Assets\Plugins\FMOD\Cache\Editor\FMODStudioCache.asset
-VRMuseum\fmod_editor.log
+VRMuseum/Assets/Plugins/FMOD/Cache/Editor/FMODStudioCache.asset
+VRMuseum/fmod_editor.log
+
+# visual studio code stuff
+.vscode/
