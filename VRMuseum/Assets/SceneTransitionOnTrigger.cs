@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using static LoadingManager;
 
 namespace vrm
 {
@@ -10,6 +11,8 @@ namespace vrm
     public class SceneTransitionOnTrigger : MonoBehaviour
     {
         [SerializeField] private float m_Range = 4f;
+
+        
 
         private Collider m_Collider;
 
@@ -49,9 +52,15 @@ namespace vrm
 
         private void OnInteract(InputAction.CallbackContext context)
         {
+            Debug.Log("Hit boxcollider text");
             Ray ray = new(Camera.main.transform.position, Camera.main.transform.forward);
+            if (m_Collider == null)
+                return;
             if (m_Collider.Raycast(ray, out RaycastHit hit, m_Range))
             {
+
+                LoadingManager.Instance.PlayDissolving();
+                m_Collider.enabled = false;
             }
         }
     }
