@@ -77,9 +77,21 @@ Stuff/
 # FMOD cache and log 
 VRMuseum/Assets/Plugins/FMOD/Cache/
 VRMuseum/fmod_editor.log
-VRMuseum/Assets/FMOD/MuseumSound/.cache/
+VRMuseum/Assets/FMOD/MuseumSound/.cache/*/*.*
 VRMuseum/Assets/FMOD/MuseumSound/.user/
 VRMuseum/Assets/FMOD/MuseumSound/Build/
 
 # visual studio code stuff
 .vscode/
+VRMuseum/Assets/FMOD/MuseumSound/.cache/buildrecords/Desktop/Ambient.br
+VRMuseum/Assets/FMOD/MuseumSound/.cache/buildrecords/Desktop/Master.br
+VRMuseum/Assets/FMOD/MuseumSound/.cache/buildrecords/Desktop/Music.br
+VRMuseum/Assets/FMOD/MuseumSound/.cache/buildrecords/Desktop/SFX.br
+VRMuseum/Assets/FMOD/MuseumSound/.cache/buildrecords/Desktop/UI.br
+VRMuseum/Assets/FMOD/MuseumSound/.cache/buildrecords/Desktop/Voice.br
+VRMuseum/Assets/FMOD/MuseumSound/.cache/fsbcache/Desktop/2F462E8A.fobj
+VRMuseum/Assets/FMOD/MuseumSound/.cache/fsbcache/Desktop/4655B506.fobj
+VRMuseum/Assets/FMOD/MuseumSound/Build/Desktop/Ambient.bank
+VRMuseum/Assets/FMOD/MuseumSound/Build/Desktop/Music.bank
+VRMuseum/Assets/FMOD/MuseumSound/Build/Desktop/SFX.bank
+VRMuseum/Assets/FMOD/MuseumSound/Build/Desktop/Voice.bank
