@@ -62,7 +62,7 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638756428504976652
+  lastModified: 638756539364429924
   FileSizes:
   - Name: Desktop
     Value: 172064
@@ -109,7 +109,7 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638756428503422914
+  lastModified: 638756539364169929
   FileSizes:
   - Name: Desktop
     Value: 2378
@@ -501,7 +501,7 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Voice.bank
   Name: Voice
   StudioPath: bank:/Voice
-  lastModified: 638756417100266232
+  lastModified: 638756539364939937
   FileSizes:
   - Name: Desktop
     Value: 5394688
@@ -581,7 +581,7 @@ MonoBehaviour:
   - {fileID: -7729416478897867117}
   StringsBanks:
   - {fileID: -6004531602806198044}
-  cacheTime: 638756428504976652
+  cacheTime: 638756539364939937
   cacheVersion: 131622
 --- !u!114 &72039294544948279
 MonoBehaviour:
@@ -733,7 +733,7 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Ambient.bank
   Name: Ambient
   StudioPath: bank:/Ambient
-  lastModified: 638756428503300280
+  lastModified: 638756539364159923
   FileSizes:
   - Name: Desktop
     Value: 6513152
@@ -753,7 +753,7 @@ MonoBehaviour:
   Path: Assets/FMOD/MuseumSound/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638756417088409616
+  lastModified: 638756539364399936
   FileSizes:
   - Name: Desktop
     Value: 2254048
