@@ -9105,6 +9105,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stand02
       objectReference: {fileID: 0}
+    - target: {fileID: 6072292870580291656, guid: 3fce8c48ca324c64db1dca2bd57877b0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9f843c27bd9c75c4aa7643393ec3ff9c, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
