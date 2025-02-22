@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LoadingMuseum : MonoBehaviour
+namespace vrm
 {
-    private void OnTriggerEnter(Collider other)
+    public class LoadingMuseum : MonoBehaviour
     {
-        LoadingManager.Instance.PlayDissolving();
+        private void OnTriggerEnter(Collider other)
+        {
+            // LoadingManager.Instance.PlayDissolving();
+            LoadingManager.Instance.DissolveToMainMenu();
+        }
     }
 }

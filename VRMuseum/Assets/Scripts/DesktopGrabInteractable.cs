@@ -150,10 +150,9 @@ namespace vrm
             OnGameDestroy = () =>
             {
                 GameManager.Instance.player.GrabCallbackEvent -= OnInteract;
-                GameManager.Instance.GameStartStarted -= OnGameStarted;
             };
 
-            GameManager.Instance.GameStartStarted += OnGameStarted;
+            OnGameStarted();
             GameManager.Instance.GameDestroy += OnGameDestroy;
         }
 

@@ -73,6 +73,7 @@ VRMuseum/[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # more stuff
 Stuff/
+Build/
 
 # FMOD cache and log 
 VRMuseum/Assets/Plugins/FMOD/Cache/

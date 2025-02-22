@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 6733969998391361221}
   - component: {fileID: 8833574553131272719}
   - component: {fileID: 4478444021940527642}
+  - component: {fileID: 34462814437007023}
+  - component: {fileID: 5617068287250128123}
   m_Layer: 0
   m_Name: Trench01v3
   m_TagString: Untagged
@@ -106,3 +108,45 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3050122162181673382, guid: a09a6fd9ce42be8459408c0630c11135, type: 3}
+--- !u!65 &34462814437007023
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7032323748770245594}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.59, y: 2.2, z: 2.5821538}
+  m_Center: {x: -1.29, y: 1.0433956, z: -1.2662461}
+--- !u!65 &5617068287250128123
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7032323748770245594}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.59, y: 2.2, z: 2.5821538}
+  m_Center: {x: 1.34, y: 1.0433956, z: -1.2662461}

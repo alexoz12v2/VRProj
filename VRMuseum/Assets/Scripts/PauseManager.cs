@@ -43,16 +43,6 @@ namespace vrm
         protected override void OnDestroyCallback()
         {
         }
-
-        // DEBUGGING ONLY, REMOVE
-        private void OnGUI()
-        {
-            if (m_Paused)
-            {
-                var rect = new Rect(Screen.width / 3, 10, Screen.width / 2, Screen.height / 10);
-                GUI.TextField(rect, "PAUSED");
-            }
-        }
     }
 }
 

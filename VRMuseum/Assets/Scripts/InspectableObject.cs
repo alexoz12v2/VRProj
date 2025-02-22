@@ -20,7 +20,7 @@ namespace vrm
         {
             PauseManager.Instance.OnPaused += OnPaused;
             PauseManager.Instance.OnUnpaused += OnUnpaused;
-            GameManager.Instance.GameStartStarted += Registar;
+            RegisterInput();
             m_StartRenderLayer = gameObject.layer;
             if (m_Images == null)
                 UnityEngine.Debug.LogError($"Expected at least one bundle on {gameObject.name}");
@@ -33,7 +33,6 @@ namespace vrm
             InputAction action = null;
             if (GameManager.Exists)
             {
-                GameManager.Instance.GameStartStarted -= Registar;
                 if (m_Selected && (action = Actions.Deselect()) != null)
                 {
                     action.performed -= OnDeselect;
@@ -75,7 +74,7 @@ namespace vrm
             }
         }
 
-        private void Registar()
+        private void RegisterInput()
         {
             if (DeviceCheckAndSpawn.Instance.isXR)
             {

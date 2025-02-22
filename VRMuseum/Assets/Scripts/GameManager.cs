@@ -63,7 +63,6 @@ namespace vrm
         [HideInInspector]
         public InspectableObject SelectedObject = null;
 
-        public event Action GameStartStarted;
         public event Action GameDestroy;
         public event Action<GameState, GameState> GameStateChanged;
 
@@ -80,7 +79,7 @@ namespace vrm
             }
         }
 
-        void Start()
+        void Awake()
         {
             isPaused = false;
             spawnPlayer();
@@ -116,8 +115,6 @@ namespace vrm
 
             PlayerSettingsManager.Instance.PlayerSettingsChanged += OnPlayerSettingsChanged;
             OnPlayerSettingsChanged(PlayerSettingsManager.Instance.PlayerSettings);
-
-            GameStartStarted?.Invoke();
         }
 
         private void OnPlayerSettingsChanged(PlayerSettingsScriptableObject settings)
@@ -130,12 +127,6 @@ namespace vrm
             }
 
             player.playerMovementBehaviours.movementSpeed = settings.WalkingSpeed;
-        }
-
-        private void OnGUI()
-        {
-            var rect = new Rect(Screen.width / 3, 10, Screen.width / 2, Screen.height / 10);
-            GUI.TextField(rect, $"Player Position: x ={inScenePlayer.transform.position.x}, y = {inScenePlayer.transform.position.y}, z = {inScenePlayer.transform.position.z}");
         }
 
         private void spawnPlayer()
@@ -154,7 +145,7 @@ namespace vrm
             }
             else if (Methods.IsSceneLoaded("TrenchScene", out scene))
             { 
-                Transform t = scene.GetRootGameObjects().Where(obj => obj.CompareTag("SpawnPoint")).First().transform;
+                Transform t = scene.GetRootGameObjects().Where(obj => obj.CompareTag("SpawnPointTrench")).First().transform;
                 inScenePlayer.transform.SetPositionAndRotation(t.position, t.rotation);
             }
 

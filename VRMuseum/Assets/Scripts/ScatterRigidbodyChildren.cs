@@ -16,7 +16,7 @@ namespace vrm
 
         void Start()
         {// TODO callback cleanup
-            GameManager.Instance.GameStartStarted += OnGameStarted;
+            OnGameStarted();
             GameManager.Instance.GameStateChanged += OnGameStateChanged;
         }
 

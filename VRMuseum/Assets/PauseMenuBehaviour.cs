@@ -50,6 +50,11 @@ namespace vrm
             m_Scaler.scaleFactor = (float)Screen.width / TargetWidth * m_Ratio;
         }
 
+        private void OnEnable()
+        {
+            Methods.SetCursorFPSBehaviour();
+        }
+
         private void OnDisable()
         {
             foreach (var overlay in m_Overlays)
