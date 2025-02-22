@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 3642055088424206192}
   - component: {fileID: 1154300683937578952}
   - component: {fileID: 6744212568540603237}
-  - component: {fileID: 1232452412895954270}
   - component: {fileID: 7682688733451057792}
+  - component: {fileID: 1232452412895954270}
   m_Layer: 5
   m_Name: UIMessage
   m_TagString: Untagged
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
+  m_fontSize: 24
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -136,21 +136,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &1232452412895954270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8399833213921255212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57888c4e8dab02746a74661218a45c2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TargetText: New Text
-  LetterTickSeconds: 0.1
-  PersistenceSeconds: 3
 --- !u!95 &7682688733451057792
 Animator:
   serializedVersion: 5
@@ -172,3 +157,25 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1232452412895954270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8399833213921255212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57888c4e8dab02746a74661218a45c2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TypeSound:
+    Guid:
+      Data1: 819728452
+      Data2: 1249566850
+      Data3: 735836585
+      Data4: 26340267
+    Path: event:/Type
+  TargetText: New Text
+  LetterTickSeconds: 0.1
+  PersistenceSeconds: 3

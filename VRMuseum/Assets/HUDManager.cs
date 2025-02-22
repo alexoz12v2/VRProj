@@ -14,16 +14,20 @@ namespace vrm
         {
         }
 
-        private void Update()
+        //private void Update()
+        //{
+        //    if (Mouse.current.leftButton.wasPressedThisFrame)
+        //        AddHUDMessage("TEST");
+        //}
+
+        public IEnumerator AddHUDMessage(string msgText)
         {
-            if (Mouse.current.leftButton.wasPressedThisFrame)
-            {
-                var o = GameObject.Instantiate(m_MessagePrefab, m_MessageContainer.transform);
-                if (o.TryGetComponent<MessageBehaviour>(out var msg))
-                {
-                    msg.TargetText = "TEST";
-                }
-            }
+            var o = GameObject.Instantiate(m_MessagePrefab, m_MessageContainer.transform);
+            if (!o.TryGetComponent<MessageBehaviour>(out var msg))
+                throw new System.Exception("dfsdfds");
+
+            msg.TargetText = msgText;
+            return new WaitUntil(() => msg.Written);
         }
     }
 }
