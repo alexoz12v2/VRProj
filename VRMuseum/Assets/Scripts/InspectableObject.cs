@@ -16,6 +16,8 @@ namespace vrm
         private int m_StartRenderLayer;
         private bool m_Selected = false;
 
+        public System.Action Inspected;
+
         private void Start()
         {
             PauseManager.Instance.OnPaused += OnPaused;
@@ -129,6 +131,7 @@ namespace vrm
                 m_Selected = true;
                 Actions.Deselect().performed += OnDeselect;
                 Actions.Interact().performed -= OnInteract;
+                Inspected?.Invoke();
                 GameManager.Instance.SelectedObject = this;
             }
         }

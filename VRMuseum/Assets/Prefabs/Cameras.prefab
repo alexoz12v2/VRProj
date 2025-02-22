@@ -1141,7 +1141,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 3328
+    m_Bits: 3072
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1430,7 +1430,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 24823
+    m_Bits: 25079
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1543,6 +1543,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2584233625308867578}
     m_Modifications:
+    - target: {fileID: 1647422774143004695, guid: bec561858a0bd1548a236252c2aa0fb4, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 3072
+      objectReference: {fileID: 0}
     - target: {fileID: 4306016735085799098, guid: bec561858a0bd1548a236252c2aa0fb4, type: 3}
       propertyPath: m_Name
       value: XRRig
@@ -1569,7 +1573,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8460249497139813136, guid: bec561858a0bd1548a236252c2aa0fb4, type: 3}
       propertyPath: m_CullingMask.m_Bits
-      value: 24823
+      value: 25079
       objectReference: {fileID: 0}
     - target: {fileID: 8485551147731252499, guid: bec561858a0bd1548a236252c2aa0fb4, type: 3}
       propertyPath: m_LocalPosition.x

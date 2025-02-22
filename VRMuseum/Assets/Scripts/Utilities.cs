@@ -699,6 +699,7 @@ namespace vrm
         public static InputAction Interact() => GetInputAction("Interact");
         public static InputAction Deselect() => GetInputAction("Deselect");
         public static InputAction Pause() => GetInputAction("Pause");
+        public static InputAction Map() => GetInputAction("Map");
     }
 
     public class FollowTargetPosition : MonoBehaviour

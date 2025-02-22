@@ -1,7 +1,9 @@
+using FMOD.Studio;
 using FMODUnity;
 using GLTFast.Schema;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,8 +17,8 @@ namespace vrm
         private TMPro.TextMeshProUGUI m_Text;
 
         public string TargetText = "New Text";
-        public float LetterTickSeconds = 0.1f;
-        public float PersistenceSeconds = 4f;
+        public float LetterTickSeconds = 0.05f;
+        public float PersistenceSeconds = 3f;
         private bool m_Written = false;
 
         public readonly System.Action FinishedWriting;
@@ -44,12 +46,19 @@ namespace vrm
         {
             m_Text.SetText("");
             m_Written = false;
+            List<EventInstance> instance = new();
             foreach (var letter in TargetText)
             {
                 var text = m_Text.text;
                 text += letter;
                 m_Text.text = text;
-                AudioManager.Instance.PlayOneShot(m_TypeSound);
+                if (instance.Count > 0)
+                {
+                    AudioManager.Instance.StopSound(instance.Last());
+                    instance.RemoveAt(instance.Count - 1);
+                }
+                instance.Add(AudioManager.Instance.PlaySound2D(m_TypeSound));
+                instance.Last().setPitch(0.1f / LetterTickSeconds * 2f);
                 yield return new WaitForSeconds(LetterTickSeconds);
             }
             m_Written = true;

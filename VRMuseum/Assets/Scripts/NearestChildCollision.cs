@@ -102,7 +102,7 @@ namespace vrm
             if (float.IsFinite(list[0].Item1))
             {
                 GameObject go = list[0].bundle.Collider.gameObject;
-                go.layer = (int)Layers.OutlineObject;
+                go.layer = (int)Layers.Outlined;
                 list[0].bundle.Selected = true;
                 for (int i = 1; i < list.Count; ++i)
                 {
