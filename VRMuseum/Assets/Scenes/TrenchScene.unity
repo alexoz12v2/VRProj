@@ -16479,19 +16479,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2525139699131916501, guid: ea145bc217a4426498a814f4abfffcac, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.0000029504295
-      objectReference: {fileID: 0}
-    - target: {fileID: 2525139699131916501, guid: ea145bc217a4426498a814f4abfffcac, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2525139699131916501, guid: ea145bc217a4426498a814f4abfffcac, type: 3}
-      propertyPath: m_LocalRotation.y
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2525139699131916501, guid: ea145bc217a4426498a814f4abfffcac, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2525139699131916501, guid: ea145bc217a4426498a814f4abfffcac, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2525139699131916501, guid: ea145bc217a4426498a814f4abfffcac, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2525139699131916501, guid: ea145bc217a4426498a814f4abfffcac, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -16499,10 +16499,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2525139699131916501, guid: ea145bc217a4426498a814f4abfffcac, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2525139699131916501, guid: ea145bc217a4426498a814f4abfffcac, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4623623141285029327, guid: ea145bc217a4426498a814f4abfffcac, type: 3}
+      propertyPath: m_MinDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4623623141285029327, guid: ea145bc217a4426498a814f4abfffcac, type: 3}
+      propertyPath: scaleCurve.m_Curve.Array.data[0].inSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4623623141285029327, guid: ea145bc217a4426498a814f4abfffcac, type: 3}
+      propertyPath: scaleCurve.m_Curve.Array.data[1].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4623623141285029327, guid: ea145bc217a4426498a814f4abfffcac, type: 3}
+      propertyPath: scaleCurve.m_Curve.Array.data[0].outSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4623623141285029327, guid: ea145bc217a4426498a814f4abfffcac, type: 3}
+      propertyPath: scaleCurve.m_Curve.Array.data[1].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4623623141285029327, guid: ea145bc217a4426498a814f4abfffcac, type: 3}
+      propertyPath: scaleCurve.m_Curve.Array.data[0].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4623623141285029327, guid: ea145bc217a4426498a814f4abfffcac, type: 3}
+      propertyPath: scaleCurve.m_Curve.Array.data[1].tangentMode
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8119113653933697540, guid: ea145bc217a4426498a814f4abfffcac, type: 3}
