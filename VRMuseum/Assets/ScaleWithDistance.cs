@@ -15,10 +15,17 @@ namespace vrm
         [Header("Custom Falloff Curve")]
         [SerializeField] private AnimationCurve scaleCurve = AnimationCurve.Linear(0, 0, 1, 1);
 
+        private Vector3 m_StartScale;
+
         private float m_MaxDistanceSquared { get => m_MaxDistance * m_MaxDistance; }
         private float m_MinDistanceSquared { get => m_MinDistance * m_MinDistance; }
 
-        void Update()
+        private void Start()
+        {
+            m_StartScale = transform.localScale;
+        }
+
+        private void Update()
         {
             float sqrDist = Vector3.SqrMagnitude(Camera.main.transform.position - transform.position);
             sqrDist = Mathf.Clamp(sqrDist, m_MinDistanceSquared, m_MaxDistanceSquared);
@@ -31,7 +38,7 @@ namespace vrm
 
             // Apply scale based on curve result
             float scaleValue = Mathf.Lerp(m_ScaleAtMin, m_ScaleAtMax, curveValue);
-            transform.localScale = new(scaleValue, scaleValue, scaleValue);
+            transform.localScale = m_StartScale * scaleValue;
         }
     }
 }
