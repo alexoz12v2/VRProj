@@ -24,6 +24,7 @@ namespace vrm
 
         private void OnTriggerExit(Collider other)
         {
+            Methods.RemoveComponent<ImGUIProgressBar>(gameObject);
             m_Task.Stop();
         }
         private void Update()

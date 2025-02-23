@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.02.03.00">
+<objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{77c2a089-738e-49d0-a895-92aa6b345c4d}">
 		<property name="name">
 			<value>UIBackgroundMusic</value>
@@ -101,7 +101,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{4968dd1c-076e-4313-9f04-cb18fbb79ac1}">
 		<property name="volume">
-			<value>-26</value>
+			<value>-13.5</value>
 		</property>
 		<property name="name">
 			<value>Audio 1</value>
