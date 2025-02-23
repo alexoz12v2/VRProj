@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.XR.CoreUtils;
-using UnityEditor.SearchService;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace vrm
 {
