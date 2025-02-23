@@ -15005,6 +15005,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bomba
       objectReference: {fileID: 0}
+    - target: {fileID: 4097132254217462793, guid: acaf33155895282468973256f67085d1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.115
+      objectReference: {fileID: 0}
+    - target: {fileID: 4097132254217462793, guid: acaf33155895282468973256f67085d1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.062
+      objectReference: {fileID: 0}
     - target: {fileID: 6843985947982240742, guid: acaf33155895282468973256f67085d1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.148
@@ -15015,7 +15023,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6843985947982240742, guid: acaf33155895282468973256f67085d1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.428
+      value: 0.022
+      objectReference: {fileID: 0}
+    - target: {fileID: 8252236758955938908, guid: acaf33155895282468973256f67085d1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.766
+      objectReference: {fileID: 0}
+    - target: {fileID: 8252236758955938908, guid: acaf33155895282468973256f67085d1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.648
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
