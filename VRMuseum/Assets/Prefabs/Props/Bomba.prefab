@@ -503,6 +503,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Images: {fileID: 325732709053850403}
   m_MaxInteractionDistance: 4
+  m_InteractableName: Bombarda 58 A
 --- !u!23 &1504809169142397421
 MeshRenderer:
   m_ObjectHideFlags: 0

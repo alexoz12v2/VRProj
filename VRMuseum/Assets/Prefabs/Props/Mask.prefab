@@ -365,6 +365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Images: {fileID: 3745090430083965087}
   m_MaxInteractionDistance: 4
+  m_InteractableName: Maschera Antigas Polivalente
 --- !u!1 &3745090430083965087
 GameObject:
   m_ObjectHideFlags: 0

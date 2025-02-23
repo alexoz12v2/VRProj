@@ -365,6 +365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Images: {fileID: 4043542214082908181}
   m_MaxInteractionDistance: 4
+  m_InteractableName: Pugnale Arditi
 --- !u!1 &4043542214082908181
 GameObject:
   m_ObjectHideFlags: 0

@@ -1016,3 +1016,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Images: {fileID: 3137983953989266482}
   m_MaxInteractionDistance: 4
+  m_InteractableName: Carcano Mod. 91

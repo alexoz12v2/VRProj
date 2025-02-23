@@ -13,6 +13,8 @@ namespace vrm
     {
         [SerializeField] private GameObject m_Images = null;
         [SerializeField] private float m_MaxInteractionDistance = 4f;
+        [SerializeField] private string m_InteractableName = null;
+
         private int m_StartRenderLayer;
         private bool m_Selected = false;
 
@@ -125,7 +127,7 @@ namespace vrm
                     GameManager.Instance.SelectedObject.Deselect();
                     GameManager.Instance.SelectedObject = null;
                 }
-                DebugPrintXRDevices.Instance.AddMessage($"Collider intersection with {gameObject.name}");
+                DebugPrintXRDevices.Instance.AddMessage($"Interazione con {(m_InteractableName ?? gameObject.name)}");
                 gameObject.SetLayerRecursively((int)Layers.OutlineObject);
                 m_Images.SetActive(true);
                 m_Selected = true;
