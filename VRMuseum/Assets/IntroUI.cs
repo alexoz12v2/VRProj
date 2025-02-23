@@ -18,15 +18,15 @@ namespace vrm
 
         private EventInstance m_Instance;
 
-        private void OnEnable()
-        {
-            m_Instance = AudioManager.Instance.PlaySound2D(m_Benvenuto);
-        }
-        private void OnDisable()
-        {
-            if (AudioManager.Exists)
-                AudioManager.Instance.StopSound(m_Instance);
-        }
+        //private void OnEnable()
+        //{
+        //    m_Instance = AudioManager.Instance.PlaySound2D(m_Benvenuto);
+        //}
+        //private void OnDisable()
+        //{
+        //    if (AudioManager.Exists)
+        //        AudioManager.Instance.StopSound(m_Instance);
+        //}
 
         public void TogglePauseBenvenuto()
         {

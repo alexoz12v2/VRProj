@@ -1,3 +1,4 @@
+using FMOD.Studio;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,9 +14,11 @@ namespace vrm
 
         private bool m_InteractedOnce = false;
         private Task m_TutorialTask = null;
+        private EventInstance m_Ambient;
 
         private void Start()
         {
+            m_Ambient = AudioManager.Instance.PlaySound2D(FMODEvents.Instance.AmbientSound);
             PauseManager.Instance.OnPaused += OnPaused;
             PauseManager.Instance.OnUnpaused += OnUnpaused;
             m_TutorialTask = new Task(Tutorial());
@@ -47,6 +50,15 @@ namespace vrm
 
         private void OnDisable()
         {
+            if (m_Ambient.isValid())
+            {
+                m_Ambient.getPlaybackState(out PLAYBACK_STATE state);
+                if (state == PLAYBACK_STATE.PLAYING)
+                {
+                    m_Ambient.stop(STOP_MODE.IMMEDIATE);
+                    m_Ambient.release();
+                }
+            }
             if (PauseManager.Exists)
             {
                 PauseManager.Instance.OnPaused += OnPaused;

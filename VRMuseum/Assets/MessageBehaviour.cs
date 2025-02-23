@@ -20,6 +20,7 @@ namespace vrm
         public float LetterTickSeconds = 0.05f;
         public float PersistenceSeconds = 3f;
         private bool m_Written = false;
+        private Task m_Task = null;
 
         public readonly System.Action FinishedWriting;
         public bool Written { get { return m_Written; } }
@@ -34,12 +35,20 @@ namespace vrm
 
         private void Start()
         {
-            new Task(WriteTask()).Finished += Disappear;
+            m_Task = new(WriteTask());
+            m_Task.Finished += Disappear;
+        }
+
+        private void OnDestroy()
+        {
+            m_Task.Finished -= Disappear;
+            m_Task.Stop();
         }
 
         private void Disappear(bool manual)
         {
-            m_Animator.SetTrigger("Disappear");
+            if (!manual && TryGetComponent(out m_Animator))
+                m_Animator.SetTrigger("Disappear");
         }
 
         private IEnumerator WriteTask()

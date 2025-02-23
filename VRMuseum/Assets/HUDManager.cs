@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.XR.CoreUtils;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -28,6 +30,22 @@ namespace vrm
 
             msg.TargetText = msgText;
             return new WaitUntil(() => msg.Written);
+        }
+
+        public void CleanHUDMessages()
+        {
+            List<GameObject> list = new();
+            m_MessageContainer.GetChildGameObjects(list);
+            foreach (var obj in list)
+            {
+                if (obj.TryGetComponent<MessageBehaviour>(out var msg))
+                {
+                    if (!msg.Written)
+                        Destroy(obj);
+                }
+                else
+                    Destroy(obj);
+            }
         }
     }
 }

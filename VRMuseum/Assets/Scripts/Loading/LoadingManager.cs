@@ -101,21 +101,22 @@ namespace vrm
             yield return null;
             GameObject spawnPoint;
 
-
+            if (HUDManager.Exists)
+                HUDManager.Instance.CleanHUDMessages();
             if (_loadSceneName.Equals("Museum"))
             {
-                AudioManager.Instance.StopForest();
+                //AudioManager.Instance.StopForest();
                 yield return new WaitForSeconds(0.1f);
-                AudioManager.Instance.StartAmbient();
+                //AudioManager.Instance.StartAmbient();
 
                 spawnPoint = GameObject.FindWithTag("SpawnPoint");
             }
             else
             {
 
-                AudioManager.Instance.StopAmbient();
+                //AudioManager.Instance.StopAmbient();
                 yield return new WaitForSeconds(0.1f);
-                AudioManager.Instance.StartForest();
+                //AudioManager.Instance.StartForest();
                 spawnPoint = GameObject.FindWithTag("SpawnPointTrench");
             }
 

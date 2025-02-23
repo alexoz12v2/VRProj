@@ -84,7 +84,6 @@ namespace vrm
             isPaused = false;
             spawnPlayer();
             setupPlayer();
-            AudioManager.Instance.Initialize();
             PauseManager.Instance.Register();
 
             Transform t = null;
