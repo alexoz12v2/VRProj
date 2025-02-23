@@ -1,0 +1,272 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &79059196770400039
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 161412349175170617}
+  - component: {fileID: 7012916656853475977}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &161412349175170617
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79059196770400039}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3901029126548008629}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7012916656853475977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79059196770400039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 750c10a65bf3d604e96fa57cdc7a0467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MasterVolume: 1
+  AmbientVolume: 1
+  SFXVolume: 1
+  MusicVolume: 1
+  UIVolume: 1
+  VoiceVolume: 1
+--- !u!1 &8278278410884864369
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3901029126548008629}
+  - component: {fileID: 1299317278643196239}
+  m_Layer: 0
+  m_Name: FMODEvents
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3901029126548008629
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8278278410884864369}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 161412349175170617}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1299317278643196239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8278278410884864369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e3071705367c7a42bd574a0a3ebab0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <PlayerFootsteps>k__BackingField:
+    Guid:
+      Data1: 145066413
+      Data2: 1185979386
+      Data3: -2023240037
+      Data4: -1890539651
+    Path: event:/Footsteps
+  <Trincea>k__BackingField:
+    Guid:
+      Data1: 1769544999
+      Data2: 1226331366
+      Data3: 995909765
+      Data4: 90396709
+    Path: event:/CarcanoFire
+  <Explosion>k__BackingField:
+    Guid:
+      Data1: 830936456
+      Data2: 1236509460
+      Data3: -1186741368
+      Data4: -975653335
+    Path: event:/Explosion
+  <AmbientSound>k__BackingField:
+    Guid:
+      Data1: -1210593711
+      Data2: 1285652349
+      Data3: 1690907057
+      Data4: -1429673121
+    Path: event:/AmbientSound
+  <AmbientForest>k__BackingField:
+    Guid:
+      Data1: 98985086
+      Data2: 1128005280
+      Data3: 2145861304
+      Data4: -1260812779
+    Path: event:/Forest
+  <BackgroundUI>k__BackingField:
+    Guid:
+      Data1: 2009243785
+      Data2: 1238397838
+      Data3: -1433234008
+      Data4: 1297888363
+    Path: event:/UIBackgroundMusic
+  <ClickUI>k__BackingField:
+    Guid:
+      Data1: 2056856734
+      Data2: 1074791842
+      Data3: 353261971
+      Data4: 2086582719
+    Path: event:/UIClick
+  <FiatRevelliOnLancia1z>k__BackingField:
+    Guid:
+      Data1: 473899036
+      Data2: 1297991681
+      Data3: -28433992
+      Data4: -872151985
+    Path: event:/Interactions/FiatRevelli/FiatRevelliOnLancia1z
+  <FiatRevelliOnForest>k__BackingField:
+    Guid:
+      Data1: 1672557277
+      Data2: 1101653078
+      Data3: -904935236
+      Data4: -1666597196
+    Path: event:/Interactions/FiatRevelli/FiatRevelliOnForest
+  <FiatRevelliWithSoldiers>k__BackingField:
+    Guid:
+      Data1: -1156849906
+      Data2: 1103128736
+      Data3: -1181084287
+      Data4: -874825101
+    Path: event:/Interactions/FiatRevelli/FiatRevelliWithSoldiers
+  <FiatRevelliRiconquistaLibia>k__BackingField:
+    Guid:
+      Data1: 1519596759
+      Data2: 1106997398
+      Data3: 1182718639
+      Data4: -1968932009
+    Path: event:/Interactions/FiatRevelli/FiatRevelliRiconquistaLibia
+  <CarcanoIntro>k__BackingField:
+    Guid:
+      Data1: 1225475497
+      Data2: 1176079690
+      Data3: 466289057
+      Data4: -1899741080
+    Path: event:/Interactions/Carcano/CarcanoIntro
+  <CarcanoVerifica>k__BackingField:
+    Guid:
+      Data1: -2130438493
+      Data2: 1302850559
+      Data3: -642875230
+      Data4: -1992336455
+    Path: event:/Interactions/Carcano/CarcanoVerifica
+  <CarcanoTecnicismi>k__BackingField:
+    Guid:
+      Data1: -185781142
+      Data2: 1278220818
+      Data3: 1391155348
+      Data4: 2037719804
+    Path: event:/Interactions/Carcano/CarcanoTecnicismi
+  <CarcanoDopoguerra>k__BackingField:
+    Guid:
+      Data1: -1603581468
+      Data2: 1237612042
+      Data3: -1395567719
+      Data4: 1418599393
+    Path: event:/Interactions/Carcano/CarcanoDopoguerra
+  <BombaFoto>k__BackingField:
+    Guid:
+      Data1: -1164782555
+      Data2: 1267922732
+      Data3: -1747980379
+      Data4: -1578794629
+    Path: event:/Interactions/Bomba/BombaFoto
+  <BombaProietti>k__BackingField:
+    Guid:
+      Data1: -1642123313
+      Data2: 1136927255
+      Data3: -1091468866
+      Data4: -2071273506
+    Path: event:/Interactions/Bomba/BombaProietti
+  <BombaTrincea>k__BackingField:
+    Guid:
+      Data1: 164597187
+      Data2: 1241115383
+      Data3: -617920578
+      Data4: -442532792
+    Path: event:/Interactions/Bomba/BombaTrincea
+  <HelmetIntro>k__BackingField:
+    Guid:
+      Data1: -1077155488
+      Data2: 1313567302
+      Data3: 2001430171
+      Data4: 1404991970
+    Path: event:/Interactions/Helmet/HelmetIntro
+  <HelmetAlpini>k__BackingField:
+    Guid:
+      Data1: 355496157
+      Data2: 1292237461
+      Data3: -1298414150
+      Data4: -219403020
+    Path: event:/Interactions/Helmet/HelmetAlpini
+  <HelmetPettinengo>k__BackingField:
+    Guid:
+      Data1: -1936785626
+      Data2: 1105293053
+      Data3: 1797281936
+      Data4: -1773368644
+    Path: event:/Interactions/Helmet/HelmetPettinengo
+  <PugnaleAccoppati>k__BackingField:
+    Guid:
+      Data1: -914160982
+      Data2: 1277333925
+      Data3: 964963504
+      Data4: 129293905
+    Path: event:/Interactions/Pugnale/PugnaleAccoppati
+  <PugnaleArditi>k__BackingField:
+    Guid:
+      Data1: -365753424
+      Data2: 1103564399
+      Data3: 744067506
+      Data4: -1015640226
+    Path: event:/Interactions/Pugnale/PugnaleArditi
+  <MaskChimica>k__BackingField:
+    Guid:
+      Data1: 1084423548
+      Data2: 1240432746
+      Data3: -279004233
+      Data4: -97041261
+    Path: event:/Interactions/Mask/MaskChimica
+  <MaskPolivalente>k__BackingField:
+    Guid:
+      Data1: -28787382
+      Data2: 1197522719
+      Data3: 190123402
+      Data4: 1985090927
+    Path: event:/Interactions/Mask/MaskPolivalente

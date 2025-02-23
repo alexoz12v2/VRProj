@@ -4,6 +4,26 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
-  m_configObjects: {}
-  m_UseUCBPForAssetBundles: 0
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: ae2843ef397fe8b4db9bb6eaf02ae397
+  - enabled: 0
+    path: Assets/Scenes/TestScene.unity
+    guid: 23fb4f5d280a20946b5ba3127443d28f
+  - enabled: 1
+    path: Assets/Scenes/Shared.unity
+    guid: b482f5d4540884647b72a41102bde85f
+  - enabled: 1
+    path: Assets/Scenes/Museum.unity
+    guid: ad2b99735214b6a44bbb74468d75a1b0
+  - enabled: 1
+    path: Assets/Scenes/PlayerScene.unity
+    guid: d69417d268daaa443b4ff87b61fa29ba
+  - enabled: 1
+    path: Assets/Scenes/TrenchScene.unity
+    guid: 4030279f504d49c4fa001dfac8c6c3dc
+  m_configObjects:
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 1cfd119ebf3e04940a6d7eed3ca3e02d, type: 3}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 359ad5b781336674382f11d59a9177e5, type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: cbd1effa90fd80a4ca447ba340dcd5c2, type: 2}
